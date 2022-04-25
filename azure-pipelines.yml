@@ -1,0 +1,74 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+
+variables:
+  # Azure Resource Group where the Resources will be deployed
+  resourceGroupName: 'django-mauwiidev'
+  # Location of the Resourcegroup
+  location: 'westeurope'
+  # ARM Service Connection
+  azureSubscription: 'django-mauwii-arm'
+  # Web app name
+  webAppName: 'django-mauwiidevoqchu5wfujocm'
+  # Environment name
+  environmentName: 'django-mauwiidevoqchu5wfujocm'
+  # environmentType: 'Test'
+  # Project root folder. Point to the folder containing manage.py file.
+  projectRoot: '$(System.DefaultWorkingDirectory)/django_webapp'
+  # Python version:
+  pythonVersion: '3.9'
+  # enable debug settings
+  DEBUG_BOL: 'True'
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: ValidateBicep
+    dependsOn:
+    displayName: Bicep Validation
+    jobs:
+      - template: pipelines/Bicep_Validation.yml
+
+  - stage: BuildWebApp
+    dependsOn:
+    displayName: 'Build and publish Artifact'
+    jobs:
+      - job: BuildWebApp
+        displayName: 'Build Web App'
+        steps:
+          - template: CI/build_webapp.yml
+
+  - stage: CreateResources
+    displayName: Create Azure Resources
+    dependsOn:
+    - ValidateBicep
+    - BuildWebApp
+    condition: succeeded()
+    jobs:
+      - deployment: DeployBicep
+        displayName: Create Azure Resources
+        environment: $(environmentName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - template: CI/bicep.yml
+
+  - stage: DeployWebApp
+    displayName: Deploy WebApp
+    dependsOn: CreateResources
+    condition: succeeded()
+    jobs:
+      - deployment: DeployDjango
+        displayName: 'Deploy Django to WebApp'
+        environment: $(environmentName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: CI/deploy_webapp.yml
