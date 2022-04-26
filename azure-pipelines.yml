@@ -35,9 +35,7 @@ stages:
 
 - stage: CreateResources
   displayName: Create Azure Resources
-  dependsOn:
-  - ValidateBicep
-  - BuildWebApp
+  dependsOn: ValidateBicep
   condition: succeeded()
   jobs:
   - deployment: DeployBicep
