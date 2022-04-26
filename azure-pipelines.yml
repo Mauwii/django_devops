@@ -2,7 +2,7 @@ trigger:
   batch: true
   branches:
     include:
-      - main
+    - main
 
 variables:
   # Azure Resource Group where the Resources will be deployed
@@ -27,49 +27,49 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: ValidateBicep
-    dependsOn:
-    displayName: Bicep Validation
-    jobs:
-    - template: pipelines/validate_bicep.yml
+- stage: ValidateBicep
+  dependsOn:
+  displayName: Bicep Validation
+  jobs:
+  - template: pipelines/validate_bicep.yml
 
-  - stage: CreateResources
+- stage: CreateResources
+  displayName: Create Azure Resources
+  dependsOn:
+  - ValidateBicep
+  - BuildWebApp
+  condition: succeeded()
+  jobs:
+  - deployment: DeployBicep
     displayName: Create Azure Resources
-    dependsOn:
-    - ValidateBicep
-    - BuildWebApp
-    condition: succeeded()
-    jobs:
-    - deployment: DeployBicep
-      displayName: Create Azure Resources
-      environment: $(environmentName)
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - checkout: self
-              - template: pipelines/deploy_bicep.yml
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - template: pipelines/deploy_bicep.yml
 
-  - stage: BuildWebApp
-    dependsOn: CreateResources
-    condition: succeeded()
-    displayName: 'Build and publish Artifact'
-    jobs:
-    - job: BuildWebApp
-      displayName: 'Build Web App'
-      steps:
-        - template: pipelines/build_webapp.yml
+- stage: BuildWebApp
+  dependsOn: CreateResources
+  condition: succeeded()
+  displayName: 'Build and publish Artifact'
+  jobs:
+  - job: BuildWebApp
+    displayName: 'Build Web App'
+    steps:
+      - template: pipelines/build_webapp.yml
 
-  - stage: DeployWebApp
-    displayName: Deploy WebApp
-    dependsOn: BuildWebApp
-    condition: succeeded()
-    jobs:
-    - deployment: DeployDjango
-      displayName: 'Deploy Django to WebApp'
-      environment: $(environmentName)
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - template: pipelines/deploy_webapp.yml
+- stage: DeployWebApp
+  displayName: Deploy WebApp
+  dependsOn: BuildWebApp
+  condition: succeeded()
+  jobs:
+  - deployment: DeployDjango
+    displayName: 'Deploy Django to WebApp'
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: pipelines/deploy_webapp.yml
