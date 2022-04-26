@@ -52,6 +52,8 @@ stages:
   dependsOn: CreateResources
   condition: succeeded()
   displayName: 'Build and publish Artifact'
+  variables:
+  - group: djangogh-dev
   jobs:
   - job: BuildWebApp
     displayName: 'Build Web App'
