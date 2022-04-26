@@ -1,5 +1,4 @@
 trigger:
-  batch: true
   branches:
     include:
     - main
@@ -43,8 +42,8 @@ stages:
       runOnce:
         deploy:
           steps:
-            - checkout: self
-            - template: pipelines/deploy_bicep.yml
+          - checkout: self
+          - template: pipelines/deploy_bicep.yml
 
 - stage: BuildWebApp
   dependsOn: CreateResources
@@ -56,7 +55,7 @@ stages:
     variables:
     - group: djangogh-dev
     steps:
-      - template: pipelines/build_webapp.yml
+    - template: pipelines/build_webapp.yml
 
 - stage: DeployWebApp
   displayName: Deploy WebApp
@@ -70,4 +69,4 @@ stages:
       runOnce:
         deploy:
           steps:
-            - template: pipelines/deploy_webapp.yml
+          - template: pipelines/deploy_webapp.yml
