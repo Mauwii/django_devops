@@ -1,42 +1,42 @@
 jobs:
-  - job: LintBicep
-    displayName: Lint Bicep File
-    steps:
-      - script: |
-          az bicep build --file main.bicep
-        name: LintBicepCode
-        displayName: Run Bicep Linter
-  - job: ValidateBicepCode
-    displayName: Validate Bicep code
-    steps:
-      - task: AzureCLI@2
-        name: RunPreflightValidation
-        displayName: Run preflight validation
-        inputs:
-          azureSubscription: '$(azureSubscription)'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            az deployment group validate \
-              --resource-group $(ResourceGroupName) \
-              --template-file main.bicep \
-              --parameters secretKey=$(secretKey)
-        env:
-          secretKey: '$(secretKey)'
-  - job: PreviewAzureChanges
-    displayName: Preview Azure changes
-    steps:
-      - task: AzureCLI@2
-        name: RunWhatIf
-        displayName: Run what-if
-        inputs:
-          azureSubscription: $(azureSubscription)
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            az deployment group what-if \
-              --resource-group $(ResourceGroupName) \
-              --template-file main.bicep \
-              --parameters secretKey=$(secretKey)
-        env:
-          secretKey: '$(secretKey)'
+- job: LintBicep
+  displayName: Lint Bicep File
+  steps:
+    - script: |
+        az bicep build --file main.bicep
+      name: LintBicepCode
+      displayName: Run Bicep Linter
+- job: ValidateBicepCode
+  displayName: Validate Bicep code
+  steps:
+  - task: AzureCLI@2
+    name: RunPreflightValidation
+    displayName: Run preflight validation
+    inputs:
+      azureSubscription: '$(azureSubscription)'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az deployment group validate \
+          --resource-group $(ResourceGroupName) \
+          --template-file main.bicep \
+          --parameters secretKey=$(secretKey)
+    env:
+      secretKey: '$(secretKey)'
+- job: PreviewAzureChanges
+  displayName: Preview Azure changes
+  steps:
+  - task: AzureCLI@2
+    name: RunWhatIf
+    displayName: Run what-if
+    inputs:
+      azureSubscription: $(azureSubscription)
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az deployment group what-if \
+          --resource-group $(ResourceGroupName) \
+          --template-file main.bicep \
+          --parameters secretKey=$(secretKey)
+    env:
+      secretKey: '$(secretKey)'
