@@ -29,7 +29,7 @@ stages:
     dependsOn:
     displayName: Bicep Validation
     jobs:
-      - template: Bicep_Validation.yml
+      - template: validate_bicep.yml
 
   - stage: BuildWebApp
     dependsOn:
