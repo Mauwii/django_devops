@@ -4,21 +4,9 @@ trigger:
     - main
 
 variables:
-  # Azure Resource Group where the Resources will be deployed
-  resourceGroupName: 'django_gh'
-  # Location of the Resourcegroup
-  location: 'westeurope'
-  # ARM Service Connection
-  azureSubscription: 'django_gh'
-  # Environment
-  environmentName: 'developmment'
-  environmentType: 'dev'
-  # Project root folder. Point to the folder containing manage.py file.
-  projectRoot: '$(System.DefaultWorkingDirectory)/django_webapp'
-  # Python version:
-  pythonVersion: '3.9'
-  # enable debug settings
-  DEBUG_BOL: 'True'
+- group: django_gh
+- group: django-dev
+- group: django-superuser
 
 pool:
   vmImage: ubuntu-latest
@@ -36,6 +24,7 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: DeployBicep
+
     displayName: Create Azure Resources
     environment: $(environmentName)
     strategy:
@@ -52,8 +41,6 @@ stages:
   jobs:
   - job: BuildWebApp
     displayName: 'Build Web App'
-    variables:
-    - group: djangogh-dev
     steps:
     - template: pipelines/build_webapp.yml
 
