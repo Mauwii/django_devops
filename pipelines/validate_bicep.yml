@@ -2,10 +2,10 @@ jobs:
 - job: LintBicep
   displayName: Lint Bicep File
   steps:
-    - script: |
-        az bicep build --file main.bicep
-      name: LintBicepCode
-      displayName: Run Bicep Linter
+  - script: az bicep build --file main.bicep
+    name: LintBicepCode
+    displayName: Run Bicep Linter
+
 - job: ValidateBicepCode
   displayName: Validate Bicep code
   steps:
@@ -23,6 +23,7 @@ jobs:
           --parameters secretKey=$(secretKey)
     env:
       secretKey: '$(secretKey)'
+
 - job: PreviewAzureChanges
   displayName: Preview Azure changes
   steps:

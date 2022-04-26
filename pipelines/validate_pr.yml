@@ -4,22 +4,8 @@ pr:
     - main
 
 variables:
-  # Azure Resource Group where the Resources will be deployed
-  resourceGroupName: 'django-mauwiidev'
-  # Location of the Resourcegroup
-  location: 'westeurope'
-  # ARM Service Connection
-  azureSubscription: 'django-mauwii-arm'
-  # Web app name
-  webAppName: 'django-mauwiidevoqchu5wfujocm'
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-  # Environment name
-  environmentName: 'django-oqchu5wfujocm'
-  # Project root folder. Point to the folder containing manage.py file.
-  projectRoot: '$(System.DefaultWorkingDirectory)/django_webapp'
-  # Python version: 3.9
-  pythonVersion: 3.9
+- group: django_gh
+- group: django-dev
 
 pool:
   vmImage: ubuntu-latest
