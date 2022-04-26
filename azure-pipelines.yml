@@ -62,7 +62,7 @@ stages:
 
   - stage: DeployWebApp
     displayName: Deploy WebApp
-    dependsOn: CreateResources
+    dependsOn: BuildWebApp
     condition: succeeded()
     jobs:
     - deployment: DeployDjango
