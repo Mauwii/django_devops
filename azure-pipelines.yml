@@ -33,15 +33,6 @@ stages:
     jobs:
     - template: pipelines/validate_bicep.yml
 
-  - stage: BuildWebApp
-    dependsOn:
-    displayName: 'Build and publish Artifact'
-    jobs:
-    - job: BuildWebApp
-      displayName: 'Build Web App'
-      steps:
-        - template: pipelines/build_webapp.yml
-
   - stage: CreateResources
     displayName: Create Azure Resources
     dependsOn:
@@ -58,6 +49,16 @@ stages:
             steps:
               - checkout: self
               - template: pipelines/deploy_bicep.yml
+
+  - stage: BuildWebApp
+    dependsOn: CreateResources
+    condition: succeeded()
+    displayName: 'Build and publish Artifact'
+    jobs:
+    - job: BuildWebApp
+      displayName: 'Build Web App'
+      steps:
+        - template: pipelines/build_webapp.yml
 
   - stage: DeployWebApp
     displayName: Deploy WebApp
