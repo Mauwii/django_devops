@@ -1,5 +1,5 @@
 @description('That name is the name of our application. It has to be unique.Type a name followed by your resource group name. (<name>-<resourceGroupName>)')
-param webAppName string = 'django-mauwiidev${uniqueString(resourceGroup().id)}'
+param webAppName string = 'django-gh-dev${uniqueString(resourceGroup().id)}'
 
 @description('Location for all resources.')
 param location string = resourceGroup().location

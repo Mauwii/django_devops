@@ -11,8 +11,6 @@ variables:
   location: 'westeurope'
   # ARM Service Connection
   azureSubscription: 'django_gh'
-  # Web app name
-  webAppName: 'djangogh-dev'
   # Environment
   environmentName: 'developmment'
   environmentType: 'dev'
