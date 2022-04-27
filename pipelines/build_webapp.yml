@@ -1,3 +1,6 @@
+variables:
+- group: django-superuser
+
 steps:
   - task: AzurePowerShell@5
     displayName: 'Read Instrumentation Key'
