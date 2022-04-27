@@ -5,6 +5,7 @@ pr:
   paths:
     exclude:
       - .gitignore
+      - .github/*
 
 variables:
 - group: django_gh
@@ -14,17 +15,20 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: ValidateBicep
-    dependsOn:
-    displayName: Bicep Validation
-    jobs:
-      - template: validate_bicep.yml
 
-  - stage: BuildWebApp
-    dependsOn:
+- stage: ValidateBicep
+  dependsOn:
+  displayName: Bicep Validation
+  jobs:
+    - template: validate_bicep.yml
+
+- stage: BuildWebApp
+  dependsOn:
+  displayName: Build Web App
+  jobs:
+  - job: BuildWebApp
     displayName: Build Web App
-    jobs:
-      - job: BuildWebApp
-        displayName: Build Web App
-        steps:
-          - template: build_webapp.yml
+    variables:
+    - group: django-superuser
+    steps:
+      - template: build_webapp.yml
