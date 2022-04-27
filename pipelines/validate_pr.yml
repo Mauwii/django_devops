@@ -1,7 +1,10 @@
 pr:
   branches:
-    exclude:
+    include:
     - main
+  paths:
+    exclude:
+      - .gitignore
 
 variables:
 - group: django_gh
