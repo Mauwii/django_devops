@@ -32,4 +32,5 @@ stages:
     - group: django-superuser
     steps:
       - checkout: self
+        submodules: true
       - template: build_webapp.yml
