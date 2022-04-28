@@ -1,3 +1,3 @@
 [submodule "django_webapp"]
 	path = django_webapp
-	url = https://github.com/Mauwii/msdocs-python-django-webapp-quickstart.git
+	url = Mauwii@github.com:Mauwii/msdocs-python-django-webapp-quickstart.git
