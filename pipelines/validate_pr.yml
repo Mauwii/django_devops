@@ -31,4 +31,5 @@ stages:
     variables:
     - group: django-superuser
     steps:
+      - checkout: self
       - template: build_webapp.yml
