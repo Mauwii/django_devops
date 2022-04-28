@@ -33,4 +33,5 @@ stages:
     steps:
       - checkout: self
         submodules: true
+        persistCredentials: true
       - template: build_webapp.yml
