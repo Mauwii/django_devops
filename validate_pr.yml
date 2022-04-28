@@ -1,0 +1,42 @@
+pr:
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+      - .gitignore
+      - .github/*
+
+variables:
+- group: django_gh
+- group: django-dev
+
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: self
+      endpoint: Mauwii
+
+stages:
+
+- stage: ValidateBicep
+  dependsOn:
+  displayName: Bicep Validation
+  jobs:
+    - template: validate_bicep.yml
+
+- stage: BuildWebApp
+  dependsOn:
+  displayName: Build Web App
+  jobs:
+  - job: BuildWebApp
+    displayName: Build Web App
+    variables:
+    - group: django-superuser
+    steps:
+      - checkout: self
+        submodules: true
+        persistCredentials: true
+      - template: build_webapp.yml
