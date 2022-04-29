@@ -39,8 +39,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - checkout: self
-            submodules: true
           - template: pipelines/deploy_bicep.yml
 
 - stage: BuildWebApp
@@ -51,6 +49,8 @@ stages:
   - job: BuildWebApp
     displayName: 'Build Web App'
     steps:
+    - checkout: self
+      submodules: true
     - template: pipelines/build_webapp.yml
 
 - stage: DeployWebApp
