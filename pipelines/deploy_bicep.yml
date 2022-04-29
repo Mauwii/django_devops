@@ -11,7 +11,7 @@ steps:
         az deployment group create \
           --name $(Build.BuildNumber) \
           --resource-group $(ResourceGroupName) \
-          --template-file ../main.bicep \
+          --template-file main.bicep \
           --parameters secretKey=$(secretKey)
     env:
       secretKey: $(secretKey)
