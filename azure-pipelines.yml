@@ -53,6 +53,10 @@ stages:
     - checkout: self
       submodules: true
     - template: pipelines/build_webapp.yml
+
+  - job: PublishArtifact
+    displayName: 'Create and publish Build Artifact'
+    steps:
     - template: pipelines/publish_artifact.yml
 
 - stage: DeployWebApp
