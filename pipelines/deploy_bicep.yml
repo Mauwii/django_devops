@@ -1,5 +1,4 @@
 steps:
-  # - checkout: self
   - task: AzureCLI@2
     name: DeployBicepFile
     displayName: Deploy Bicep file
@@ -7,7 +6,6 @@ steps:
       azureSubscription: '$(azureSubscription)'
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
-      # workingDirectory: $(System.DefaultWorkingDirectory)
       workingDirectory: $(Build.SourcesDirectory)
       inlineScript: |
         az deployment group create \

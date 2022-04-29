@@ -1,5 +1,0 @@
-Django
-whitenoise
-opencensus-ext-azure
-azure-monitor-opentelemetry-exporter
-opentelemetry-instrumentation-django

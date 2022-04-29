@@ -1,7 +1,16 @@
 trigger:
   branches:
     include:
-    - main
+      - main
+  paths:
+    include:
+    - django_webapp
+    - pipelines/*.yml
+    exclude:
+    - django_webapp/.gitignore
+    - django_webapp/.github/*
+    - django_webapp/**/*.md
+    - ./**/*.md
 
 variables:
 - group: django_gh
@@ -24,7 +33,6 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: DeployBicep
-
     displayName: Create Azure Resources
     environment: $(environmentName)
     strategy:
@@ -42,6 +50,8 @@ stages:
   - job: BuildWebApp
     displayName: 'Build Web App'
     steps:
+    - checkout: self
+      submodules: true
     - template: pipelines/build_webapp.yml
 
 - stage: DeployWebApp

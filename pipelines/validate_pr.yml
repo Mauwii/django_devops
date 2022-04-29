@@ -6,6 +6,8 @@ pr:
     exclude:
       - .gitignore
       - .github/*
+      - ./**/*.md
+      - ./*.md
 
 variables:
 - group: django_gh
@@ -13,6 +15,14 @@ variables:
 
 pool:
   vmImage: ubuntu-latest
+
+resources:
+  repositories:
+  - repository: self
+    type: github
+    endpoint: Mauwii
+    name: mauwii/django_devops
+    ref: main
 
 stages:
 
@@ -31,4 +41,7 @@ stages:
     variables:
     - group: django-superuser
     steps:
+      - checkout: self
+        submodules: true
+        persistCredentials: true
       - template: build_webapp.yml
