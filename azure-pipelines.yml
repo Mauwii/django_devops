@@ -53,6 +53,7 @@ stages:
     - checkout: self
       submodules: true
     - template: pipelines/build_webapp.yml
+    - template: pipelines/publish_artifact.yml
 
 - stage: DeployWebApp
   displayName: Deploy WebApp

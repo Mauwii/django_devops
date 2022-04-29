@@ -69,18 +69,3 @@ steps:
     antenv/bin/python manage.py createsuperuser --noinput
   displayName: 'Create Superuser'
   workingDirectory: $(projectRoot)
-
-- task: ArchiveFiles@2
-  displayName: 'Create Build Artifakt'
-  inputs:
-    rootFolderOrFile: '$(projectRoot)'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
