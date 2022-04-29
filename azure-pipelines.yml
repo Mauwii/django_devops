@@ -5,7 +5,6 @@ trigger:
   paths:
     include:
     - django_webapp
-    - pipelines/*.yml
     exclude:
     - django_webapp/.gitignore
     - django_webapp/.github/*
