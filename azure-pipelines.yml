@@ -3,8 +3,6 @@ trigger:
     include:
       - main
   paths:
-    include:
-    - django_webapp
     exclude:
     - django_webapp/.gitignore
     - django_webapp/.github/*
