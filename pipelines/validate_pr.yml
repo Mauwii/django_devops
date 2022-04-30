@@ -1,46 +1,46 @@
 pr:
+  drafts: true
+  autoCancel: true
   branches:
     exclude:
-    - main
+      - main
   paths:
     include:
-    - django-webapp/**/*.py
-    - pipelines/*.yml
-    - azure-pipelines.yml
+      - django-webapp/**/*.py
+      - pipelines/*.yml
+      - azure-pipelines.yml
 
 variables:
-- group: django_gh
-- group: django-dev
+  - group: django_gh
+  - group: django-dev
 
 pool:
   vmImage: ubuntu-latest
 
 resources:
   repositories:
-  - repository: self
-    type: github
-    endpoint: Mauwii
-    name: mauwii/django_devops
-    ref: main
+    - repository: self
+      type: github
+      endpoint: Mauwii
+      name: mauwii/django_devops
 
 stages:
+  - stage: ValidateBicep
+    dependsOn:
+    displayName: Bicep Validation
+    jobs:
+      - template: validate_bicep.yml
 
-- stage: ValidateBicep
-  dependsOn:
-  displayName: Bicep Validation
-  jobs:
-    - template: validate_bicep.yml
-
-- stage: BuildWebApp
-  dependsOn:
-  displayName: Build Web App
-  jobs:
-  - job: BuildWebApp
+  - stage: BuildWebApp
+    dependsOn:
     displayName: Build Web App
-    variables:
-    - group: django-superuser
-    steps:
-      - checkout: self
-        submodules: true
-        persistCredentials: true
-      - template: build_webapp.yml
+    jobs:
+      - job: BuildWebApp
+        displayName: Build Web App
+        variables:
+          - group: django-superuser
+        steps:
+          - checkout: self
+            submodules: true
+            persistCredentials: true
+          - template: build_webapp.yml
