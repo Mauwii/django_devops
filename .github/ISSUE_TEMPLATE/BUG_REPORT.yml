@@ -12,6 +12,14 @@ body:
       options:
       - label: I have searched the existing issues
         required: true
+  - type: input
+    id: jiraissue
+    attributes:
+      label: Jira Issue
+      description: If there is already a open issue in Jira, please enter the issue's ID surrounded in Brackets [], otherwise leave empty.
+      placeholder: "ex. [DG-42]"
+    validations:
+      required: false
   - type: markdown
     attributes:
       value: |
@@ -41,11 +49,3 @@ body:
       placeholder: ex. https://dev.azure.com/mauwiidev/django_gh/_build/results?buildId=1337&view=results
     validations:
       required: true
-  - type: input
-    id: jiraissue
-    attributes:
-      label: Jira Issue
-      description: If there is already a open issue in Jira, please enter the issue's ID surrounded in Brackets [], otherwise leave empty.
-      placeholder: "ex. [DG-42]"
-    validations:
-      required: false
