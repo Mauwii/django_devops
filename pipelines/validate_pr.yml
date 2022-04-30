@@ -1,13 +1,12 @@
 pr:
   branches:
-    include:
+    exclude:
     - main
   paths:
-    exclude:
-      - .gitignore
-      - .github/*
-      - ./**/*.md
-      - ./*.md
+    include:
+    - django-webapp/**/*.py
+    - pipelines/*.yml
+    - azure-pipelines.yml
 
 variables:
 - group: django_gh
