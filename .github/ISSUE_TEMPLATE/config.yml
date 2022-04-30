@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Azure Support
+    url: https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/overview
+    about: For Problems with Azure Resources
