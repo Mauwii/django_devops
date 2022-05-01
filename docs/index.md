@@ -8,7 +8,7 @@ icon: material/information-outline
 
 :musical_note: These are not, the greatest docs in the World :notes: this is just a Playground :metal:
 
-Welcome to the Docs of my DevOps/GitHub/Jira Playground. I decided to host them as GitHub-Pages via MkDocs-Material.
+Welcome to the Docs of my DevOps/GitHub/Jira Playground. I decided to host them on GitHub-Pages via [MkDocs-Material](https://squidfunk.github.io/mkdocs-material/).
 
 ## Tools/Frameworks
 
