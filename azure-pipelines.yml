@@ -5,8 +5,8 @@ trigger:
       - main
   paths:
     include:
-      - django-webapp/**/*.py
-      - pipelines/*.yml
+      - django-webapp
+      - pipelines
       - azure-pipelines.yml
 
 variables:
@@ -23,6 +23,15 @@ stages:
     displayName: Bicep Validation
     jobs:
       - template: pipelines/validate_bicep.yml
+
+  - stage: DeployMkDocs
+    dependsOn:
+    displayName: 'MkDocs-Material'
+    jobs:
+      - job: DeployMkDocs
+        displayName: 'Deploy to GitHub Pages'
+        steps:
+          - template: pipelines/publish_mkdocs.yml
 
   - stage: CreateResources
     displayName: Create Azure Resources
