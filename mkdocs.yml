@@ -30,6 +30,7 @@ site_description: >-
 # Repository
 repo_name: Mauwii/django_devops
 repo_url: https://github.com/mauwii/django_devops
+edit_uri: edit/main/docs/
 
 # Copyright
 copyright: Copyright &copy; 2022 Copyright &copy; 2022 Matthias Wild
