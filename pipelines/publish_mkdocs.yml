@@ -1,0 +1,12 @@
+steps:
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(pythonVersion)'
+    displayName: 'Use Python version'
+
+  - script: pip install -e mkdocs-material
+    displayName: 'install MkDocs'
+
+  - script: mkdocs gh-deploy --force
+    displayName: 'Deploy GitHub Pages'
