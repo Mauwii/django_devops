@@ -24,6 +24,17 @@ stages:
     jobs:
       - template: pipelines/validate_bicep.yml
 
+  - stage: DeployMkDocs
+    dependsOn:
+    displayName: 'MkDocs-Material'
+    jobs:
+      - job: DeployMkDocs
+        displayName: 'Deploy to GitHub Pages'
+        steps:
+          - checkout: self
+            submodules: true
+          - template: pipelines/publish_mkdocs.yml
+
   - stage: CreateResources
     displayName: Create Azure Resources
     dependsOn: ValidateBicep
