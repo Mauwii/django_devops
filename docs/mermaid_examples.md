@@ -80,3 +80,7 @@ erDiagram
   ORDER ||--|{ LINE-ITEM : contains
   CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
 ```
+
+## Live Editor
+
+If you want to get started with using Mermaid for your Project, I would recommend the [Mermaid live Editor](https://mermaid.live/), which is pretty helpflull for newbes as well as advanced users.
