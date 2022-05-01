@@ -1,15 +1,42 @@
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: self
+      type: github
+      endpoint: Mauwii
+      name: mauwii/django_devops
+      trigger:
+        batch: true
+        branches:
+          include:
+            - main
+        paths:
+          include:
+            - docs
+            - mkdocs.yml
+
 steps:
 
   - checkout: self
     submodules: true
+    persistCredentials: true
 
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '$(pythonVersion)'
-    displayName: 'Use Python version'
+      versionSpec: '3.9'
+      addToPath: true
+      architecture: 'x64'
+  
+  - task: Bash@3
+    displayName: Install MkDocs
+    inputs:
+      targetType: 'inline'
+      script: 'pip install -e mkdocs-material'
 
-  - script: pip install -e mkdocs-material
-    displayName: 'install MkDocs'
-
-  - script: mkdocs gh-deploy --force
-    displayName: 'Deploy GitHub Pages'
+  - task: Bash@3
+    displayName: Deploy to GitHub-Pages
+    inputs:
+      targetType: 'inline'
+      script: 'mkdocs gh-deploy --force --clean'
