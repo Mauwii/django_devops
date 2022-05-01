@@ -1,3 +1,6 @@
 [submodule "django_webapp"]
 	path = django_webapp
 	url = https://github.com/Mauwii/msdocs-python-django-webapp-quickstart.git
+[submodule "mkdocs-material"]
+	path = mkdocs-material
+	url = git@github.com:squidfunk/mkdocs-material.git
