@@ -1,15 +1,23 @@
-# Django_DevOps
+---
+template: overrides/main.html
+title: About
+icon: material/information-outline
+---
 
 ## Intro
 
-Welcome to the Documentation of my DevOps/GitHub/Jira Playground :v:
+:musical_note: These are not, the greatest docs in the World :notes: this is just a Playground :metal:
 
-## Which tools have been used
+Welcome to the Docs of my DevOps/GitHub/Jira Playground. I decided to host them as GitHub-Pages via MkDocs-Material.
 
-- :fontawesome-brands-github: [GitHub-Repository](https://github.com/mauwii/django_devops)
-- :material-microsoft-azure-devops: [Azure-Pipelines](https://dev.azure.com/mauwiidev/django_gh)
-- :fontawesome-brands-atlassian: [Jira](https://mauwii.atlassian.net/jira/software/c/projects/DG/issues)
-- :material-file-document: [MkDocs-Material](https://squidfunk.github.io/mkdocs-material/)
+## Tools/Frameworks
+
+I used a combination of these tools and frameworks to have a useful playground I can experiment with:
+
+- :fontawesome-brands-github: [__GitHub__](https://github.com/mauwii/django_devops) to host repositorys
+- :material-microsoft-azure-devops: [__Azure-DevOps__](https://dev.azure.com/mauwiidev/django_gh) to run the yaml pipelines
+- :fontawesome-brands-atlassian: [__Jira__](https://mauwii.atlassian.net/jira/software/c/projects/DG/issues) to manage issues
+- :material-file-document: [__MkDocs-Material__](https://squidfunk.github.io/mkdocs-material/) to host versionable documentation
 
 ## Expectations
 
@@ -17,7 +25,7 @@ You should try to keep your expectations low, then you will be amazed even more 
 
 ```mermaid
 graph TD
-  You[You] --> expectation{Expectations}
+  You[You] -->|found this<br>Page| expectation{Expectations}
   expectation{Expectations} -->|High| Disapointed(maybe<br>Disapointed)
   expectation{Expectations} -->|Low| Amazed(surely<br>Amazed)
 ```
