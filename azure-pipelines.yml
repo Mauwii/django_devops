@@ -31,8 +31,6 @@ stages:
       - job: DeployMkDocs
         displayName: 'Deploy to GitHub Pages'
         steps:
-          - checkout: self
-            submodules: true
           - template: pipelines/publish_mkdocs.yml
 
   - stage: CreateResources
