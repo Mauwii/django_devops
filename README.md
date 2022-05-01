@@ -9,8 +9,8 @@ Until yet I have only been using Azure-Repos in my DevOps Projects, but since th
 ## What is beeing used
 
 - GitHub
-- [:rocket: Azure-DevOps](https://dev.azure.com/mauwiidev/django_gh)
-- [:fontawesome-brands-atlassian: Jira](https://mauwii.atlassian.net/jira/software/c/projects/DG/issues)
+- [Azure-DevOps](https://dev.azure.com/mauwiidev/django_gh)
+- [Jira](https://mauwii.atlassian.net/jira/software/c/projects/DG/issues)
 - [MkDocs-Material](https://squidfunk.github.io/mkdocs-material/)
 
 ## Usefull Stuff
