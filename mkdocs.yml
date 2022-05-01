@@ -1,5 +1,5 @@
 site_name: 'Azure-DevOps with GitHub Repo and Jira'
-site_description: 'Playground to find out more about the possibilitys when using Azure-Pipelines with a GitHub Repository and track everything in Jira'
+site_description: 'Playground to find out more about the possibilitys when using Azure-DevOps to run YAML Pipelines with a GitHub Repository and track Problems in Jira'
 site_author: 'mauwii'
 repo_url: https://github.com/mauwii/django_devops
 repo_name: mauwii/django_devops
