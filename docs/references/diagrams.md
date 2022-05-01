@@ -1,8 +1,23 @@
-# Mermaid Examples
+---
+template: overrides/main.html
+title: Diagrams
+icon: material/graph-outline
+---
 
-## Diagram Types
+Diagrams help to communicate complex relationships and interconnections between
+different technical components, and are a great addition to project
+documentation. Material for MkDocs integrates with [Mermaid.js], a very
+popular and flexible solution for drawing diagrams.
 
-### Flow Chart
+  [Mermaid.js]: https://mermaid-js.github.io/mermaid/
+
+## Usage
+
+### Using flowcharts
+
+[Flowcharts] are diagrams that represent workflows or processes. The steps
+are rendered as nodes of various kinds and are connected by edges, describing
+the necessary order of steps:
 
 ```` markdown title="Flow chart"
 ``` mermaid
@@ -28,7 +43,13 @@ graph LR
 
 </div>
 
-### Sequence Diagram
+  [Flowcharts]: https://mermaid-js.github.io/mermaid/#/flowchart
+
+### Using sequence diagrams
+
+[Sequence diagrams] describe a specific scenario as sequential interactions 
+between multiple objects or actors, including the messages that are exchanged
+between those actors:
 
 ```` markdown title="Sequence diagram"
 ``` mermaid
@@ -60,7 +81,13 @@ sequenceDiagram
 
 </div>
 
-### State Diagram
+  [Sequence diagrams]: https://mermaid-js.github.io/mermaid/#/sequenceDiagram
+
+### Using state diagrams
+
+[State diagrams] are a great tool to describe the behavior of a system,
+decomposing it into a finite number of states, and transitions between those
+states:
 
 ```` markdown title="State diagram"
 ``` mermaid
@@ -96,7 +123,13 @@ stateDiagram-v2
 
 </div>
 
-### Class Diagram
+  [State diagrams]: https://mermaid-js.github.io/mermaid/#/stateDiagram
+
+### Using class diagrams
+
+[Class diagrams] are central to object oriented programing, describing the
+structure of a system by modelling entities as classes and relationships between
+them:
 
 ```` markdown title="Class diagram"
 ``` mermaid
@@ -162,7 +195,13 @@ classDiagram
 
 </div>
 
-### Entity Relationship
+  [Class diagrams]: https://mermaid-js.github.io/mermaid/#/classDiagram
+
+### Using entity-relationship diagrams
+
+An [entity-relationship diagram] is composed of entity types and specifies
+relationships that exist between entities. It describes inter-related things in
+a specific domain of knowledge:
 
 ```` markdown title="Entity-relationship diagram"
 ``` mermaid
@@ -183,6 +222,8 @@ erDiagram
 ```
 
 </div>
+
+  [entity-relationship diagram]: https://mermaid-js.github.io/mermaid/#/entityRelationshipDiagram
 
 ### Other diagram types
 
