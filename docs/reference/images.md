@@ -1,6 +1,6 @@
 ---
 template: overrides/main.html
-title: Pics with Attributes
+title: Images
 ---
 
 ## only-light / only-dark
