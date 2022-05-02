@@ -1,16 +1,12 @@
 trigger:
-  batch: true
   branches:
     include:
-      - main
+    - main
   paths:
     include:
-      - django-webapp
-      - pipelines
-      - azure-pipelines.yml
-    exclude:
-      - docs
-      - mkdocs.yml
+    - django-webapp
+    - pipelines
+    - azure-pipelines.yml
 
 variables:
   - group: django_gh
