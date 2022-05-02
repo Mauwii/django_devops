@@ -1,19 +1,97 @@
 ---
 template: overrides/main.html
-title: Current Workflow
+title: Workflow
 ---
 
 ```mermaid
-graph LR;
-  Code(Code) -->|commit<br>changes| FeatureBranch[Feature<br>Branch]
-  FeatureBranch--> |Pull Request| MainBranch[Main<br>Branch]
-  MainBranch --> |Trigger Build of<br>Feature Branch| CheckFeature{Built<br>succesfull}
-  CheckFeature --> |yes| FinishMerge(Finish Merge)
-  CheckFeature --- |No| cross{ }
-  FinishMerge(Finish Merge<br>of Feature Branch) -->| trigger build<br>of main branch | CheckMain{Built<br>succesfull}
-  CheckMain --> |yes| Deploy(Deploy)
-  CheckMain --> | no | RevertMerge
-  Deploy --> DeleteBranch(Delete<br>Feature Branch)
-  RevertMerge --- cross
-  cross --> |Fix Bugs| Code
+graph LR
+  Code[(Code)] -- Commit<br>Changes --> FeatureBranch[Feature<br>Branch];
+  FeatureBranch[Feature<br>Branch] -- Pull<br>Request --> MainBranch[Main<br>Branch];
+  MainBranch -- Trigger<br>Build --> CheckFeature{Built<br>succesfull};
+  CheckFeature -- Yes --> CompleteMerge[/Complete Merge/];
+  CompleteMerge -- Trigger<br>Build --> CheckMain{Built<br>succesfull};
+  CheckMain -- Yes --> DeployMain[/Deploy<br>Main Branch/];
+  DeployMain --> DeleteFeature[\Delete<br>Feature Branch\];
+  CheckMain -- No --> RevertMerge[\Revert Merge\];
+  RevertMerge[\Revert Merge\] --> TryBugFix{try to<br>fix bugs};
+  TryBugFix -- No --> DeleteFeature;
+  CheckFeature -- No --> TryBugFix;
+  TryBugFix -- yes --> Code;
 ```
+
+### ToDo
+
+Integrate better Branching Strategy:
+  
+|    instance     | Branch name            |              Protected Branch               | Create From         |
+| :-------------: | :--------------------- | :-----------------------------------------: | :------------------ |
+| featurebranches | feature/* <br> issue/* |                      -                      | from Head of main   |
+| working branch  | main                   | only from feature/* <br> issue/* and hotfix | Pull-Request only   |
+|     hotfix      | hotfix/*               |                      -                      | from Head of stable |
+|     release     | stable                 |           only by main and hotfix           | Pull-Request only   |
+
+Main branch is used as the working branch. To develope new features, create branch from main branch called `feature/<jira-id>-<featurename>` for new features, or `issue/<jira-id>` when solving a issue. When developement of the feature or issue is done, merge it back into the main branch with a pull request.
+
+When time has come for a release, create a pull request to merge main into stable.
+
+For bigger problems, like f.E. a zero-day, create a branch from stable and name it `hotfix/<jira-id>` and try to fix the issue asap. When done, merge this hotfix back into stable as well as into main.
+
+### Flowchart
+
+```` mermaid
+  graph LR
+    dev --> main;
+    main -.-> dev;
+    main --> stable;
+    stable -.-> hotfix;
+    hotfix --> stable & main;
+````
+
+### GitGraph example
+
+``` mermaid
+        gitGraph
+            commit
+            branch stable
+            commit tag: "v1"
+            checkout main
+            branch feature-1
+            checkout feature-1
+            commit
+            checkout main
+            branch feature-2
+            checkout feature-2
+            commit
+            checkout main
+            merge feature-1
+            commit
+            branch issue-1
+            checkout issue-1
+            commit
+            checkout feature-2
+            commit
+            checkout main
+            merge issue-1
+            checkout stable
+            branch hotfix
+            checkout main
+            checkout hotfix
+            commit
+            checkout stable
+            merge hotfix
+            checkout main
+            merge hotfix
+            checkout stable
+            commit tag: "v1.1"
+            checkout feature-2
+            commit
+            checkout main
+            merge feature-2
+            checkout stable
+            merge main
+            commit tag: "v1.5"
+```
+
+### Automation
+
+Of course the approach is to have as much automated as possible, which also means that pull-request should in the end get tested and resolved by themselves (...or the help of Azure-Pipelines :material-microsoft-azure-devops:)
