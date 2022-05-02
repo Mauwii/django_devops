@@ -1,12 +1,11 @@
 trigger:
-  batch: 'true'
   branches:
     include:
-      - 'main'
+      - main
   paths:
     include:
-      - 'docs'
-      - 'mkdocs.yml'
+      - docs
+      - mkdocs.yml
 
 pool:
   vmImage: ubuntu-latest
