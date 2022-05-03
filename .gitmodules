@@ -4,3 +4,4 @@
 [submodule "mkdocs-material"]
 	path = mkdocs-material
 	url = https://github.com/Mauwii/mkdocs-material.git
+	branch = master
