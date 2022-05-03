@@ -1,5 +1,4 @@
 ---
-template: overrides/main.html
 title: Diagrams
 icon: material/graph-outline
 ---
