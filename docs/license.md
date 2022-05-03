@@ -1,6 +1,8 @@
 ---
 title: License
-template: overrides/main.html
+hide:
+  - navigation
+  - toc
 ---
 
 **MIT License**

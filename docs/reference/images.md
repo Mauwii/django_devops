@@ -1,5 +1,4 @@
 ---
-template: overrides/main.html
 title: Images
 icon: octicons/image-16
 ---
