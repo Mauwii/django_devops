@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Welcom to my Playground which I created to find out more about the possibilitys when using a GitHub-Repo in Azure-DevOps to run YAML Files as Azure-Pipelines. Aditionally Jira is used as Issue Tracker.">
+        <meta name="description" content="Welcome to my Playground which I created to find out more about the possibilities when using a GitHub-Repo in Azure-DevOps to run YAML Files as Azure-Pipelines. Additionally Jira is used as Issue Tracker.">
       
       
         <meta name="author" content="Matthias Wild">
@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://Mauwii.github.io/django_devops/workflow/">
       
       <link rel="icon" href="../assets/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.12">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.27ad92d8.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.e411adfe.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -47,8 +47,6 @@
 
     
     
-  <link rel="stylesheet" href="../overrides/assets/stylesheets/main.8464ae1a.min.css">
-
   </head>
   
   
@@ -70,34 +68,17 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#todo" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
-        <aside class="md-banner">
-          <div class="md-banner__inner md-grid md-typeset">
-            
-  <a href="https://twitter.com/squidfunk">
-    For updates follow <strong>@squidfunk</strong> on
-    <span class="twemoji twitter">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
-    </span>
-    <strong>Twitter</strong>
-  </a>
-
-          </div>
-        </aside>
-      
     </div>
     
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Azure-DevOps with GitHub-Repo" class="md-header__button md-logo" aria-label="Azure-DevOps with GitHub-Repo" data-md-component="logo">
       
@@ -203,13 +184,92 @@
     
   </nav>
   
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../license/" class="md-tabs__link">
+      License
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      Workflow
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../reference/" class="md-tabs__link">
+        Reference
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../todo/" class="md-tabs__link">
+        Todo
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
-        
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -217,15 +277,19 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
 
+  
+
 
   
 
-<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Azure-DevOps with GitHub-Repo" class="md-nav__button md-logo" aria-label="Azure-DevOps with GitHub-Repo" data-md-component="logo">
       
@@ -259,7 +323,7 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        About
+        Home
       </a>
     </li>
   
@@ -295,59 +359,9 @@
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Workflow
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Workflow
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#todo" class="md-nav__link">
-    ToDo
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flowchart" class="md-nav__link">
-    Flowchart
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gitgraph-example" class="md-nav__link">
-    GitGraph example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#automation" class="md-nav__link">
-    Automation
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -361,9 +375,7 @@
   
   
     
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
@@ -435,6 +447,50 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" data-md-state="indeterminate" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../todo/">Todo</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Todo" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Todo
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -446,14 +502,9 @@
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
-  
-  
-  
+                
   <a href="https://github.com/Mauwii/django_devops/edit/main/docs/workflow.md" title="Edit this page" class="md-content__button md-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
-  </a>
-  <a href="https://github.com/Mauwii/django_devops/edit/main/docs/workflow.md" title="View source of this page" class="md-content__button md-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
@@ -473,99 +524,8 @@
   TryBugFix -- No --&gt; DeleteFeature;
   CheckFeature -- No --&gt; TryBugFix;
   TryBugFix -- yes --&gt; Code;</code></pre>
-<h3 id="todo">ToDo<a class="headerlink" href="#todo" title="Anchor link to this section for reference">&para;</a></h3>
-<p>Integrate better Branching Strategy:</p>
-<table>
-<thead>
-<tr>
-<th align="center">instance</th>
-<th align="left">Branch name</th>
-<th align="center">Protected Branch</th>
-<th align="left">Create From</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">featurebranches</td>
-<td align="left">feature/* <br> issue/*</td>
-<td align="center">-</td>
-<td align="left">from Head of main</td>
-</tr>
-<tr>
-<td align="center">working branch</td>
-<td align="left">main</td>
-<td align="center">only from feature/* <br> issue/* and hotfix</td>
-<td align="left">Pull-Request only</td>
-</tr>
-<tr>
-<td align="center">hotfix</td>
-<td align="left">hotfix/*</td>
-<td align="center">-</td>
-<td align="left">from Head of stable</td>
-</tr>
-<tr>
-<td align="center">release</td>
-<td align="left">stable</td>
-<td align="center">only by main and hotfix</td>
-<td align="left">Pull-Request only</td>
-</tr>
-</tbody>
-</table>
-<p>Main branch is used as the working branch. To develope new features, create branch from main branch called <code>feature/&lt;jira-id&gt;-&lt;featurename&gt;</code> for new features, or <code>issue/&lt;jira-id&gt;</code> when solving a issue. When developement of the feature or issue is done, merge it back into the main branch with a pull request.</p>
-<p>When time has come for a release, create a pull request to merge main into stable.</p>
-<p>For bigger problems, like f.E. a zero-day, create a branch from stable and name it <code>hotfix/&lt;jira-id&gt;</code> and try to fix the issue asap. When done, merge this hotfix back into stable as well as into main.</p>
-<h3 id="flowchart">Flowchart<a class="headerlink" href="#flowchart" title="Anchor link to this section for reference">&para;</a></h3>
-<pre class="mermaid"><code>  graph LR
-    dev --&gt; main;
-    main -.-&gt; dev;
-    main --&gt; stable;
-    stable -.-&gt; hotfix;
-    hotfix --&gt; stable &amp; main;</code></pre>
-<h3 id="gitgraph-example">GitGraph example<a class="headerlink" href="#gitgraph-example" title="Anchor link to this section for reference">&para;</a></h3>
-<pre class="mermaid"><code>        gitGraph
-            commit
-            branch stable
-            commit tag: "v1"
-            checkout main
-            branch feature-1
-            checkout feature-1
-            commit
-            checkout main
-            branch feature-2
-            checkout feature-2
-            commit
-            checkout main
-            merge feature-1
-            commit
-            branch issue-1
-            checkout issue-1
-            commit
-            checkout feature-2
-            commit
-            checkout main
-            merge issue-1
-            checkout stable
-            branch hotfix
-            checkout main
-            checkout hotfix
-            commit
-            checkout stable
-            merge hotfix
-            checkout main
-            merge hotfix
-            checkout stable
-            commit tag: "v1.1"
-            checkout feature-2
-            commit
-            checkout main
-            merge feature-2
-            checkout stable
-            merge main
-            commit tag: "v1.5"</code></pre>
-<h3 id="automation">Automation<a class="headerlink" href="#automation" title="Anchor link to this section for reference">&para;</a></h3>
-<p>Of course the approach is to have as much automated as possible, which also means that pull-request should in the end get tested and resolved by themselves (...or the help of Azure-Pipelines <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m22 18-5 4-8-3v3l-4.19-5.75 12.91 1.05V6.34L22 5.65V18M4.81 16.25V8.96l12.91-2.62L10.6 2v2.84L3.97 6.76 2 9.38v5.69l2.81 1.18Z"/></svg></span>)</p>
 
-
+              
             </article>
           </div>
         </div>
@@ -661,14 +621,11 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate", "content.tabs.link", "navigation.expand", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow", "toc.integrate"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate", "content.tabs.link", "navigation.expand", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow", "toc.integrate"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-  
       <script src="../assets/javascripts/bundle.ed9748b7.min.js"></script>
       
     
-  <script src="../overrides/assets/javascripts/bundle.641d98f2.min.js"></script>
-
   </body>
 </html>
