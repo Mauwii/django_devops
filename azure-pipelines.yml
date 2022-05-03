@@ -4,7 +4,7 @@ trigger:
     - main
   paths:
     include:
-    - django-webapp
+    - django_webapp
     - pipelines
     - azure-pipelines.yml
 
