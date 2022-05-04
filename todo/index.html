@@ -522,7 +522,7 @@
 </thead>
 <tbody>
 <tr>
-<td align="center">featurebranches</td>
+<td align="center">feature-branches</td>
 <td align="left">feature/* <br> issue/*</td>
 <td align="center">-</td>
 <td align="left">from Head of main</td>
@@ -547,7 +547,7 @@
 </tr>
 </tbody>
 </table>
-<p>Main branch is used as the working branch. To develope new features, create branch from main branch called <code>feature/&lt;jira-id&gt;-&lt;featurename&gt;</code> for new features, or <code>issue/&lt;jira-id&gt;</code> when solving a issue. When developement of the feature or issue is done, merge it back into the main branch with a pull request.</p>
+<p>Main branch is used as the working branch. To develope new features, create branch from main branch called <code>feature/&lt;jira-id&gt;-&lt;feature-name&gt;</code> for new features, or <code>issue/&lt;jira-id&gt;</code> when solving a issue. When development of the feature or issue is done, merge it back into the main branch with a pull request.</p>
 <p>When time has come for a release, create a pull request to merge main into stable.</p>
 <p>For bigger problems, like f.E. a zero-day, create a branch from stable and name it <code>hotfix/&lt;jira-id&gt;</code> and try to fix the issue asap. When done, merge this hotfix back into stable as well as into main.</p>
 <h3 id="flowchart">Flowchart<a class="headerlink" href="#flowchart" title="Permanent link">&para;</a></h3>
@@ -558,46 +558,46 @@
     stable -.-&gt; hotfix;
     hotfix --&gt; stable &amp; main;</code></pre>
 <h3 id="gitgraph-example">GitGraph example<a class="headerlink" href="#gitgraph-example" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>        gitGraph
-            commit
-            branch stable
-            commit tag: "v1"
-            checkout main
-            branch feature-1
-            checkout feature-1
-            commit
-            checkout main
-            branch feature-2
-            checkout feature-2
-            commit
-            checkout main
-            merge feature-1
-            commit
-            branch issue-1
-            checkout issue-1
-            commit
-            checkout feature-2
-            commit
-            checkout main
-            merge issue-1
-            checkout stable
-            branch hotfix
-            checkout main
-            checkout hotfix
-            commit
-            checkout stable
-            merge hotfix
-            checkout main
-            merge hotfix
-            checkout stable
-            commit tag: "v1.1"
-            checkout feature-2
-            commit
-            checkout main
-            merge feature-2
-            checkout stable
-            merge main
-            commit tag: "v1.5"</code></pre>
+<pre class="mermaid"><code>  gitGraph
+      commit
+      branch stable
+      commit tag: "v1"
+      checkout main
+      branch feature-1
+      checkout feature-1
+      commit
+      checkout main
+      branch feature-2
+      checkout feature-2
+      commit
+      checkout main
+      merge feature-1
+      commit
+      branch issue-1
+      checkout issue-1
+      commit
+      checkout feature-2
+      commit
+      checkout main
+      merge issue-1
+      checkout stable
+      branch hotfix
+      checkout main
+      checkout hotfix
+      commit
+      checkout stable
+      merge hotfix
+      checkout main
+      merge hotfix
+      checkout stable
+      commit tag: "v1.1"
+      checkout feature-2
+      commit
+      checkout main
+      merge feature-2
+      checkout stable
+      merge main
+      commit tag: "v1.5"</code></pre>
 <h3 id="automation">Automation<a class="headerlink" href="#automation" title="Permanent link">&para;</a></h3>
 <p>Of course the approach is to have as much automated as possible, which also means that pull-request should in the end get tested and resolved by themselves (...or the help of Azure-Pipelines <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m22 18-5 4-8-3v3l-4.19-5.75 12.91 1.05V6.34L22 5.65V18M4.81 16.25V8.96l12.91-2.62L10.6 2v2.84L3.97 6.76 2 9.38v5.69l2.81 1.18Z"/></svg></span>)</p>
 
