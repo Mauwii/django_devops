@@ -1,13 +1,6 @@
+# only build for stable release
 trigger:
-  branches:
-    exclude:
-      - '*'
-    include:
-      - main
-  paths:
-    include:
-      - docs
-      - mkdocs.yml
+- stable
 
 pool:
   vmImage: ubuntu-latest
