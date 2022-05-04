@@ -20,3 +20,5 @@ steps:
       targetType: inline
       script: 'python3 manage.py test'
       workingDirectory: '$(projectRoot)'
+    env:
+      SECRET_KEY: $(secretKey)
