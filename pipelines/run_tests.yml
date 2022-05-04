@@ -1,24 +1,27 @@
 steps:
 
-  - task: UsePythonVersion@0
-    displayName: 'Use Python Version 3.9'
-    inputs:
-      versionSpec: '3.9'
-      addToPath: true
-      architecture: 'x64'
+  # - task: UsePythonVersion@0
+  #   displayName: 'Use Python Version 3.9'
+  #   inputs:
+  #     versionSpec: '3.9'
+  #     addToPath: true
+  #     architecture: 'x64'
 
-  - task: Bash@3
-    displayName: 'Install Requirements'
-    inputs:
-      targetType: inline
-      script: 'pip install -r requirements.txt'
-      workingDirectory: '$(projectRoot)'
+  # - task: Bash@3
+  #   displayName: 'Install Requirements'
+  #   inputs:
+  #     targetType: inline
+  #     script: 'pip install -r requirements.txt'
+  #     workingDirectory: '$(projectRoot)'
 
   - task: Bash@3
     displayName: 'Run Django Tests'
     inputs:
       targetType: inline
-      script: 'python3 manage.py test'
+      script: |
+        source antenv/bin/activate
+        [[ -n $SECRET_KEY ]] && echo "SECRET_KEY is not empty" || export SECRET_KEY=$(SECRET_KEY)
+        python3 manage.py test
       workingDirectory: '$(projectRoot)'
     env:
-      SECRET_KEY: $(secretKey)
+      SECRET_KEY: '$(secretKey)'
