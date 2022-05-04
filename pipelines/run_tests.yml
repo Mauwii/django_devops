@@ -25,3 +25,4 @@ steps:
       workingDirectory: '$(projectRoot)'
     env:
       SECRET_KEY: '$(secretKey)'
+      APPLICATIONINSIGHTS_CONNECTION_STRING: '$(APPLICATIONINSIGHTS_CONNECTION_STRING)'
