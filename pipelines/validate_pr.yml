@@ -41,6 +41,8 @@ stages:
     jobs:
       - job: RunTests
         displayName: Run Django Tests
+        variables:
+          - group: django-dev
         steps:
           - checkout: self
             submodules: true
