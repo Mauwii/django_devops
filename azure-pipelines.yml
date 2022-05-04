@@ -2,12 +2,12 @@ trigger:
   batch: true
   branches:
     include:
-    - main
+      - main
   paths:
     include:
-    - django_webapp
-    - pipelines
-    - azure-pipelines.yml
+      - django_webapp
+      - pipelines
+      - azure-pipelines.yml
 
 variables:
   - group: django_gh
@@ -38,6 +38,7 @@ stages:
             deploy:
               steps:
                 - checkout: self
+                  submodules: false
                 - template: pipelines/deploy_bicep.yml
 
   - stage: BuildWebApp

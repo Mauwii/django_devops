@@ -5,6 +5,4 @@
   "files.associations": {
     "**/pipelines/*.yml": "azure-pipelines",
   },
-  // found at https://dev.azure.com/<ORGANISATION>/_apis/distributedtask/yamlschema
-  "azure-pipelines.customSchemaFile": "../my-schema.json"
 }
