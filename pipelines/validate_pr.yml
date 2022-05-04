@@ -47,12 +47,9 @@ stages:
 
   - stage: RunTests
     dependsOn: BuildWebApp
-    displayName: Run Unit Tests
+    displayName: Run Tests
     jobs:
       - job: RunTests
         displayName: Run Unit Tests
-        dependsOn: BuildWebApp
-        condition: suceeded()
         steps:
           - template: run_tests.yml
-

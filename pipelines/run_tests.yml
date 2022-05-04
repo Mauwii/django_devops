@@ -9,13 +9,11 @@ steps:
 
 - task: PythonScript@0
   displayName: Run Tests
-  condition: suceeded()
   inputs:
     pythonInterpreter: antenv/bin/python
     script: manage.py
     arguments: test
     workingDirectory: $(projectRoot)
     failOnStderr: true
-  # continueOnError: true
 
 # ToDo: Find out how to publish django test results
