@@ -44,3 +44,15 @@ stages:
             submodules: true
             persistCredentials: true
           - template: build_webapp.yml
+
+  - stage: RunTests
+    dependsOn: BuildWebApp
+    displayName: Run Unit Tests
+    jobs:
+      - job: RunTests
+        displayName: Run Unit Tests
+        dependsOn: BuildWebApp
+        condition: suceeded()
+        steps:
+          - template: run_tests.yml
+
