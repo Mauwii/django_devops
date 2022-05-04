@@ -1,14 +1,14 @@
 pr:
   drafts: true
-  autoCancel: true
+  autoCancel: false
   branches:
     exclude:
-      - main
+    - main
   paths:
     include:
-      - django-webapp/**/*.py
-      - pipelines/*.yml
-      - azure-pipelines.yml
+    - django-webapp
+    - pipelines
+    - azure-pipelines.yml
 
 variables:
   - group: django_gh
