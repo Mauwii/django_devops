@@ -3,12 +3,12 @@ pr:
   autoCancel: false
   branches:
     exclude:
-    - main
+      - main
   paths:
     include:
-    - django-webapp
-    - pipelines
-    - azure-pipelines.yml
+      - django_webapp
+      - pipelines
+      - azure-pipelines.yml
 
 variables:
   - group: django_gh
@@ -16,13 +16,6 @@ variables:
 
 pool:
   vmImage: ubuntu-latest
-
-resources:
-  repositories:
-    - repository: self
-      type: github
-      endpoint: Mauwii
-      name: mauwii/django_devops
 
 stages:
   - stage: ValidateBicep
