@@ -1,9 +1,6 @@
 pr:
   drafts: true
   autoCancel: false
-  branches:
-    exclude:
-      - main
   paths:
     include:
       - django_webapp
