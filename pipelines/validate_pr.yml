@@ -45,4 +45,6 @@ stages:
       - job: RunTests
         displayName: Run Unit Tests
         steps:
+          - checkout: self
+            submodules: true
           - template: run_tests.yml
