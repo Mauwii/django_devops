@@ -1,19 +1,17 @@
 steps:
 
 - task: UsePythonVersion@0
-  displayName: Use Python Version 3.9
+  displayName: 'Use Python Version 3.9'
   inputs:
-    versionSpec: 3.9
+    versionSpec: '3.9'
     addToPath: true
-    architecture: x64
+    architecture: 'x64'
 
 - task: PythonScript@0
-  displayName: Run Tests
+  displayName: Run Test
   inputs:
-    pythonInterpreter: antenv/bin/python
-    script: manage.py
-    arguments: test
-    workingDirectory: $(projectRoot)
-    failOnStderr: true
-
-# ToDo: Find out how to publish django test results
+    scriptSource: 'filePath'
+    scriptPath: '$(projectRoot)/manage.py'
+    arguments: 'test'
+    pythonInterpreter: '$(projectRoot)/antenv/bin/python'
+    workingDirectory: '$(projectRoot)'
