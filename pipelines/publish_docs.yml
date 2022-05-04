@@ -1,22 +1,9 @@
-# specific path build
+# only build for stable release
 trigger:
-  branches:
-    include:
-    - main
-  paths:
-    include:
-    - docs
-    - mkdocs.yml
+- stable
 
 pool:
   vmImage: ubuntu-latest
-
-resources:
-  repositories:
-    - repository: 'self'
-      type: 'github'
-      endpoint: 'Mauwii'
-      name: 'mauwii/django_devops'
 
 steps:
 
@@ -30,13 +17,13 @@ steps:
       versionSpec: '3.9'
       addToPath: true
       architecture: 'x64'
-  
+
   - task: Bash@3
     displayName: 'Install MkDocs'
     inputs:
       targetType: 'inline'
       script: 'pip install -e mkdocs-material'
-  
+
   - task: Bash@3
     displayName: 'Build mkdocs'
     inputs:
