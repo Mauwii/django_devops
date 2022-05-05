@@ -1,14 +1,18 @@
-# only build for stable release
+# only publish Docs for stable release
 trigger:
-  - stable
+  - main
+
+pr: none
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
   - checkout: self
-    submodules: 'true'
+    submodules: none
     persistCredentials: 'true'
+
+  - script: 'git submodule update --init --recursive mkdocs-material'
 
   - task: UsePythonVersion@0
     displayName: 'Use Python 3.9.x'
