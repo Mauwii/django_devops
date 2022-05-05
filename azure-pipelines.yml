@@ -1,6 +1,8 @@
 trigger:
   - stable
 
+pr: none
+
 variables:
   - group: django_gh
   - group: django-dev

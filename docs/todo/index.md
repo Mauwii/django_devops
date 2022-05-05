@@ -34,46 +34,41 @@ For bigger problems, like f.E. a zero-day, create a branch from stable and name 
 ### GitGraph example
 
 ``` mermaid
-  gitGraph
-      commit
-      branch stable
-      commit tag: "v1"
-      checkout main
-      branch feature-1
-      checkout feature-1
-      commit
-      checkout main
-      branch feature-2
-      checkout feature-2
-      commit
-      checkout main
-      merge feature-1
-      commit
-      branch issue-1
-      checkout issue-1
-      commit
-      checkout feature-2
-      commit
-      checkout main
-      merge issue-1
-      checkout stable
-      branch hotfix
-      checkout main
-      checkout hotfix
-      commit
-      checkout stable
-      merge hotfix
-      checkout main
-      merge hotfix
-      checkout stable
-      commit tag: "v1.1"
-      checkout feature-2
-      commit
-      checkout main
-      merge feature-2
-      checkout stable
-      merge main
-      commit tag: "v1.5"
+    gitGraph
+        commit
+        branch stable
+        checkout stable
+        commit tag: "v1"
+        checkout main
+        branch feature-1
+        checkout feature-1
+        commit
+        commit
+        checkout main
+        branch feature-2
+        checkout feature-2
+        commit
+        checkout main
+        merge feature-1
+        checkout feature-2
+        commit
+        checkout stable
+        branch hotfix-1
+        commit
+        commit
+        checkout main
+        merge hotfix-1
+        checkout stable
+        merge hotfix-1
+        checkout stable
+        commit tag: "v1-hotfix"
+        checkout feature-2
+        commit
+        checkout main
+        merge feature-2
+        checkout stable
+        merge main
+        commit tag: "v2"
 ```
 
 ### Automation
