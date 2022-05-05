@@ -1,71 +1,70 @@
 steps:
+  - task: AzurePowerShell@5
+    displayName: 'Read Instrumentation Key'
+    inputs:
+      azureSubscription: $(azureSubscription)
+      ScriptType: 'InlineScript'
+      Inline: |
+        $APPLICATIONINSIGHTS = (Get-AzApplicationInsights -ResourceGroupName "$(resourceGroupName)")
+        $APPINSIGHTS_INSTRUMENTATIONKEY = $APPLICATIONINSIGHTS.InstrumentationKey
+        $APPLICATIONINSIGHTS_CONNECTION_STRING = $APPLICATIONINSIGHTS.ConnectionString
+        Write-Host "##vso[task.setvariable variable=APPINSIGHTS_INSTRUMENTATIONKEY;issecret=true]$APPINSIGHTS_INSTRUMENTATIONKEY"
+        Write-Host "##vso[task.setvariable variable=APPLICATIONINSIGHTS_CONNECTION_STRING;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
+      azurePowerShellVersion: 'LatestVersion'
+      pwsh: true
 
-- task: AzurePowerShell@5
-  displayName: 'Read Instrumentation Key'
-  inputs:
-    azureSubscription: $(azureSubscription)
-    ScriptType: 'InlineScript'
-    Inline: |
-      $APPLICATIONINSIGHTS = (Get-AzApplicationInsights -ResourceGroupName "$(resourceGroupName)")
-      $APPINSIGHTS_INSTRUMENTATIONKEY = $APPLICATIONINSIGHTS.InstrumentationKey
-      $APPLICATIONINSIGHTS_CONNECTION_STRING = $APPLICATIONINSIGHTS.ConnectionString
-      Write-Host "##vso[task.setvariable variable=APPINSIGHTS_INSTRUMENTATIONKEY;issecret=true]$APPINSIGHTS_INSTRUMENTATIONKEY"
-      Write-Host "##vso[task.setvariable variable=APPLICATIONINSIGHTS_CONNECTION_STRING;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
-    azurePowerShellVersion: 'LatestVersion'
-    pwsh: true
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(pythonVersion)'
+    inputs:
+      versionSpec: $(pythonVersion)
 
-- task: UsePythonVersion@0
-  displayName: 'Use Python $(pythonVersion)'
-  inputs:
-    versionSpec: $(pythonVersion)
+  - script: |
+      python3 -m venv antenv
+      source antenv/bin/activate
+    workingDirectory: $(projectRoot)
+    displayName: 'Create antenv'
 
-- script: |
-    python3 -m venv antenv
-    source antenv/bin/activate
-  workingDirectory: $(projectRoot)
-  displayName: 'Create antenv'
+  - script: |
+      source antenv/bin/activate
+      python -m pip install --upgrade pip setuptools wheel
+    displayName: 'Install tools'
 
-- script: |
-    source antenv/bin/activate
-    python -m pip install --upgrade pip setuptools wheel
-  displayName: 'Install tools'
+  - script: |
+      source antenv/bin/activate
+      antenv/bin/python -m pip install -r requirements.txt
+    workingDirectory: $(projectRoot)
+    displayName: 'Install requirements'
 
-- script: |
-    source antenv/bin/activate
-    antenv/bin/python -m pip install -r requirements.txt
-  workingDirectory: $(projectRoot)
-  displayName: 'Install requirements'
+  - script: |
+      source antenv/bin/activate
+      export SECRET_KEY=$(SECRET_KEY)
+      export APPINSIGHTS_INSTRUMENTATIONKEY=$(APPINSIGHTS_INSTRUMENTATIONKEY)
+      export APPLICATIONINSIGHTS_CONNECTION_STRING=$(APPLICATIONINSIGHTS_CONNECTION_STRING)
+      export DEBUG_BOL=True
+      antenv/bin/python manage.py makemigrations
+    workingDirectory: $(projectRoot)
+    displayName: 'Make Migrations'
 
-- script: |
-    source antenv/bin/activate
-    export SECRET_KEY=$(SECRET_KEY)
-    export APPINSIGHTS_INSTRUMENTATIONKEY=$(APPINSIGHTS_INSTRUMENTATIONKEY)
-    export APPLICATIONINSIGHTS_CONNECTION_STRING=$(APPLICATIONINSIGHTS_CONNECTION_STRING)
-    export DEBUG_BOL=True
-    antenv/bin/python manage.py makemigrations
-  workingDirectory: $(projectRoot)
-  displayName: 'Make Migrations'
+  - script: |
+      source antenv/bin/activate
+      export SECRET_KEY="$(secretKey)"
+      export APPINSIGHTS_INSTRUMENTATIONKEY=$(APPINSIGHTS_INSTRUMENTATIONKEY)
+      export APPLICATIONINSIGHTS_CONNECTION_STRING=$(APPLICATIONINSIGHTS_CONNECTION_STRING)
+      export DEBUG_BOL=True
+      antenv/bin/python manage.py migrate
+    workingDirectory: $(projectRoot)
+    displayName: 'Migrate'
 
-- script: |
-    source antenv/bin/activate
-    export SECRET_KEY="$(secretKey)"
-    export APPINSIGHTS_INSTRUMENTATIONKEY=$(APPINSIGHTS_INSTRUMENTATIONKEY)
-    export APPLICATIONINSIGHTS_CONNECTION_STRING=$(APPLICATIONINSIGHTS_CONNECTION_STRING)
-    export DEBUG_BOL=True
-    antenv/bin/python manage.py migrate
-  workingDirectory: $(projectRoot)
-  displayName: 'Migrate'
-
-- script: |
-    source antenv/bin/activate
-    export SECRET_KEY="$(secretKey)"
-    export DJANGO_SUPERUSER_USERNAME="$(DJANGO_SUPERUSER_USERNAME)"
-    export DJANGO_SUPERUSER_EMAIL="$(DJANGO_SUPERUSER_EMAIL)"
-    export DJANGO_SUPERUSER_PASSWORD="$(DJANGO_SUPERUSER_PASSWORD)"
-    export APPINSIGHTS_INSTRUMENTATIONKEY=$(APPINSIGHTS_INSTRUMENTATIONKEY)
-    export APPLICATIONINSIGHTS_CONNECTION_STRING=$(APPLICATIONINSIGHTS_CONNECTION_STRING)
-    echo "Secret Key in use is $SECRET_KEY, Instrumentation Key is $APPINSIGHTS_INSTRUMENTATIONKEY"
-    echo "AppInsights Connection String is $APPLICATIONINSIGHTS_CONNECTION_STRING"
-    antenv/bin/python manage.py createsuperuser --noinput
-  displayName: 'Create Superuser'
-  workingDirectory: $(projectRoot)
+  - script: |
+      source antenv/bin/activate
+      export SECRET_KEY="$(secretKey)"
+      export DJANGO_SUPERUSER_USERNAME="$(DJANGO_SUPERUSER_USERNAME)"
+      export DJANGO_SUPERUSER_EMAIL="$(DJANGO_SUPERUSER_EMAIL)"
+      export DJANGO_SUPERUSER_PASSWORD="$(DJANGO_SUPERUSER_PASSWORD)"
+      export APPINSIGHTS_INSTRUMENTATIONKEY=$(APPINSIGHTS_INSTRUMENTATIONKEY)
+      export APPLICATIONINSIGHTS_CONNECTION_STRING=$(APPLICATIONINSIGHTS_CONNECTION_STRING)
+      echo "Secret Key in use is $SECRET_KEY, Instrumentation Key is $APPINSIGHTS_INSTRUMENTATIONKEY"
+      echo "AppInsights Connection String is $APPLICATIONINSIGHTS_CONNECTION_STRING"
+      antenv/bin/python manage.py createsuperuser --noinput
+    displayName: 'Create Superuser'
+    workingDirectory: $(projectRoot)

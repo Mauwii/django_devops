@@ -1,7 +1,7 @@
 pr:
-- main
-- feature/*
-- issue/*
+  - main
+  - feature/*
+  - issue/*
 
 variables:
   - group: django_gh
@@ -11,7 +11,6 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-
   - stage: ValidateBicep
     dependsOn:
     displayName: Bicep Validation

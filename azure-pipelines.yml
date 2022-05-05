@@ -1,5 +1,5 @@
 trigger:
-- stable
+  - stable
 
 variables:
   - group: django_gh
@@ -10,7 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-
   - stage: ValidateBicep
     dependsOn:
     displayName: Bicep Validation
@@ -50,7 +49,7 @@ stages:
   - stage: DeployWebApp
     displayName: Deploy WebApp
     dependsOn: BuildWebApp
-    condition: succeeded()
+    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
     jobs:
       - deployment: DeployDjango
         displayName: 'Deploy Django to WebApp'
