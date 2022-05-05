@@ -20,7 +20,7 @@
 
 # Project information
 site_name: Azure-DevOps with GitHub-Repo
-site_url: !ENV [SITE_URL,'https://Mauwii.github.io/django_devops/']
+site_url: !ENV [SITE_URL, 'https://Mauwii.github.io/django_devops/']
 site_author: Matthias Wild
 site_description: >-
   Welcome to my Playground which I created to find out more about the
@@ -38,7 +38,7 @@ copyright: Copyright &copy; 2022 Copyright &copy; 2022 Matthias Wild
 # Configuration
 theme:
   name: null
-  custom_dir: !ENV [THEME_DIR, "mkdocs-material/material"]
+  custom_dir: !ENV [THEME_DIR, 'mkdocs-material/material']
 
   # 404 page
   static_templates:
