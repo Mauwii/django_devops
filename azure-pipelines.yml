@@ -1,12 +1,5 @@
 trigger:
-  batch: true
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - pipelines
-      - azure-pipelines.yml
+- stable
 
 variables:
   - group: django_gh
