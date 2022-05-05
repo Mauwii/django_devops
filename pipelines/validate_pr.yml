@@ -1,10 +1,5 @@
 pr:
-  drafts: true
-  autoCancel: false
-  paths:
-    include:
-      - pipelines
-      - azure-pipelines.yml
+- main
 
 variables:
   - group: django_gh
