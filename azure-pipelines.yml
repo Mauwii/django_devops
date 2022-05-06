@@ -21,7 +21,7 @@ stages:
   - stage: CreateResources
     displayName: Create Azure Resources
     dependsOn: ValidateBicep
-    condition: succeeded()
+    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
     jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
@@ -43,7 +43,10 @@ stages:
         displayName: 'Build Web App'
         steps:
           - checkout: self
-            submodules: true
+            submodules: none
+            persistCredentials: 'true'
+          - script: 'git submodule update --init --recursive django_webapp'
+            displayName: update django_webapp submodule
           - template: pipelines/build_webapp.yml
           - template: pipelines/run_tests.yml
           - template: pipelines/publish_artifact.yml

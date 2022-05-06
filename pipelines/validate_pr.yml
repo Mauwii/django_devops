@@ -1,9 +1,12 @@
 trigger: none
 
 pr:
-  - main
-  - feature/*
-  - issue/*
+  autoCancel: false
+  branches:
+    include:
+      - main
+      - feature/*
+      - issue/*
 
 variables:
   - group: django_gh
