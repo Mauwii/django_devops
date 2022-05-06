@@ -8,6 +8,8 @@ pr:
       - main
       - feature/*
       - issue/*
+    exclude:
+      - feature/experimental/*
 
 variables:
   - group: django_gh
