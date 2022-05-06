@@ -1,7 +1,8 @@
 # only publish Docs for stable release
 trigger:
-  - main
+  - stable
 
+# don't trigger for pull requests
 pr: none
 
 pool:
@@ -13,6 +14,7 @@ steps:
     persistCredentials: 'true'
 
   - script: 'git submodule update --init --recursive mkdocs-material'
+    displayName: update mkdocs-material submodule
 
   - task: UsePythonVersion@0
     displayName: 'Use Python 3.9.x'
