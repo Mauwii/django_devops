@@ -12,7 +12,7 @@ stages:
     jobs:
       - job: BuildDocs
         displayName: Build MkDocs
-        dependsOn: ExperimentalCheckoutDocs
+        dependsOn:
         steps:
           - template: steps/build_mkdocs.yml
             parameters:
