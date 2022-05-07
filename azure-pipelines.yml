@@ -1,5 +1,6 @@
 trigger:
   - stable
+  - main
 
 pr: none
 
@@ -44,7 +45,7 @@ stages:
         steps:
           - template: pipelines/steps/checkout_submodules.yml
             parameters:
-              submodules: 
+              submodules:
                 - django_webapp
           - template: pipelines/steps/build_webapp.yml
           - template: pipelines/steps/run_tests.yml
