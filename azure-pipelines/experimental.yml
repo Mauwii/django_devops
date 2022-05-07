@@ -12,13 +12,11 @@ stages:
     jobs:
       - job: ExperimentalCheckoutDocs
         displayName: Test new Steps
+        dependsOn:
         steps:
           - template: steps/checkout_submodules.yml
-            # parameters:
-            #   checkoutSelf: true
-            #   debug: true
-            #   recursive: true
-            #   submodules: django_webapp
+            parameters:
+              submodules: mkdocs-material
       - job: BuildDocs
         displayName: Build MkDocs
         dependsOn: ExperimentalCheckoutDocs
@@ -30,25 +28,22 @@ stages:
     jobs:
       - job: ExperimentalCheckoutDjango
         displayName: Test new Steps
+        dependsOn:
         steps:
           - template: steps/checkout_submodules.yml
-            # parameters:
-            #   checkoutSelf: true
-            #   debug: true
-            #   recursive: true
-            #   submodules: django_webapp
-
+            parameters:
+              submodules: django_webapp
       - job: ExperimentalBuildDjango
-        dependsOn: ExperimentalCheckoutDjango
         displayName: Build Experimental
+        dependsOn: ExperimentalCheckoutDjango
         variables:
           - group: django_gh
           - group: django-dev
           - group: django-superuser
         steps:
-          - template: steps/build_webapp_experimental.yml
+          - template: steps/build_webapp.yml
             parameters:
               azureSubscription: django_gh
               resourceGroupName: django_gh
               projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
-              debug: true
+              debug: false

@@ -6,11 +6,11 @@ parameters:
   - name: checkoutSelf
     type: boolean
     default: false
-  # Submodule to checkout
+  # Submodule to update/init
   - name: submodules
     type: string
     default: ''
-  # Parameter to update submodules recursive
+  # Update submodules recursive
   - name: recursive
     type: boolean
     default: false
@@ -25,16 +25,18 @@ steps:
         submodules: false
         persistCredentials: true
 
-  - ${{ each submodule in parameters.submodules }}:
-      - ${{ if eq(parameters.debug, true) }}:
-          - script: ls -la ${{ submodule }}
-            displayName: ls ${{ submodule }}
-      - ${{ if eq(parameters.recursive, false) }}:
-          - script: git submodule update --init ${{ submodule }}
-            displayName: 'update submodule ${{ submodule.name }}'
-      - ${{ if eq(parameters.recursive, true) }}:
-          - script: git submodule update --init --recursive ${{ submodule }}
-            displayName: 'update submodule ${{ submodule.name }} recursive'
-      - ${{ if eq(parameters.debug, true) }}:
-          - script: ls -la ${{ submodule }}
-            displayName: ls ${{ submodule }}
+  - ${{ if eq(parameters.debug, true) }}:
+      - script: ls -la ${{ submodule }}
+        displayName: ls ${{ submodule }}
+
+  - ${{ if eq(parameters.recursive, false) }}:
+      - script: git submodule update --init ${{ submodule }}
+        displayName: 'update submodule ${{ submodule.name }}'
+
+  - ${{ if eq(parameters.recursive, true) }}:
+      - script: git submodule update --init --recursive ${{ submodule }}
+        displayName: 'update submodule ${{ submodule.name }} recursive'
+
+  - ${{ if eq(parameters.debug, true) }}:
+      - script: ls -la ${{ submodule }}
+        displayName: ls ${{ submodule }}
