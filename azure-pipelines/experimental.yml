@@ -7,7 +7,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: MkDocs-Material
+  - stage: MkDocs
     dependsOn:
     jobs:
       - job: BuildDocs
