@@ -23,19 +23,25 @@ stages:
     dependsOn:
     displayName: Bicep Validation
     jobs:
-      - template: validate_bicep.yml
+      - template: jobs/validate_bicep.yml
 
   - stage: BuildWebApp
     dependsOn:
-    displayName: Build Web App
+    displayName: Build and Test
     jobs:
       - job: BuildWebApp
-        displayName: Build Web App
+        displayName: Build Django
         variables:
           - group: django-superuser
         steps:
-          - checkout: self
-            submodules: true
-            persistCredentials: true
-          - template: build_webapp.yml
-          - template: run_tests.yml
+          - template: steps/checkout_submodules.yml
+            parameters:
+              submodules:
+                - django_webapp
+          - template: steps/build_webapp.yml
+            parameters:
+              azureSubscription: django_gh
+              resourceGroupName: django_gh
+              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
+              debug: false
+          - template: steps/run_tests.yml

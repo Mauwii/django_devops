@@ -1,0 +1,41 @@
+# Pipeline Template to update submodules
+# Useful for bigger (Mono)-Repos where only a subset of submodules is necessary
+
+parameters:
+  # Parameter to checkout self first
+  - name: checkoutSelf
+    type: boolean
+    default: false
+  # Array of submodules to checkout
+  - name: submodules
+    type: object
+    default:
+      - ''
+  # Parameter to update submodules recursive
+  - name: recursive
+    type: boolean
+    default: false
+  # Enable Debug Output to list content of submodule-directories before and after update
+  - name: debug
+    type: boolean
+    default: false
+
+steps:
+  - ${{ if eq(parameters.checkoutSelf, true) }}:
+      - checkout: self
+        submodules: false
+        persistCredentials: true
+
+  - ${{ each submodule in parameters.submodules }}:
+      - ${{ if eq(parameters.debug, true) }}:
+          - script: ls -la ${{ submodule }}
+            displayName: ls ${{ submodule }}
+      - ${{ if eq(parameters.recursive, false) }}:
+          - script: git submodule update --init ${{ submodule }}
+            displayName: 'update submodule ${{ submodule.name }}'
+      - ${{ if eq(parameters.recursive, true) }}:
+          - script: git submodule update --init --recursive ${{ submodule }}
+            displayName: 'update submodule ${{ submodule.name }} recursive'
+      - ${{ if eq(parameters.debug, true) }}:
+          - script: ls -la ${{ submodule }}
+            displayName: ls ${{ submodule }}

@@ -1,0 +1,34 @@
+# pipeline to test if things would work
+
+trigger:
+  - feature/experimental/*
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: Experimental
+    dependsOn:
+    jobs:
+      - job: TestNewStep
+        displayName: Test new Steps
+        variables:
+          - group: django_gh
+          - group: django-dev
+          - group: django-superuser
+        steps:
+          - template: steps/checkout_submodules.yml
+            parameters:
+              # checkoutSelf: true
+              # debug: true
+              # recursive: true
+              submodules:
+                - django_webapp
+                # - mkdocs-material
+
+          - template: steps/build_webapp_experimental.yml
+            parameters:
+              azureSubscription: django_gh
+              resourceGroupName: django_gh
+              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
+              debug: true

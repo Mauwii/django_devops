@@ -9,5 +9,5 @@ steps:
         python3 manage.py test
       workingDirectory: '$(projectRoot)'
     env:
-      SECRET_KEY: '$(secretKey)'
-      APPLICATIONINSIGHTS_CONNECTION_STRING: '$(APPLICATIONINSIGHTS_CONNECTION_STRING)'
+      SECRET_KEY: $(secretKey)
+      APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
