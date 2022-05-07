@@ -26,17 +26,17 @@ steps:
         persistCredentials: true
 
   - ${{ if eq(parameters.debug, true) }}:
-      - script: ls -la ${{ submodule }}
-        displayName: ls ${{ submodule }}
+      - script: ls -la ${{ parameters.submodule }}
+        displayName: ls ${{ parameters.submodule }}
 
   - ${{ if eq(parameters.recursive, false) }}:
-      - script: git submodule update --init ${{ submodule }}
-        displayName: 'update submodule ${{ submodule.name }}'
+      - script: git submodule update --init ${{ parameters.submodule }}
+        displayName: 'update submodule ${{ parameters.submodule }}'
 
   - ${{ if eq(parameters.recursive, true) }}:
-      - script: git submodule update --init --recursive ${{ submodule }}
-        displayName: 'update submodule ${{ submodule.name }} recursive'
+      - script: git submodule update --init --recursive ${{ parameters.submodule }}
+        displayName: 'update submodule ${{ parameters.submodule }} recursive'
 
   - ${{ if eq(parameters.debug, true) }}:
-      - script: ls -la ${{ submodule }}
-        displayName: ls ${{ submodule }}
+      - script: ls -la ${{ parameters.submodule }}
+        displayName: ls ${{ parameters.submodule }}
