@@ -1,10 +1,10 @@
 # Django DevOps
 
-| Pipeline                                                                                          |                              Branch                               | Badge                                                                                                                                                                                                             |
-| :------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [check_pr.yml](https://github.com/Mauwii/django_devops/blob/main/azure-pipelines/validate_pr.yml) |     [main](https://github.com/Mauwii/django_devops/tree/main)     | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=main)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=main)     |
-| [publish_docs](https://github.com/Mauwii/django_devops/blob/stable/mkdocs.yml)                    | [gh-pages](https://github.com/Mauwii/django_devops/tree/gh-pages) | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/publish_docs.yml?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=57&branchName=stable)     |
-| [azure-pipelines.yml](https://github.com/Mauwii/django_devops/blob/stable/azure-pipelines.yml)    |   [stable](https://github.com/Mauwii/django_devops/tree/stable)   | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=stable) |
+| Pipeline YAML                                                                                     | Badge                                                                                                                                                                                                             |
+| :------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [check_pr.yml](https://github.com/Mauwii/django_devops/blob/main/azure-pipelines/validate_pr.yml) | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=main)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=main)     |
+| [publish_docs](https://github.com/Mauwii/django_devops/blob/stable/mkdocs.yml)                    | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/publish_docs.yml?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=57&branchName=stable)     |
+| [azure-pipelines.yml](https://github.com/Mauwii/django_devops/blob/stable/azure-pipelines.yml)    | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=stable) |
 
 ## Intro
 
@@ -16,6 +16,19 @@ Until yet I have only been using Azure-Repos in my DevOps Projects, but since th
 - [Azure-DevOps](https://dev.azure.com/mauwiidev/django_gh)
 - [Jira](https://mauwii.atlassian.net/jira/software/c/projects/DG/issues)
 - [MkDocs-Material](https://squidfunk.github.io/mkdocs-material/)
+
+### Documentation
+
+Since I had the needs for things I could play around with build-pipelines as well as a documentation framework, I decided to use MkDocs-Material since (imho):
+
+- it is easy to use,
+- fits everything I could need for code Documentation
+- looks good
+- has tons of addons available
+- is hostable for free
+- and maybe more ...
+
+You can find the Documentation [here](https://mauwii.github.io/django_devops/), while it's sources are located in the [docs](https://github.com/Mauwii/django_devops/tree/stable/docs) folder. Until yet I only build the stable Branch automatically, but I am already thinking about using the "mike" plugin to have the ability of versioning the Documentation.
 
 ## Useful Stuff
 
