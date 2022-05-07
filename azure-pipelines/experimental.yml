@@ -22,6 +22,8 @@ stages:
         dependsOn: ExperimentalCheckoutDocs
         steps:
           - template: steps/build_mkdocs.yml
+            parameters:
+              update_submodule: false
 
   - stage: Django
     dependsOn:
