@@ -1,10 +1,10 @@
 # Django DevOps
 
-| Pipeline            | Branch | Badge                                                                                                                                                                                                             |
-| :------------------ | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| check_pr.yml        |  main  | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=main)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=main)     |
-| publish_docs        | stable | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/publish_docs.yml?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=57&branchName=stable)     |
-| azure-pipelines.yml | stable | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=stable) |
+| Pipeline                                                                                          |                              Branch                               | Badge                                                                                                                                                                                                             |
+| :------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [check_pr.yml](https://github.com/Mauwii/django_devops/blob/main/azure-pipelines/validate_pr.yml) |     [main](https://github.com/Mauwii/django_devops/tree/main)     | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=main)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=main)     |
+| [publish_docs](https://github.com/Mauwii/django_devops/blob/stable/mkdocs.yml)                    | [gh-pages](https://github.com/Mauwii/django_devops/tree/gh-pages) | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/publish_docs.yml?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=57&branchName=stable)     |
+| [azure-pipelines.yml](https://github.com/Mauwii/django_devops/blob/stable/azure-pipelines.yml)    |   [stable](https://github.com/Mauwii/django_devops/tree/stable)   | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=stable) |
 
 ## Intro
 

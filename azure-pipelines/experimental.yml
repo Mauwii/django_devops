@@ -1,0 +1,54 @@
+# pipeline to test if things would work
+
+trigger:
+  - feature/experimental/*
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: MkDocs
+    dependsOn:
+    jobs:
+      - job: ExperimentalCheckoutDocs
+        displayName: Test new Steps
+        steps:
+          - template: steps/checkout_submodules.yml
+            # parameters:
+            #   checkoutSelf: true
+            #   debug: true
+            #   recursive: true
+            #   submodules: django_webapp
+      - job: BuildDocs
+        displayName: Build MkDocs
+        dependsOn: ExperimentalCheckoutDocs
+        steps:
+          - template: steps/build_mkdocs.yml
+
+  - stage: Django
+    dependsOn:
+    jobs:
+      - job: ExperimentalCheckoutDjango
+        displayName: Test new Steps
+        steps:
+          - template: steps/checkout_submodules.yml
+            # parameters:
+            #   checkoutSelf: true
+            #   debug: true
+            #   recursive: true
+            #   submodules: django_webapp
+
+      - job: ExperimentalBuildDjango
+        dependsOn: ExperimentalCheckoutDjango
+        displayName: Build Experimental
+        variables:
+          - group: django_gh
+          - group: django-dev
+          - group: django-superuser
+        steps:
+          - template: steps/build_webapp_experimental.yml
+            parameters:
+              azureSubscription: django_gh
+              resourceGroupName: django_gh
+              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
+              debug: true

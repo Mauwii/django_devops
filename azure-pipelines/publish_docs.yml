@@ -1,4 +1,4 @@
-# only publish Docs for stable release
+# only publishing Docs of stable release for now - maybe I integrate 'mike' later
 trigger:
   - stable
 
@@ -8,13 +8,16 @@ pr: none
 pool:
   vmImage: ubuntu-latest
 
-steps:
-  - checkout: self
-    submodules: none
-    persistCredentials: 'true'
+variables:
+  - name: submodules
+    value: mkdocs-material
 
-  - script: 'git submodule update --init --recursive mkdocs-material'
-    displayName: update mkdocs-material submodule
+steps:
+  # update MkDocs-Material Submodule
+  - template: steps/checkout_submodules.yml
+    parameters:
+      submodules:
+        - mkdocs-material
 
   - task: UsePythonVersion@0
     displayName: 'Use Python 3.9.x'

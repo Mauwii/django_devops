@@ -11,7 +11,16 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # Markdown
-[*.md]
+[*.{md,markdown}]
+trim_trailing_whitespace = false
+
+# YAML Files
+[*.{yml,yaml}]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+# JSON-Files
+[*.{json,jsonc}]
 trim_trailing_whitespace = false
 
 # Python

@@ -1,4 +1,4 @@
-# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml#use-the-pipeline-variable-created-from-a-step-in-a-condition-in-a-subsequent-step
+# https://docs.microsoft.com/en-us/azure/devops/azure-pipelines/process/conditions?view=azure-devops&tabs=yaml#use-the-pipeline-variable-created-from-a-step-in-a-condition-in-a-subsequent-step
 
 steps:
   # This step creates a new pipeline variable: doThing. This variable will be available to subsequent steps.

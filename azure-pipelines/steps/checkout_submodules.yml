@@ -6,11 +6,10 @@ parameters:
   - name: checkoutSelf
     type: boolean
     default: false
-  # Array of submodules to checkout
+  # Submodule to checkout
   - name: submodules
-    type: object
-    default:
-      - ''
+    type: string
+    default: ''
   # Parameter to update submodules recursive
   - name: recursive
     type: boolean

@@ -16,7 +16,7 @@ stages:
     dependsOn:
     displayName: Bicep Validation
     jobs:
-      - template: pipelines/jobs/validate_bicep.yml
+      - template: azure-pipelines/jobs/validate_bicep.yml
 
   - stage: CreateResources
     displayName: Create Azure Resources
@@ -32,7 +32,7 @@ stages:
               steps:
                 - checkout: self
                   submodules: false
-                - template: pipelines/steps/deploy_bicep.yml
+                - template: azure-pipelines/steps/deploy_bicep.yml
 
   - stage: BuildWebApp
     dependsOn: CreateResources
@@ -42,12 +42,12 @@ stages:
       - job: BuildWebApp
         displayName: 'Build Web App'
         steps:
-          - template: pipelines/steps/checkout_submodules.yml
+          - template: azure-pipelines/steps/checkout_submodules.yml
             parameters:
               submodules: django_webapp
-          - template: pipelines/steps/build_webapp.yml
-          - template: pipelines/steps/run_tests.yml
-          - template: pipelines/steps/publish_artifact.yml
+          - template: azure-pipelines/steps/build_webapp.yml
+          - template: azure-pipelines/steps/run_tests.yml
+          - template: azure-pipelines/steps/publish_artifact.yml
 
   - stage: DeployWebApp
     displayName: Deploy WebApp
@@ -61,4 +61,4 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: pipelines/steps/deploy_webapp.yml
+                - template: azure-pipelines/steps/deploy_webapp.yml
