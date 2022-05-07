@@ -22,7 +22,7 @@ stages:
   - stage: CreateResources
     displayName: Create Azure Resources
     dependsOn: ValidateBicep
-    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+    # condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
     jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
