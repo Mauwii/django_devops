@@ -18,9 +18,9 @@ steps:
           submodule: mkdocs-material
 
   - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ variables.PythonVersion }}'
+    displayName: 'Use Python ${{ parameters.PythonVersion }}'
     inputs:
-      versionSpec: ${{ variables.PythonVersion }}
+      versionSpec: ${{ parameters.PythonVersion }}
       addToPath: true
       architecture: 'x64'
 
