@@ -11,8 +11,8 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # Markdown
-[*.{md,markdown}]
-trim_trailing_whitespace = false
+[docs/**.md]
+indent_size = 4
 
 # YAML Files
 [*.{yml,yaml}]
