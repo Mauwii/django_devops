@@ -16,7 +16,7 @@ stages:
         steps:
           - template: steps/checkout_submodules.yml
             parameters:
-              submodules: mkdocs-material
+              submodule: mkdocs-material
       - job: BuildDocs
         displayName: Build MkDocs
         dependsOn: ExperimentalCheckoutDocs
@@ -32,7 +32,7 @@ stages:
         steps:
           - template: steps/checkout_submodules.yml
             parameters:
-              submodules: django_webapp
+              submodule: django_webapp
       - job: ExperimentalBuildDjango
         displayName: Build Experimental
         dependsOn: ExperimentalCheckoutDjango

@@ -7,7 +7,7 @@ parameters:
     type: boolean
     default: false
   # Submodule to update/init
-  - name: submodules
+  - name: submodule
     type: string
     default: ''
   # Update submodules recursive

@@ -1,15 +1,21 @@
 # Pipeline Template to build MkDocs
 
 parameters:
+  # Python Version to use for building mkdocs-material
   - name: PythonVersion
     type: string
     default: '3.9'
+  # will update Submodule of mkdocs-material if not set to false
+  - name: update_submodule
+    type: boolean
+    default: true
 
 steps:
-  # update MkDocs-Material Submodule
-  - template: checkout_submodules.yml
-    parameters:
-      submodules: mkdocs-material
+  # update MkDocs-Material Submodule if not set to false
+  - ${{ if eq(parameters.update_submodule, true) }}:
+      - template: checkout_submodules.yml
+        parameters:
+          submodule: mkdocs-material
 
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ variables.PythonVersion }}'

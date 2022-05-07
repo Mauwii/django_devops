@@ -44,7 +44,7 @@ stages:
         steps:
           - template: azure-pipelines/steps/checkout_submodules.yml
             parameters:
-              submodules: django_webapp
+              submodule: django_webapp
           - template: azure-pipelines/steps/build_webapp.yml
           - template: azure-pipelines/steps/run_tests.yml
           - template: azure-pipelines/steps/publish_artifact.yml
