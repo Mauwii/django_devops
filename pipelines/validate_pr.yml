@@ -27,10 +27,10 @@ stages:
 
   - stage: BuildWebApp
     dependsOn:
-    displayName: Build Web App
+    displayName: Build and Test
     jobs:
       - job: BuildWebApp
-        displayName: Build Web App
+        displayName: Build Django
         variables:
           - group: django-superuser
         steps:
