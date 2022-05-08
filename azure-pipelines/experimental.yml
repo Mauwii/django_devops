@@ -1,7 +1,10 @@
 # pipeline to test if things would work
 
 trigger:
-  - feature/experimental/*
+  batch: true
+  branches:
+    include:
+      - feature/experimental/*
 
 pool:
   vmImage: ubuntu-latest

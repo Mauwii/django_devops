@@ -2,23 +2,13 @@ parameters:
   - name: azureSubscription
     default: ${{ variables['azureSubscription'] }}
   - name: resourceGroupName
-    default: ${{ variables['resourceGroupName'] }}
   - name: pythonVersion
-    ${{ if eq(variables['pythonVersion'], '') }}:
-      default: '3.9'
-    ${{ if ne(variables['pythonVersion'], '') }}:
-      default: ${{ variables['pythonVersion'] }}
+    default: ${{ variables['pythonVersion'] }}
   - name: projectRoot
-    ${{ if eq(variables['projectRoot'], '') }}:
-      default: ${{ variables['System.DefaultWorkingDirectory'] }}
-    ${{ if ne(variables['projectRoot'], '') }}:
-      default: ${{ variables['projectRoot'] }}
+    default: ${{ variables['Build.SourcesDirectory'] }}
   - name: debug
     type: boolean
-    ${{ if ne(variables['debug'], 'true' ) }}:
-      default: false
-    ${{ if eq(variables['debug'], 'true') }}:
-      default: true
+    default: false
 
 steps:
   - ${{ if eq(parameters['debug'], true) }}:
