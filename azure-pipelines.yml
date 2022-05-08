@@ -1,6 +1,5 @@
 trigger:
   - stable
-  - feature/*
 
 pr: none
 
