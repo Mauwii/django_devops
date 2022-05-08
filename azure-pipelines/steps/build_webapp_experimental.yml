@@ -106,7 +106,9 @@ steps:
       scriptPath: 'django_webapp/manage.py'
       arguments: test
       workingDirectory: ${{ parameters.projectRoot }}
+      pythonInterpreter: antenv/bin/python3
     env:
+      PYTHONPATH: '${{ parameters.projectRoot }}/antenv/lib/python3.9'
       SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
       DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
