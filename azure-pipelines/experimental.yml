@@ -16,7 +16,6 @@ stages:
       - job: BuildDocs
         displayName: Build MkDocs
         dependsOn:
-
         steps:
           - template: jobs/steps/build_mkdocs.yml
             parameters:
@@ -32,18 +31,31 @@ stages:
           - group: django_gh
           - group: django-dev
           - group: django-superuser
-
         steps:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
               submodule: django_webapp
-              checkoutSelf: false
-              recursive: false
-              debug: true
-
+              # checkoutSelf: false
+              # recursive: false
+              # debug: true
           - template: jobs/steps/build_webapp_experimental.yml
             parameters:
               azureSubscription: 'django_gh'
               resourceGroupName: 'django_gh'
               pythonVersion: '3.9'
               debug: true
+
+  - stage: Experimental_Django_Test
+    dependsOn:
+    jobs:
+      - job: Run_Tests
+        displayName: Python Tests
+        dependsOn:
+        variables:
+          - group: django-dev
+        steps:
+          - template: jobs/steps/checkout_submodules.yml
+            parameters:
+              debug: true
+              submodule: django_webapp
+          - template: jobs/steps/python_django_test.yml

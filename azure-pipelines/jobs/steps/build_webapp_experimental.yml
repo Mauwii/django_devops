@@ -46,7 +46,7 @@ steps:
         continueOnError: true
         env:
           SECRET_KEY: $(secretKey)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
+          APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
           DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
@@ -80,21 +80,6 @@ steps:
     displayName: 'migrate and create superuser'
     env:
       SECRET_KEY: ${{ variables.secretKey }}
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
-      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
-
-  - script: |
-      export SECRET_KEY="$(secretKey)"
-      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
-      source antenv/bin/activate
-      env
-      set
-      python3 manage.py test -v 3
-    workingDirectory: $(projectRoot)
-    displayName: 'script run tests'
-    env:
-      SECRET_KEY: $(secretKey)
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
       DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
       DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
