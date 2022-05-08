@@ -9,31 +9,44 @@ parameters:
     default: false
 
 steps:
+  - task: AzurePowerShell@5
+    displayName: 'Read Connection String'
+    name: readAppInsights
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscription }}
+      ScriptType: 'InlineScript'
+      Inline: |
+        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.resourceGroupName }}"
+        $APPLICATIONINSIGHTS_CONNECTION_STRING = $appInsightResource.ConnectionString
+        Write-Host "##vso[task.setvariable variable=connectionString;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
+      azurePowerShellVersion: 'LatestVersion'
+      pwsh: true
+
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ parameters.pythonVersion }}'
     inputs:
       versionSpec: ${{ parameters.pythonVersion }}
       addToPath: true
 
-  - ${{ if eq(parameters['debug'], true) }}:
+  - ${{ if eq(parameters.debug, true) }}:
       - script: |
           echo "Parameters:"
-          echo "azureSubscription: $AZURESUBSCRIPTION"
-          echo "resourceGroupName: $RESOURCEGROUPNAME"
-          echo "projectRoot: $PROJECTROOT"
-          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $APPLICATIONINSIGHTS_CONNECTION_STRING"
+          echo "AZURESUBSCRIPTION: $AZURESUBSCRIPTION"
+          echo "RESOURCEGROUPNAME: $RESOURCEGROUPNAME"
+          echo "PROJECTROOT: $PROJECTROOT"
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
           echo "DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL"
           echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"
-          echo "With 'set':" \n
+          echo "With 'set':"
           set
-          echo \n "With 'env':" \n
+          echo "With 'env':"
           env
         displayName: script env
         env:
-          SECRET_KEY: ${{ variables.secretKey }}
-          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables['APPLICATIONINSIGHTS_CONNECTION_STRING'] }}
-          DJANGO_SUPERUSER_EMAIL: ${{ variables['DJANGO_SUPERUSER_EMAIL'] }}
-          DJANGO_SUPERUSER_PASSWORD: ${{ variables['DJANGO_SUPERUSER_PASSWORD'] }}
+          SECRET_KEY: $(secretKey)
+          APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
       - task: PythonScript@0
         continueOnError: true
@@ -47,23 +60,10 @@ steps:
           pythonInterpreter: '/antenv/bin/python'
           scriptSource: inline
         env:
-          SECRET_KEY: ${{ variables.secretKey }}
-          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
-          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
-          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
-
-  - task: AzurePowerShell@5
-    displayName: 'Read Connection String'
-    name: readAppInsights
-    inputs:
-      azureSubscription: ${{ variables['azureSubscription'] }}
-      ScriptType: 'InlineScript'
-      Inline: |
-        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.resourceGroupName }}"
-        $APPLICATIONINSIGHTS_CONNECTION_STRING = $appInsightResource.ConnectionString
-        Write-Host "##vso[task.setvariable variable=connectionString;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
-      azurePowerShellVersion: 'LatestVersion'
-      pwsh: true
+          SECRET_KEY: $(secretKey)
+          APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - script: |
       python3 -m venv antenv
@@ -73,21 +73,21 @@ steps:
     workingDirectory: ${{ variables.projectRoot }}
     displayName: 'Create antenv'
     env:
-      SECRET_KEY: ${{ variables.secretKey }}
-      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
-      DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
-      DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
+      SECRET_KEY: $(secretKey)
+      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - script: |
       python manage.py migrate
       python manage.py createsuperuser --noinput
-    workingDirectory: ${{ variables.projectRoot }}
+    workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Create antenv'
     env:
-      SECRET_KEY: ${{ variables.secretKey }}
-      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
-      DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
-      DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
+      SECRET_KEY: $(secretKey)
+      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - task: PythonScript@0
     continueOnError: true
@@ -99,7 +99,7 @@ steps:
       workingDirectory: ${{ variables.projectRoot }}
       pythonInterpreter: 'antenv/bin/python'
     env:
-      SECRET_KEY: ${{ variables.secretKey }}
-      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.['connectionString'] }}
-      DJANGO_SUPERUSER_EMAIL: ${{ variables.['DJANGO_SUPERUSER_EMAIL'] }}
-      DJANGO_SUPERUSER_PASSWORD: ${{ variables.['DJANGO_SUPERUSER_PASSWORD'] }}
+      SECRET_KEY: $(secretKey)
+      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)

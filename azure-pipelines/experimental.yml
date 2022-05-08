@@ -37,11 +37,14 @@ stages:
           - template: steps/checkout_submodules.yml
             parameters:
               submodule: django_webapp
+              checkoutSelf: false
+              recursive: false
+              debug: false
 
           - template: steps/build_webapp_experimental.yml
             parameters:
               azureSubscription: 'django_gh'
               resourceGroupName: 'django_gh'
-              projectRoot: '$(System.DefaultWorkingDirectory)/django_webapp'
+              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
               pythonVersion: '3.9'
               debug: true
