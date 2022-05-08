@@ -16,11 +16,13 @@ steps:
       azureSubscription: ${{ parameters.azureSubscription }}
       ScriptType: 'InlineScript'
       Inline: |
-        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.resourceGroupName }}"
+        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName $(resourceGroupName)
         $APPLICATIONINSIGHTS_CONNECTION_STRING = $appInsightResource.ConnectionString
         Write-Host "##vso[task.setvariable variable=connectionString;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
       azurePowerShellVersion: 'LatestVersion'
       pwsh: true
+    env:
+      resourceGroupName: ${{ parameters.resourceGroupName }}
 
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ parameters.pythonVersion }}'
@@ -34,7 +36,7 @@ steps:
           echo "AZURESUBSCRIPTION: $AZURESUBSCRIPTION"
           echo "RESOURCEGROUPNAME: $RESOURCEGROUPNAME"
           echo "PROJECTROOT: $PROJECTROOT"
-          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)"
           echo "DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL"
           echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"
           echo "With 'set':"
