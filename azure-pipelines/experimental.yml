@@ -40,7 +40,8 @@ stages:
 
           - template: steps/build_webapp_experimental.yml
             parameters:
-              # azureSubscription: django_gh
-              # resourceGroupName: django_gh
-              # projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
+              azureSubscription: ${{ variables['azureSubscription'] }}
+              resourceGroupName: ${{ variables['resourceGroupName'] }}
+              projectRoot: ${{ variables['Build.SourcesDirectory'] }}
+              pythonVersion: ${{ variables['pythonVersion'] }}
               debug: true

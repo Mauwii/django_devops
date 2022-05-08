@@ -1,11 +1,8 @@
 parameters:
   - name: azureSubscription
-    default: ${{ variables['azureSubscription'] }}
   - name: resourceGroupName
-  - name: pythonVersion
-    default: ${{ variables['pythonVersion'] }}
   - name: projectRoot
-    default: ${{ variables['Build.SourcesDirectory'] }}
+  - name: pythonVersion
   - name: debug
     type: boolean
     default: false
