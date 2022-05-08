@@ -40,8 +40,8 @@ stages:
 
           - template: steps/build_webapp_experimental.yml
             parameters:
-              azureSubscription: ${{ variables.azureSubscription }}
-              resourceGroupName: ${{ variables.resourceGroupName }}
-              projectRoot: ${{ variables.projectRoot }}
-              pythonVersion: ${{ variables.pythonVersion }}
+              azureSubscription: $(azureSubscription)
+              resourceGroupName: $(resourceGroupName)
+              projectRoot: $(projectRoot)
+              pythonVersion: $(pythonVersion)
               debug: true
