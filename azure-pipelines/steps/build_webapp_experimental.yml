@@ -90,6 +90,7 @@ steps:
       source antenv/bin/activate
       python3 manage.py migrate
       python3 manage.py createsuperuser --noinput
+      python3 manage.py test
     workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'migrate and create superuser'
     env:
@@ -99,16 +100,31 @@ steps:
       DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - task: PythonScript@0
-    displayName: Run Tests
+    displayName: Run py Tests
     continueOnError: true
     inputs:
       scriptSource: filePath
       scriptPath: 'django_webapp/manage.py'
       arguments: test
       workingDirectory: ${{ parameters.projectRoot }}
-      pythonInterpreter: antenv/bin/python
+      # pythonInterpreter: antenv/bin/python
     env:
       PYTHONPATH: '${{ parameters.projectRoot }}/antenv/lib/python3.9:${{ parameters.projectRoot }}/antenv/lib/python3.9/site-packages'
+      SECRET_KEY: ${{ variables.secretKey }}
+      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
+
+  - script: |
+      export SECRET_KEY="$(secretKey)"
+      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
+      source antenv/bin/activate
+      env
+      set
+      python3 manage.py test
+    workingDirectory: ${{ parameters.projectRoot }}
+    displayName: 'script run tests'
+    env:
       SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
       DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)

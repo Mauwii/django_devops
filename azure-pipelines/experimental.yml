@@ -39,7 +39,7 @@ stages:
               submodule: django_webapp
               checkoutSelf: false
               recursive: false
-              debug: false
+              debug: true
 
           - template: steps/build_webapp_experimental.yml
             parameters:
