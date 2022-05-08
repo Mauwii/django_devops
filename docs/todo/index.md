@@ -5,11 +5,12 @@ title: ToDo
 ## :material-microsoft-azure-devops: Azure-Pipelines
 
 - [ ] Overwrite YAML Triggers for PR-Validation to prevent running them from other Branches
-- [ ] Add Check in PR-Validation before building the WebApp, to see if the Resources already exist, since keys get read out while building the App, which is failing if they don't exist at all
+- [ ] Add Check to PR-Validation ,before building the WebApp, to see if the Resources already exist, since keys get read out while building the App, which is failing if they don't exist at all
+    - [ ] alternative option would be to have those stuff in a keyvault
 - [ ] Update Documentation
     - [x] update [GitGraph Example](https://mauwii.github.io/django_devops/todo/#gitgraph-example)
     - [ ] update Workflow
-- [ ] Create Variable Template with integrated, Branch-based mutator
+- [ ] Create Variable Template with integrated, Branch-based 'mutator'
     - [ ] Build MkDocs for main branch as well, I guess this will need mike to work properly
 - [ ] use variables for default parameters in pipeline-templates
 

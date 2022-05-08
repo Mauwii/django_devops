@@ -109,7 +109,7 @@ steps:
       workingDirectory: ${{ parameters.projectRoot }}
       # pythonInterpreter: antenv/bin/python
     env:
-      PYTHONPATH: '${{ parameters.projectRoot }}/antenv/lib/python3.9:${{ parameters.projectRoot }}/antenv/lib/python3.9/site-packages'
+      PYTHONPATH: '${{ parameters.projectRoot }}/antenv/bin:${{ parameters.projectRoot }}/antenv/lib/python3.9/site-packages'
       SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
       DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
