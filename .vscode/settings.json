@@ -26,7 +26,7 @@
       "comments": false,
       "strings": true
     },
-    "editor.autoIndent": "full"
+    "editor.autoIndent": "advanced"
   },
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one",

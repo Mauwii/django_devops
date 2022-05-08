@@ -30,6 +30,23 @@ steps:
       versionSpec: ${{ parameters.pythonVersion }}
       addToPath: true
 
+  - script: |
+      python3 -m venv antenv
+    displayName: install antenv
+    workingDirectory: ${{ parameters.projectRoot }}
+
+  - script: |
+      source antenv/bin/activate
+      python3 -m pip install --upgrade pip setuptools wheel
+      python3 -m pip install -r requirements.txt
+    workingDirectory: ${{ parameters.projectRoot }}
+    displayName: 'Install tools and Requirements'
+    env:
+      SECRET_KEY: $(secretKey)
+      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
+
   - ${{ if eq(parameters.debug, true) }}:
       - script: |
           echo "Parameters:"
@@ -43,7 +60,7 @@ steps:
           set
           echo "With 'env':"
           env
-        displayName: script env
+        displayName: debug script env
         continueOnError: true
         env:
           SECRET_KEY: $(secretKey)
@@ -52,15 +69,14 @@ steps:
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
       - task: PythonScript@0
+        displayName: debug py ${{ parameters.pythonVersion }} environ
         continueOnError: true
-        displayName: Python environ
         inputs:
           script: |
             import sys
             import os
             print(os.environ)
           workingDirectory: ${{ parameters.projectRoot }}
-          pythonInterpreter: '/antenv/bin/python'
           scriptSource: inline
         env:
           SECRET_KEY: $(secretKey)
@@ -69,23 +85,11 @@ steps:
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - script: |
-      python3 -m venv antenv
       source antenv/bin/activate
-      python -m pip install --upgrade pip setuptools wheel
-      python -m pip install -r requirements.txt
+      python3 manage.py migrate
+      python3 manage.py createsuperuser --noinput
     workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Create antenv'
-    env:
-      SECRET_KEY: $(secretKey)
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
-      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
-
-  - script: |
-      python manage.py migrate
-      python manage.py createsuperuser --noinput
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Create antenv'
+    displayName: 'migrate and create superuser'
     env:
       SECRET_KEY: $(secretKey)
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
@@ -100,7 +104,6 @@ steps:
       scriptPath: manage.py
       arguments: test
       workingDirectory: ${{ parameters.projectRoot }}
-      pythonInterpreter: 'antenv/bin/python'
     env:
       SECRET_KEY: $(secretKey)
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
