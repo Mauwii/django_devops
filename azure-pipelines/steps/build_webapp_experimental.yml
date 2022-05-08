@@ -53,6 +53,7 @@ steps:
           echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"
           echo "SECRETKEY: $SECRETKEY"
           echo "SECRET_KEY: $SECRET_KEY"
+          echo "SECRET_KEY: $(secretKey)"
           echo "With 'set':"
           set
           echo "With 'env':"
