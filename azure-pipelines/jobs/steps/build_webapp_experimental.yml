@@ -27,9 +27,10 @@ steps:
       - script: |
           echo "Parameters:"
           echo "SECRETKEY: $SECRETKEY"                                         # no
-          echo "SECRET_KEY: $(SECRET_KEY)"                                     # no
-          echo "APPLICATIONINSIGHTS_CONNECTION_STRING:" %APPLICATIONINSIGHTS_CONNECTION_STRING%
-          ## --------------------------------------------------------------- ##
+          echo "secretKey: $secretKey"
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $APPLICATIONINSIGHTS_CONNECTION_STRING"
+          #### --------------------------------------------------------------- ####
+          echo "SECRET_KEY: $(SECRET_KEY)"                                    # yes
           echo "AZURESUBSCRIPTION: $AZURESUBSCRIPTION"                        # yes
           echo "RESOURCEGROUPNAME: $RESOURCEGROUPNAME"                        # yes
           echo "PROJECTROOT: $PROJECTROOT"                                    # yes
@@ -37,7 +38,7 @@ steps:
           echo "DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL"              # yes
           echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"        # yes
           echo "secretKey: $(secretKey)"                                      # yes
-          ## --------------------------------------------------------------- ##
+          #### --------------------------------------------------------------- ####
           echo "With 'set':"
           set
           echo "With 'env':"
@@ -47,7 +48,7 @@ steps:
         env:
           secretKey: $(secretKey)
           SECRET_KEY: $(SECRET_KEY)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+          APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
           DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
