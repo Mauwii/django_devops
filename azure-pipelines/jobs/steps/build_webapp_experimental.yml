@@ -23,30 +23,12 @@ steps:
     env:
       resourceGroupName: ${{ parameters.resourceGroupName }}
 
-  - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.pythonVersion }}'
-    inputs:
-      versionSpec: ${{ parameters.pythonVersion }}
-      addToPath: true
-
-  - script: |
-      python3 -m venv antenv
-    displayName: install antenv
-    workingDirectory: ${{ variables.projectRoot }}
-
-  - script: |
-      source antenv/bin/activate
-      python3 -m pip install --upgrade pip setuptools wheel
-      # python3 -m pip install -r requirements.txt
-      pip install -r requirements.txt
-    workingDirectory: ${{ variables.projectRoot }}
-    displayName: 'Install tools and Requirements'
-
   - ${{ if eq(parameters.debug, true) }}:
       - script: |
           echo "Parameters:"
           echo "SECRETKEY: $SECRETKEY"                                        # no
           echo "SECRET_KEY: $SECRET_KEY"                                      # no
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $APPLICATIONINSIGHTS_CONNECTION_STRING"
           ## --------------------------------------------------------------- ##
           echo "AZURESUBSCRIPTION: $AZURESUBSCRIPTION"                        # yes
           echo "RESOURCEGROUPNAME: $RESOURCEGROUPNAME"                        # yes
@@ -63,26 +45,29 @@ steps:
         displayName: debug script env
         continueOnError: true
         env:
-          SECRET_KEY: ${{ variables.secretKey }}
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
+          SECRET_KEY: $(secretKey)
+          APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
           DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
-      - task: PythonScript@0
-        displayName: debug py ${{ parameters.pythonVersion }} environ
-        continueOnError: true
-        inputs:
-          script: |
-            import sys
-            import os
-            print(os.environ)
-          workingDirectory: ${{ variables.projectRoot }}
-          scriptSource: inline
-        env:
-          SECRET_KEY: $(secretKey)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
-          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
+  - task: UsePythonVersion@0
+    displayName: 'Use Python ${{ parameters.pythonVersion }}'
+    inputs:
+      versionSpec: ${{ parameters.pythonVersion }}
+      addToPath: true
+
+  - script: |
+      python3 -m venv antenv
+    displayName: install antenv
+    workingDirectory: $(projectRoot)
+
+  - script: |
+      source antenv/bin/activate
+      python3 -m pip install --upgrade pip setuptools wheel
+      # python3 -m pip install -r requirements.txt
+      pip install -r requirements.txt
+    workingDirectory: $(projectRoot)
+    displayName: 'Install tools and Requirements'
 
   - script: |
       export SECRET_KEY="$(secretKey)"
@@ -91,7 +76,7 @@ steps:
       python3 manage.py migrate
       python3 manage.py createsuperuser --noinput
       python3 manage.py test
-    workingDirectory: ${{ variables.projectRoot }}
+    workingDirectory: $(projectRoot)
     displayName: 'migrate and create superuser'
     env:
       SECRET_KEY: ${{ variables.secretKey }}
@@ -106,10 +91,10 @@ steps:
       env
       set
       python3 manage.py test -v 3
-    workingDirectory: ${{ variables.projectRoot }}
+    workingDirectory: $(projectRoot)
     displayName: 'script run tests'
     env:
-      SECRET_KEY: ${{ variables.secretKey }}
+      SECRET_KEY: $(secretKey)
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
       DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
       DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
