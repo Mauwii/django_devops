@@ -41,11 +41,6 @@ steps:
       python3 -m pip install -r requirements.txt
     workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Install tools and Requirements'
-    env:
-      SECRET_KEY: $(secretKey)
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
-      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - ${{ if eq(parameters.debug, true) }}:
       - script: |
@@ -56,6 +51,8 @@ steps:
           echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)"
           echo "DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL"
           echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"
+          echo "SECRETKEY: $SECRETKEY"
+          echo "SECRET_KEY: $SECRET_KEY"
           echo "With 'set':"
           set
           echo "With 'env':"
@@ -63,7 +60,7 @@ steps:
         displayName: debug script env
         continueOnError: true
         env:
-          SECRET_KEY: $(secretKey)
+          SECRET_KEY: ${{ variables.secretKey }}
           APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
           DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
@@ -85,6 +82,7 @@ steps:
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - script: |
+      export SECRET_KEY="$(secretKey)"
       source antenv/bin/activate
       python3 manage.py migrate
       python3 manage.py createsuperuser --noinput
@@ -105,7 +103,7 @@ steps:
       arguments: test
       workingDirectory: ${{ parameters.projectRoot }}
     env:
-      SECRET_KEY: $(secretKey)
+      SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
       DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
       DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
