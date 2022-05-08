@@ -3,31 +3,45 @@ parameters:
   - name: resourceGroupName
   - name: projectRoot
   - name: pythonVersion
+    default: '3.9'
   - name: debug
     type: boolean
     default: false
 
 steps:
+  - task: UsePythonVersion@0
+    displayName: 'Use Python ${{ parameters.pythonVersion }}'
+    inputs:
+      versionSpec: ${{ parameters.pythonVersion }}
+      addToPath: true
+
   - ${{ if eq(parameters['debug'], true) }}:
-      - script: set
-        displayName: Show Variables
+      - script: |
+          echo "Parameters:"
+          echo "azureSubscription: " $(parameters.azureSubscription)
+          echo "resourceGroupName: " $(parameters.resourceGroupName)
+          echo "projectRoot: " $(parameters.projectRoot) \n
+          echo "With 'set':" \n
+          set
+          echo \n "With 'env':" \n
+          env
+        displayName: script env
         env:
           SECRET_KEY: ${{ variables.secretKey }}
           APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
           DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
           DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
-          TESTVALUE: foo
 
       - task: PythonScript@0
         continueOnError: true
-        displayName: Python print environ
+        displayName: Python environ
         inputs:
           script: |
             import sys
             import os
             print(os.environ)
-          workingDirectory: ${{ parameters.projectRoot }}
-          pythonInterpreter: '${{ parameters.projectRoot }}/antenv/bin/python'
+          workingDirectory: ${{ variables.projectRoot }}
+          pythonInterpreter: '/antenv/bin/python'
           scriptSource: inline
         env:
           SECRET_KEY: ${{ variables.secretKey }}
@@ -39,7 +53,7 @@ steps:
     displayName: 'Read Connection String'
     name: readAppInsights
     inputs:
-      azureSubscription: ${{ parameters.azureSubscription }}
+      azureSubscription: ${{ variables.azureSubscription }}
       ScriptType: 'InlineScript'
       Inline: |
         $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.resourceGroupName }}"
@@ -48,54 +62,39 @@ steps:
       azurePowerShellVersion: 'LatestVersion'
       pwsh: true
 
-  - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.pythonVersion }}'
-    inputs:
-      versionSpec: ${{ parameters.pythonVersion }}
-
   - script: |
       python3 -m venv antenv
       source antenv/bin/activate
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Create antenv'
-
-  - script: |
-      source antenv/bin/activate
       python -m pip install --upgrade pip setuptools wheel
-    displayName: 'Install tools'
-    workingDirectory: ${{ parameters.projectRoot }}
-
-  - script: |
-      source antenv/bin/activate
-      antenv/bin/python -m pip install -r requirements.txt
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Install requirements'
-
-  - script: |
-      source antenv/bin/activate
-      antenv/bin/python manage.py makemigrations
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Make Migrations'
+      python -m pip install -r requirements.txt
+    workingDirectory: ${{ variables.projectRoot }}
+    displayName: 'Create antenv'
     env:
       SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
+      DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
+      DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
 
   - script: |
-      source antenv/bin/activate
-
-      antenv/bin/python manage.py migrate
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Migrate'
+      python manage.py migrate
+      python manage.py createsuperuser --noinput
+    workingDirectory: ${{ variables.projectRoot }}
+    displayName: 'Create antenv'
     env:
       SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
+      DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
+      DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
 
-  - script: |
-      export SECRET_KEY=$(secretKey)
-      source antenv/bin/activate
-      antenv/bin/python manage.py createsuperuser --noinput
-    displayName: 'Create Superuser'
-    workingDirectory: ${{ parameters.projectRoot }}
+  - task: PythonScript@0
+    continueOnError: true
+    displayName: Run Tests
+    inputs:
+      scriptSource: filePath
+      scriptPath: manage.py
+      arguments: test
+      workingDirectory: ${{ variables.projectRoot }}
+      pythonInterpreter: 'antenv/bin/python'
     env:
       SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}

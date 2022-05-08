@@ -22,7 +22,7 @@ stages:
             parameters:
               update_submodule: true
 
-  - stage: Django
+  - stage: Experimental_Django
     dependsOn:
     jobs:
       - job: BuildDjango
@@ -42,6 +42,6 @@ stages:
             parameters:
               azureSubscription: 'django_gh'
               resourceGroupName: 'django_gh'
-              projectRoot: '$(System.DefaultWorkingDirectory)/django_webapp'
+              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
               pythonVersion: '3.9'
               debug: true
