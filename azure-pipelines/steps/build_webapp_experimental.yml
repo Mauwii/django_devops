@@ -1,13 +1,24 @@
 parameters:
   - name: azureSubscription
+    default: ${{ variables.azureSubscription }}
   - name: resourceGroupName
+    default: ${{ variables.resourceGroupName }}
   - name: pythonVersion
-    default: '3.9'
+    ${{ if eq(variables.pythonVersion, '') }}:
+      default: '3.9'
+    ${{ if ne(variables.pythonVersion, '') }}:
+      default: ${{ variables.pythonVersion }}
   - name: projectRoot
-    default: $(Build.SourcesDirectory)
+    ${{ if eq(variables.projectRoot, '') }}:
+      default: ${{ variables[System.DefaultWorkingDirectory] }}
+    ${{ if ne(variables.projectRoot, '') }}:
+      default: ${{ variables.projectRoot }}
   - name: debug
     type: boolean
-    default: false
+    ${{ if ne(variables.debug, 'true' ) }}:
+      default: false
+    ${{ if eq(variables.debug, 'true') }}:
+      default: true
 
 steps:
   - task: AzurePowerShell@5
@@ -50,28 +61,28 @@ steps:
       - script: set
         displayName: Show Variables
         env:
-          SECRET_KEY: $(secretKey)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
+          SECRET_KEY: ${{ variables.secretKey }}
+          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
+          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
           TESTVALUE: foo
 
       - task: PythonScript@0
         continueOnError: true
         displayName: Python print environ
-        env:
-          SECRET_KEY: $(secretKey)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
         inputs:
-          workingDirectory: ${{ parameters.projectRoot }}
-          pythonInterpreter: '${{ parameters.projectRoot }}/antenv/bin/python'
-          scriptSource: inline
           script: |
             import sys
             import os
             print(os.environ)
+          workingDirectory: ${{ parameters.projectRoot }}
+          pythonInterpreter: '${{ parameters.projectRoot }}/antenv/bin/python'
+          scriptSource: inline
+        env:
+          SECRET_KEY: ${{ variables.secretKey }}
+          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
+          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
 
   - script: |
       source antenv/bin/activate
@@ -81,13 +92,12 @@ steps:
     workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Make Migrations'
     env:
-      SECRET_KEY: '$(secretKey)'
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
+      SECRET_KEY: ${{ variables.secretKey }}
+      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
 
   - script: |
       source antenv/bin/activate
-      export SECRET_KEY="$(secretKey)"
-      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
+
       antenv/bin/python manage.py migrate
     workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Migrate'
@@ -97,16 +107,12 @@ steps:
 
   - script: |
       export SECRET_KEY=$(secretKey)
-      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
-      export DJANGO_SUPERUSER_USERNAME="$(DJANGO_SUPERUSER_USERNAME)"
-      export DJANGO_SUPERUSER_EMAIL="$(DJANGO_SUPERUSER_EMAIL)"
-      export DJANGO_SUPERUSER_PASSWORD="$(DJANGO_SUPERUSER_PASSWORD)"
       source antenv/bin/activate
       antenv/bin/python manage.py createsuperuser --noinput
     displayName: 'Create Superuser'
     workingDirectory: ${{ parameters.projectRoot }}
     env:
-      SECRET_KEY: $(secretKey)
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
+      SECRET_KEY: ${{ variables.secretKey }}
+      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
+      DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
+      DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}

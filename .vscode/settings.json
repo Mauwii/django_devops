@@ -1,19 +1,24 @@
 {
   "yaml.schemas": {
     "https://squidfunk.github.io/mkdocs-material/schema.json": "mkdocs.yml",
-    "https://json.schemastore.org/prettierrc.json": ".prettierrc",
     "https://json.schemastore.org/github-issue-config.json": ".github/ISSUE_TEMPLATE/config.yml",
-    "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/main/service-schema.json": "azure-pipelines/**/*.yml"
+    "https://github.com/microsoft/azure-pipelines-vscode/raw/main/service-schema.json": [
+      "${workspaceFolder}//azure-pipelines//**//*.yml",
+      "${workspaceFolder}//azure-pipelines.yml"
+    ]
   },
   "files.associations": {
     "**/azure-pipelines/**/*.yml": "azure-pipelines"
   },
+  "azure-pipelines.configure": true,
   "azure-pipelines.customSchemaFile": ".vscode/azure-pipelines-schema.json",
   "[azure-pipelines]": {
     "editor.detectIndentation": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
-    "gitlens.codeLens.scopes": ["document"],
+    "gitlens.codeLens.scopes": [
+      "document"
+    ],
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.quickSuggestions": {

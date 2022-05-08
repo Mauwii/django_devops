@@ -35,9 +35,9 @@ stages:
             parameters:
               submodule: django_webapp
 
-          - template: steps/build_webapp.yml
+          - template: steps/build_webapp_experimental.yml
             parameters:
-              azureSubscription: django_gh
-              resourceGroupName: django_gh
-              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
-              debug: false
+              # azureSubscription: django_gh
+              # resourceGroupName: django_gh
+              # projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
+              debug: true
