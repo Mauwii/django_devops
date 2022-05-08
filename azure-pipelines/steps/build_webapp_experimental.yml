@@ -44,6 +44,7 @@ steps:
           echo "With 'env':"
           env
         displayName: script env
+        continueOnError: true
         env:
           SECRET_KEY: $(secretKey)
           APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
@@ -72,7 +73,7 @@ steps:
       source antenv/bin/activate
       python -m pip install --upgrade pip setuptools wheel
       python -m pip install -r requirements.txt
-    workingDirectory: ${{ variables.projectRoot }}
+    workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Create antenv'
     env:
       SECRET_KEY: $(secretKey)
@@ -98,7 +99,7 @@ steps:
       scriptSource: filePath
       scriptPath: manage.py
       arguments: test
-      workingDirectory: ${{ variables.projectRoot }}
+      workingDirectory: ${{ parameters.projectRoot }}
       pythonInterpreter: 'antenv/bin/python'
     env:
       SECRET_KEY: $(secretKey)
