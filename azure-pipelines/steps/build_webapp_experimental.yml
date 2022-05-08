@@ -18,9 +18,12 @@ steps:
   - ${{ if eq(parameters['debug'], true) }}:
       - script: |
           echo "Parameters:"
-          echo "azureSubscription: " $(parameters.azureSubscription)
-          echo "resourceGroupName: " $(parameters.resourceGroupName)
-          echo "projectRoot: " $(parameters.projectRoot) \n
+          echo "azureSubscription: $AZURESUBSCRIPTION"
+          echo "resourceGroupName: $RESOURCEGROUPNAME"
+          echo "projectRoot: $PROJECTROOT"
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $APPLICATIONINSIGHTS_CONNECTION_STRING"
+          echo "DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL"
+          echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"
           echo "With 'set':" \n
           set
           echo \n "With 'env':" \n
@@ -28,9 +31,9 @@ steps:
         displayName: script env
         env:
           SECRET_KEY: ${{ variables.secretKey }}
-          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
-          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
-          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
+          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables['APPLICATIONINSIGHTS_CONNECTION_STRING'] }}
+          DJANGO_SUPERUSER_EMAIL: ${{ variables['DJANGO_SUPERUSER_EMAIL'] }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ variables['DJANGO_SUPERUSER_PASSWORD'] }}
 
       - task: PythonScript@0
         continueOnError: true
@@ -40,7 +43,7 @@ steps:
             import sys
             import os
             print(os.environ)
-          workingDirectory: ${{ variables.projectRoot }}
+          workingDirectory: ${{ parameters.projectRoot }}
           pythonInterpreter: '/antenv/bin/python'
           scriptSource: inline
         env:
@@ -53,7 +56,7 @@ steps:
     displayName: 'Read Connection String'
     name: readAppInsights
     inputs:
-      azureSubscription: ${{ variables.azureSubscription }}
+      azureSubscription: ${{ variables['azureSubscription'] }}
       ScriptType: 'InlineScript'
       Inline: |
         $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.resourceGroupName }}"
@@ -97,6 +100,6 @@ steps:
       pythonInterpreter: 'antenv/bin/python'
     env:
       SECRET_KEY: ${{ variables.secretKey }}
-      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
-      DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
-      DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
+      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.['connectionString'] }}
+      DJANGO_SUPERUSER_EMAIL: ${{ variables.['DJANGO_SUPERUSER_EMAIL'] }}
+      DJANGO_SUPERUSER_PASSWORD: ${{ variables.['DJANGO_SUPERUSER_PASSWORD'] }}
