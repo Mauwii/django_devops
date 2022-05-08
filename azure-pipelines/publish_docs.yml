@@ -14,7 +14,7 @@ variables:
 
 steps:
   # update MkDocs-Material Submodule
-  - template: steps/checkout_submodules.yml
+  - template: jobs/steps/checkout_submodules.yml
     parameters:
       submodules:
         - mkdocs-material

@@ -18,7 +18,7 @@ stages:
         dependsOn:
 
         steps:
-          - template: steps/build_mkdocs.yml
+          - template: jobs/steps/build_mkdocs.yml
             parameters:
               update_submodule: true
 
@@ -34,14 +34,14 @@ stages:
           - group: django-superuser
 
         steps:
-          - template: steps/checkout_submodules.yml
+          - template: jobs/steps/checkout_submodules.yml
             parameters:
               submodule: django_webapp
               checkoutSelf: false
               recursive: false
               debug: true
 
-          - template: steps/build_webapp_experimental.yml
+          - template: jobs/steps/build_webapp_experimental.yml
             parameters:
               azureSubscription: 'django_gh'
               resourceGroupName: 'django_gh'
