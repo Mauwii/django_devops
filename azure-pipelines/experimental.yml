@@ -40,8 +40,8 @@ stages:
 
           - template: steps/build_webapp_experimental.yml
             parameters:
-              azureSubscription: $(azureSubscription)
-              resourceGroupName: $(resourceGroupName)
-              projectRoot: $(projectRoot)
-              pythonVersion: $(pythonVersion)
+              azureSubscription: '$(django_gh)'
+              resourceGroupName: '$(resourceGroupName)'
+              projectRoot: '$(projectRoot)'
+              pythonVersion: '$(pythonVersion)'
               debug: true
