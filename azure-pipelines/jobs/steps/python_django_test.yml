@@ -46,6 +46,7 @@ steps:
       pip install -r requirements.txt
       pip install unittest-xml-reporting
     displayName: 'Install prerequisites'
+    workingDirectory: $(projectRoot)
 
   - script: |
       pushd '$(projectRoot)'
