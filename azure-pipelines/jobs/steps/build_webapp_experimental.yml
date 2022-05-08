@@ -1,7 +1,6 @@
 parameters:
   - name: azureSubscription
   - name: resourceGroupName
-  - name: projectRoot
   - name: pythonVersion
     default: '3.9'
   - name: debug
@@ -33,13 +32,14 @@ steps:
   - script: |
       python3 -m venv antenv
     displayName: install antenv
-    workingDirectory: ${{ parameters.projectRoot }}
+    workingDirectory: ${{ variables.projectRoot }}
 
   - script: |
       source antenv/bin/activate
       python3 -m pip install --upgrade pip setuptools wheel
-      python3 -m pip install -r requirements.txt
-    workingDirectory: ${{ parameters.projectRoot }}
+      # python3 -m pip install -r requirements.txt
+      pip install -r requirements.txt
+    workingDirectory: ${{ variables.projectRoot }}
     displayName: 'Install tools and Requirements'
 
   - ${{ if eq(parameters.debug, true) }}:
@@ -76,7 +76,7 @@ steps:
             import sys
             import os
             print(os.environ)
-          workingDirectory: ${{ parameters.projectRoot }}
+          workingDirectory: ${{ variables.projectRoot }}
           scriptSource: inline
         env:
           SECRET_KEY: $(secretKey)
@@ -91,25 +91,9 @@ steps:
       python3 manage.py migrate
       python3 manage.py createsuperuser --noinput
       python3 manage.py test
-    workingDirectory: ${{ parameters.projectRoot }}
+    workingDirectory: ${{ variables.projectRoot }}
     displayName: 'migrate and create superuser'
     env:
-      SECRET_KEY: ${{ variables.secretKey }}
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
-      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
-
-  - task: PythonScript@0
-    displayName: Run py Tests
-    continueOnError: true
-    inputs:
-      scriptSource: filePath
-      scriptPath: 'django_webapp/manage.py'
-      arguments: test
-      workingDirectory: ${{ parameters.projectRoot }}
-      # pythonInterpreter: antenv/bin/python
-    env:
-      PYTHONPATH: '${{ parameters.projectRoot }}/antenv/bin:${{ parameters.projectRoot }}/antenv/lib/python3.9/site-packages'
       SECRET_KEY: ${{ variables.secretKey }}
       APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
       DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
@@ -122,7 +106,7 @@ steps:
       env
       set
       python3 manage.py test -v 3
-    workingDirectory: ${{ parameters.projectRoot }}
+    workingDirectory: ${{ variables.projectRoot }}
     displayName: 'script run tests'
     env:
       SECRET_KEY: ${{ variables.secretKey }}

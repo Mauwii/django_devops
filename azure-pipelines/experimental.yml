@@ -45,6 +45,5 @@ stages:
             parameters:
               azureSubscription: 'django_gh'
               resourceGroupName: 'django_gh'
-              projectRoot: '$(System.DefaultWorkingDirectory)/django_webapp'
               pythonVersion: '3.9'
-              debug: false
+              debug: true
