@@ -53,6 +53,8 @@ stages:
         dependsOn:
         variables:
           - group: django-dev
+          - name: PYTHON_VERSION
+            value: '3.9'
         steps:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
