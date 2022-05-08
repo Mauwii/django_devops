@@ -49,11 +49,14 @@ steps:
     workingDirectory: $(projectRoot)
 
   - script: |
+      set SECRET_KEY=%SECRET_KEY
+      set APPLICATIONINSIGHTS_CONNECTION_STRING=%APPLICATIONINSIGHTS_CONNECTION_STRING%
       pushd '$(projectRoot)'
       python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
     displayName: 'Run tests'
     env:
-      SECRET_KEY: ${{ variables.SECRET_KEY }}
+      SECRET_KEY: $(SECRET_KEY)
+      APPLICATIONINSIGHTS_CONNECTION_STRING: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
 
   - task: PublishTestResults@2
     inputs:
