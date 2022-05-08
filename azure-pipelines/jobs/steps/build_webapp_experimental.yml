@@ -26,9 +26,9 @@ steps:
   - ${{ if eq(parameters.debug, true) }}:
       - script: |
           echo "Parameters:"
-          echo "SECRETKEY: $SECRETKEY"                                        # no
-          echo "SECRET_KEY: $SECRET_KEY"                                      # no
-          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $APPLICATIONINSIGHTS_CONNECTION_STRING"
+          echo "SECRETKEY: %SECRETKEY%"                                        # no
+          echo "SECRET_KEY: %SECRET_KEY%"                                      # no
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: %APPLICATIONINSIGHTS_CONNECTION_STRING%"
           ## --------------------------------------------------------------- ##
           echo "AZURESUBSCRIPTION: $AZURESUBSCRIPTION"                        # yes
           echo "RESOURCEGROUPNAME: $RESOURCEGROUPNAME"                        # yes
@@ -45,7 +45,7 @@ steps:
         displayName: debug script env
         continueOnError: true
         env:
-          SECRET_KEY: $(secretKey)
+          SECRET_KEY: ${{ variables.secretKey }}
           APPLICATIONINSIGHTS_CONNECTION_STRING: $(readAppInsights.connectionString)
           DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
           DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
