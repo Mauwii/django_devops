@@ -1,26 +1,53 @@
 parameters:
   - name: azureSubscription
-    default: ${{ variables.azureSubscription }}
+    default: ${{ variables['azureSubscription'] }}
   - name: resourceGroupName
-    default: ${{ variables.resourceGroupName }}
+    default: ${{ variables['resourceGroupName'] }}
   - name: pythonVersion
-    ${{ if eq(variables.pythonVersion, '') }}:
+    ${{ if eq(variables['pythonVersion'], '') }}:
       default: '3.9'
-    ${{ if ne(variables.pythonVersion, '') }}:
-      default: ${{ variables.pythonVersion }}
+    ${{ if ne(variables['pythonVersion'], '') }}:
+      default: ${{ variables['pythonVersion'] }}
   - name: projectRoot
-    ${{ if eq(variables.projectRoot, '') }}:
-      default: ${{ variables[System.DefaultWorkingDirectory] }}
-    ${{ if ne(variables.projectRoot, '') }}:
-      default: ${{ variables.projectRoot }}
+    ${{ if eq(variables['projectRoot'], '') }}:
+      default: ${{ variables['System.DefaultWorkingDirectory'] }}
+    ${{ if ne(variables['projectRoot'], '') }}:
+      default: ${{ variables['projectRoot'] }}
   - name: debug
     type: boolean
-    ${{ if ne(variables.debug, 'true' ) }}:
+    ${{ if ne(variables['debug'], 'true' ) }}:
       default: false
-    ${{ if eq(variables.debug, 'true') }}:
+    ${{ if eq(variables['debug'], 'true') }}:
       default: true
 
 steps:
+  - ${{ if eq(parameters['debug'], true) }}:
+      - script: set
+        displayName: Show Variables
+        env:
+          SECRET_KEY: ${{ variables.secretKey }}
+          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
+          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
+          TESTVALUE: foo
+
+      - task: PythonScript@0
+        continueOnError: true
+        displayName: Python print environ
+        inputs:
+          script: |
+            import sys
+            import os
+            print(os.environ)
+          workingDirectory: ${{ parameters.projectRoot }}
+          pythonInterpreter: '${{ parameters.projectRoot }}/antenv/bin/python'
+          scriptSource: inline
+        env:
+          SECRET_KEY: ${{ variables.secretKey }}
+          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
+          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
+
   - task: AzurePowerShell@5
     displayName: 'Read Connection String'
     name: readAppInsights
@@ -57,37 +84,8 @@ steps:
     workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Install requirements'
 
-  - ${{ if eq(parameters.debug, true) }}:
-      - script: set
-        displayName: Show Variables
-        env:
-          SECRET_KEY: ${{ variables.secretKey }}
-          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
-          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
-          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
-          TESTVALUE: foo
-
-      - task: PythonScript@0
-        continueOnError: true
-        displayName: Python print environ
-        inputs:
-          script: |
-            import sys
-            import os
-            print(os.environ)
-          workingDirectory: ${{ parameters.projectRoot }}
-          pythonInterpreter: '${{ parameters.projectRoot }}/antenv/bin/python'
-          scriptSource: inline
-        env:
-          SECRET_KEY: ${{ variables.secretKey }}
-          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
-          DJANGO_SUPERUSER_EMAIL: ${{ variables.DJANGO_SUPERUSER_EMAIL }}
-          DJANGO_SUPERUSER_PASSWORD: ${{ variables.DJANGO_SUPERUSER_PASSWORD }}
-
   - script: |
       source antenv/bin/activate
-      export SECRET_KEY="$(secretKey)"
-      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
       antenv/bin/python manage.py makemigrations
     workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Make Migrations'
@@ -102,8 +100,8 @@ steps:
     workingDirectory: ${{ parameters.projectRoot }}
     displayName: 'Migrate'
     env:
-      SECRET_KEY: '$(secretKey)'
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
+      SECRET_KEY: ${{ variables.secretKey }}
+      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ variables.connectionString }}
 
   - script: |
       export SECRET_KEY=$(secretKey)
