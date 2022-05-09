@@ -11,12 +11,12 @@ pool:
 
 variables:
   - name: submodules
-    value: mkdocs-material
+    value: 'mkdocs-material'
 
 steps:
   - template: jobs/steps/build_mkdocs.yml
     parameters:
-      PYTHON_VERSION: 3.9
+      PYTHON_VERSION: '3.9'
       update_submodule: true
 
   - task: Bash@3
