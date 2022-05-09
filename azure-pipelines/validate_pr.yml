@@ -28,20 +28,24 @@ stages:
   - stage: BuildWebApp
     dependsOn:
     displayName: Build and Test
+
     jobs:
       - job: BuildWebApp
         displayName: Build Django
         variables:
           - group: django-superuser
+
         steps:
-          - template: steps/checkout_submodules.yml
+          - template: jobs/steps/checkout_submodules.yml
             parameters:
               submodules:
                 - django_webapp
-          - template: steps/build_webapp.yml
+
+          - template: jobs/steps/build_webapp.yml
             parameters:
               azureSubscription: django_gh
               resourceGroupName: django_gh
               projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
               debug: false
-          - template: steps/run_tests.yml
+
+          - template: jobs/steps/run_tests.yml

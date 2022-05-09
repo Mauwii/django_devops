@@ -1,0 +1,27 @@
+# only publishing Docs of stable release for now - maybe I integrate 'mike' later
+trigger:
+  - stable
+  - main
+
+# don't trigger for pull requests
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: submodules
+    value: 'mkdocs-material'
+
+steps:
+  - template: jobs/steps/build_mkdocs.yml
+    parameters:
+      PYTHON_VERSION: '3.9'
+      update_submodule: true
+
+  - task: Bash@3
+    displayName: 'Deploy to GitHub-Pages'
+    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+    inputs:
+      targetType: 'inline'
+      script: 'mkdocs gh-deploy --force --clean'

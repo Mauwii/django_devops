@@ -1,76 +1,34 @@
 ---
 title: ToDo
-icon: material/tooltip-edit-outline
-hide:
-  - navigation
 ---
 
-Integrate better Branching Strategy:
-  
-|     instance     | Branch name            |              Protected Branch               | Create From         |
-| :--------------: | :--------------------- | :-----------------------------------------: | :------------------ |
-| feature-branches | feature/* <br> issue/* |                      -                      | from Head of main   |
-|  working branch  | main                   | only from feature/* <br> issue/* and hotfix | Pull-Request only   |
-|      hotfix      | hotfix/*               |                      -                      | from Head of stable |
-|     release      | stable                 |           only by main and hotfix           | Pull-Request only   |
+## :material-microsoft-azure-devops: Azure-Pipelines
 
-Main branch is used as the working branch. To develope new features, create branch from main branch called `feature/<jira-id>-<feature-name>` for new features, or `issue/<jira-id>` when solving a issue. When development of the feature or issue is done, merge it back into the main branch with a pull request.
+- [ ] Overwrite YAML Triggers for PR-Validation to prevent running them from other Branches
+- [ ] Add Check to PR-Validation ,before building the WebApp, to see if the Resources already exist, since keys get read out while building the App, which is failing if they don't exist at all
+    - [ ] alternative option would be to have those stuff in a keyvault
+- [ ] Update Documentation
+    - [x] update [GitGraph Example](https://mauwii.github.io/django_devops/todo/#gitgraph-example)
+    - [ ] update Workflow
+- [ ] Create branch dependent Variable Templates which could be selected via expressions
+    - [ ] Build MkDocs for main branch as well, not sure if  this will need mike to work properly or if I can have more Gh-Pages Environments (4 free...)
+- [ ] use variables for default parameters in pipeline-templates
 
-When time has come for a release, create a pull request to merge main into stable.
+maybe not necessary anymore after Idea to prevent problems at PR-Validation with overwriting yaml triggers in Azure-Pipelines
 
-For bigger problems, like f.E. a zero-day, create a branch from stable and name it `hotfix/<jira-id>` and try to fix the issue asap. When done, merge this hotfix back into stable as well as into main.
+- [ ] Make Separate Pipelines for Pull-Request Validation
+    - [ ] also check if it is running from correct branch, otherwise fail
+    - [ ] checkout corresponding Branch from where the Check should be done before verification is done, otherwise easy hackable
 
-### Flowchart
+## :material-lightbulb-on: Ideas
 
-```` mermaid
-  graph LR
-    dev --> main;
-    main -.-> dev;
-    main --> stable;
-    stable -.-> hotfix;
-    hotfix --> stable & main;
-````
+Since the Human Brain not always works as well as cloud-storage, I will write down some Ideas here. This also has the Advantage that other's could directly correct or improve them, or maybe even take advantage from them as well :smile:
 
-### GitGraph example
-
-``` mermaid
-    gitGraph
-        commit
-        branch stable
-        checkout stable
-        commit tag: "v1"
-        checkout main
-        branch feature-1
-        checkout feature-1
-        commit
-        commit
-        checkout main
-        branch feature-2
-        checkout feature-2
-        commit
-        checkout main
-        merge feature-1
-        checkout feature-2
-        commit
-        checkout stable
-        branch hotfix-1
-        commit
-        commit
-        checkout main
-        merge hotfix-1
-        checkout stable
-        merge hotfix-1
-        checkout stable
-        commit tag: "v1-hotfix"
-        checkout feature-2
-        commit
-        checkout main
-        merge feature-2
-        checkout stable
-        merge main
-        commit tag: "v2"
-```
-
-### Automation
-
-Of course the approach is to have as much automated as possible, which also means that pull-request should in the end get tested and resolved by themselves (...or the help of Azure-Pipelines :material-microsoft-azure-devops:)
+- add a comparing check to validate_pr to compare if a pipeline yaml has changed and fail if was changed but allow changes by owner
+    - files to check:
+        - azure-pipelines.yml
+        - azure-pipelines/validate_pr.yml
+        - .vscode/*
+- integrate publish_docs into azure-pipelines.yml
+- create a src older and move submodules of mkdocs-material and django_webapp into it
+    - search/replace old file path with the new one
