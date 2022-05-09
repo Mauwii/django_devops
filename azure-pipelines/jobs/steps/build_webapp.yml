@@ -1,7 +1,7 @@
 parameters:
-  - name: azureSubscription
-  - name: resourceGroupName
-  - name: pythonVersion
+  - name: AzureSubscription
+  - name: ResourceGroupName
+  - name: PythonVersion
     default: '3.9'
   - name: projectRoot
     default: $(Build.SourcesDirectory)
@@ -14,19 +14,19 @@ steps:
     displayName: 'Read Connection String'
     name: readAppInsights
     inputs:
-      azureSubscription: ${{ parameters.azureSubscription }}
+      azureSubscription: ${{ parameters.AzureSubscription }}
       ScriptType: 'InlineScript'
       Inline: |
-        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.resourceGroupName }}"
+        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.ResourceGroupName }}"
         $APPLICATIONINSIGHTS_CONNECTION_STRING = $appInsightResource.ConnectionString
         Write-Host "##vso[task.setvariable variable=connectionString;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
       azurePowerShellVersion: 'LatestVersion'
       pwsh: true
 
   - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.pythonVersion }}'
+    displayName: 'Use Python ${{ parameters.PythonVersion }}'
     inputs:
-      versionSpec: ${{ parameters.pythonVersion }}
+      versionSpec: ${{ parameters.PythonVersion }}
 
   - script: |
       python3 -m venv antenv

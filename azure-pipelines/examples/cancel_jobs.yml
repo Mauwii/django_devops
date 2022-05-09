@@ -1,4 +1,4 @@
-# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml#ive-got-a-conditional-step-that-runs-even-when-a-job-is-canceled-how-do-i-manage-to-cancel-all-jobs-at-once
+# https://docs.microsoft.com/en-us/azure/devops/azure-pipelines/process/conditions?view=azure-devops&tabs=yaml#ive-got-a-conditional-step-that-runs-even-when-a-job-is-canceled-how-do-i-manage-to-cancel-all-jobs-at-once
 
 stages:
   - stage: Stage1
