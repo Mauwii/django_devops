@@ -49,11 +49,11 @@ stages:
               # debug: true
           - template: jobs/steps/get_appinsights_con_str.yml
             parameters:
-              azureSubscription: $[ variables.azureSubscription ]
-              resourceGroupName: $[ variables.resourceGroup ]
+              azureSubscription: $(azureSubscription)
+              resourceGroupName: $(resourceGroupName)
           - template: jobs/steps/build_webapp_experimental.yml
             parameters:
-              pythonVersion: $[ variables.pythonVersion ]
+              pythonVersion: $(pythonVersion)
               debug: true
 
   - stage: Experimental_Django_Test
