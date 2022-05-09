@@ -3,7 +3,11 @@
 trigger:
   branches:
     include:
-      - feature/experimental/*
+      - main
+      - feature/*
+
+pr:
+  - main
 
 pool:
   vmImage: ubuntu-latest

@@ -14,6 +14,16 @@ pr:
 variables:
   - group: django_gh
   - group: django-dev
+  - group: django-superuser
+  - group: django_gh
+  - name: pythonVersion
+    value: '3.9'
+  - name: resourceGroupName
+    value: 'django_gh'
+  - name: location
+    value: 'westeurope'
+  - name: azureSubscription
+    value: 'django_gh'
 
 pool:
   vmImage: ubuntu-latest
