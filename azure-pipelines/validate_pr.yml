@@ -13,9 +13,6 @@ pr:
 
 variables:
   - group: django_gh
-  - group: django-dev
-  - group: django-superuser
-  - group: django_gh
   - name: pythonVersion
     value: '3.9'
   - name: resourceGroupName
@@ -44,18 +41,24 @@ stages:
         displayName: Build Django
         variables:
           - group: django-superuser
+          - group: django-dev
 
         steps:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
-              submodules:
-                - django_webapp
+              submodule: django_webapp
+
+          - template: jobs/steps/get_appinsights_con_str.yml
+            parameters:
+              azureSubscription: $(azureSubscription)
+              resourceGroupName: $(resourceGroupName)
 
           - template: jobs/steps/build_webapp.yml
             parameters:
-              azureSubscription: django_gh
-              resourceGroupName: django_gh
-              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
-              debug: false
+              pythonVersion: $(pythonVersion)
+              debug: true
 
-          - template: jobs/steps/run_tests.yml
+          - template: jobs/steps/python_django_test_experimental.yml
+            parameters:
+              PYTHON_VERSIONS:
+                - $(pythonVersion)
