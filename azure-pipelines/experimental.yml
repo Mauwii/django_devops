@@ -49,8 +49,8 @@ stages:
               # debug: true
           - template: jobs/steps/get_appinsights_con_str.yml
             parameters:
-              azureSubscription: ${{ variables.azureSubscription }}
-              resourceGroupName: ${{ variables.resourceGroup }}
+              azureSubscription: $[variables.azureSubscription]
+              resourceGroupName: $[variables.resourceGroup]
           - template: jobs/steps/build_webapp_experimental.yml
             parameters:
               pythonVersion: ${{ variables.pythonVersion }}
@@ -69,7 +69,7 @@ stages:
             parameters:
               submodule: django_webapp
 
-          - template: jobs/steps/python_django_test.yml
+          - template: jobs/steps/python_django_test_experimental.yml
             parameters:
               PYTHON_VERSIONS:
                 - 3.10
