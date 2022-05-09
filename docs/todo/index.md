@@ -2,17 +2,22 @@
 title: ToDo
 ---
 
+## Documentation :see_no_evil:
+
+    - [ ] Build MkDocs for main branch as well, not sure if  this will need mike to work properly or if I can have more Gh-Pages Environments (4 free...)
+- [ ] Update Documentation (ongoing :see_no_evil:)
+
 ## :material-microsoft-azure-devops: Azure-Pipelines
 
-- [ ] Overwrite YAML Triggers for PR-Validation to prevent running them from other Branches
+- [ ] Use a naming Convention
+    - [ ] maybe even test if it is followed by RegEx
+- [ ] use variables for default parameters in pipeline-templates
+- [ ] Overwrite YAML Triggers for Main pipeline (azure-pipeline.yml) to prevent running it from other Branches
+- [ ] update Workflow Chart
 - [ ] Add Check to PR-Validation ,before building the WebApp, to see if the Resources already exist, since keys get read out while building the App, which is failing if they don't exist at all
     - [ ] alternative option would be to have those stuff in a keyvault
-- [ ] Update Documentation
-    - [x] update [GitGraph Example](https://mauwii.github.io/django_devops/todo/#gitgraph-example)
-    - [ ] update Workflow
 - [ ] Create branch dependent Variable Templates which could be selected via expressions
-    - [ ] Build MkDocs for main branch as well, not sure if  this will need mike to work properly or if I can have more Gh-Pages Environments (4 free...)
-- [ ] use variables for default parameters in pipeline-templates
+- [x] update [GitGraph Example](https://mauwii.github.io/django_devops/todo/#gitgraph-example)
 
 maybe not necessary anymore after Idea to prevent problems at PR-Validation with overwriting yaml triggers in Azure-Pipelines
 
