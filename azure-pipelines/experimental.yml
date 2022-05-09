@@ -47,7 +47,7 @@ stages:
               # checkoutSelf: false
               # recursive: false
               # debug: true
-          - template: jobs/steps/get_appinsights_con_str
+          - template: jobs/steps/get_appinsights_con_str.yml
             parameters:
               azureSubscription: ${{ variables.azureSubscription }}
               resourceGroupName: ${{ variables.resourceGroup }}
