@@ -1,112 +1,71 @@
 parameters:
-  - name: AzureSubscription
-  - name: ResourceGroupName
-  - name: PythonVersion
+  - name: pythonVersion
     default: '3.9'
-  - name: projectRoot
-    default: $(Build.SourcesDirectory)
   - name: debug
     type: boolean
     default: false
 
 steps:
-  - task: AzurePowerShell@5
-    displayName: 'Read Connection String'
-    name: readAppInsights
-    inputs:
-      azureSubscription: ${{ parameters.AzureSubscription }}
-      ScriptType: 'InlineScript'
-      Inline: |
-        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName "${{ parameters.ResourceGroupName }}"
-        $APPLICATIONINSIGHTS_CONNECTION_STRING = $appInsightResource.ConnectionString
-        Write-Host "##vso[task.setvariable variable=connectionString;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
-      azurePowerShellVersion: 'LatestVersion'
-      pwsh: true
+  - ${{ if eq(parameters.debug, true) }}:
+      - script: |
+          echo "Variables:"
+          echo "SECRET_KEY: $SECRET_KEY"                                                       # no
+          #### -------------------------------------------------------------------------------- ####
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $APPLICATIONINSIGHTS_CONNECTION_STRING" # yes
+          echo "connectionString: $connectionString"                                           # yes
+          echo "secretKey: $secretKey"                                                         # yes
+          echo "SECRET_KEY: $(SECRET_KEY)"                                                     # yes
+          echo "AZURESUBSCRIPTION: $AZURESUBSCRIPTION"                                         # yes
+          echo "RESOURCEGROUPNAME: $RESOURCEGROUPNAME"                                         # yes
+          echo "PROJECTROOT: $PROJECTROOT"                                                     # yes
+          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)"                    # yes
+          echo "DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL"                               # yes
+          echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"                         # yes
+          echo "secretKey: $(secretKey)"                                                       # yes
+          #### -------------------------------------------------------------------------------- ####
+          echo "With 'set':"
+          set
+          echo "With 'env':"
+          env
+        displayName: debug script env
+        continueOnError: true
+        env:
+          secretKey: $(secretKey)
+          SECRET_KEY: $(SECRET_KEY)
+          APPLICATIONINSIGHTS_CONNECTION_STRING: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
+          connectionString: $(connectionString)
+          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
+          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
 
   - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.PythonVersion }}'
+    displayName: 'Use Python ${{ parameters.pythonVersion }}'
     inputs:
-      versionSpec: ${{ parameters.PythonVersion }}
+      versionSpec: ${{ parameters.pythonVersion }}
+      addToPath: true
 
   - script: |
-      python3 -m venv antenv
+      python -m venv antenv
       source antenv/bin/activate
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Create antenv'
+      python -m pip install --upgrade pip
+      pip install setup
+      pip install -r requirements.txt
+    workingDirectory: $(projectRoot)
+    displayName: 'Install Requirements'
 
-  - script: |
-      source antenv/bin/activate
-      python -m pip install --upgrade pip setuptools wheel
-    displayName: 'Install tools'
-    workingDirectory: ${{ parameters.projectRoot }}
+  - task: ArchiveFiles@2
+    displayName: 'Archive files'
+    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+    inputs:
+      rootFolderOrFile: '$(projectRoot)'
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      replaceExistingArchive: true
 
-  - script: |
-      source antenv/bin/activate
-      antenv/bin/python -m pip install -r requirements.txt
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Install requirements'
-
-  - ${{ if eq(parameters.debug, true) }}:
-      - script: set
-        displayName: Show Variables
-        env:
-          SECRET_KEY: $(secretKey)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
-          TESTVALUE: foo
-
-      - task: PythonScript@0
-        continueOnError: true
-        displayName: Python print environ
-        env:
-          SECRET_KEY: $(secretKey)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
-        inputs:
-          workingDirectory: ${{ parameters.projectRoot }}
-          pythonInterpreter: '${{ parameters.projectRoot }}/antenv/bin/python'
-          scriptSource: inline
-          script: |
-            import sys
-            import os
-            print(os.environ)
-
-  - script: |
-      source antenv/bin/activate
-      export SECRET_KEY="$(secretKey)"
-      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
-      antenv/bin/python manage.py makemigrations
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Make Migrations'
-    env:
-      SECRET_KEY: '$(secretKey)'
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-
-  - script: |
-      source antenv/bin/activate
-      export SECRET_KEY="$(secretKey)"
-      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
-      antenv/bin/python manage.py migrate
-    workingDirectory: ${{ parameters.projectRoot }}
-    displayName: 'Migrate'
-    env:
-      SECRET_KEY: '$(secretKey)'
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-
-  - script: |
-      export SECRET_KEY=$(secretKey)
-      export APPLICATIONINSIGHTS_CONNECTION_STRING="$(connectionString)"
-      export DJANGO_SUPERUSER_USERNAME="$(DJANGO_SUPERUSER_USERNAME)"
-      export DJANGO_SUPERUSER_EMAIL="$(DJANGO_SUPERUSER_EMAIL)"
-      export DJANGO_SUPERUSER_PASSWORD="$(DJANGO_SUPERUSER_PASSWORD)"
-      source antenv/bin/activate
-      antenv/bin/python manage.py createsuperuser --noinput
-    displayName: 'Create Superuser'
-    workingDirectory: ${{ parameters.projectRoot }}
-    env:
-      SECRET_KEY: $(secretKey)
-      APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)
-      DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-      DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Build Artifact
+    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
