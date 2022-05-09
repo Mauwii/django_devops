@@ -1,20 +1,18 @@
 {
   "yaml.schemas": {
-    "https://squidfunk.github.io/mkdocs-material/schema.json": "mkdocs.yml",
-    "https://json.schemastore.org/github-issue-config.json": ".github/ISSUE_TEMPLATE/config.yml",
-    "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
-      "azure-pipelines/**/*.yml",
-      "azure-pipelines.yml"
-    ]
+    "https://squidfunk.github.io/mkdocs-material/schema.json": "*/mkdocs.yml",
+    "https://json.schemastore.org/github-issue-config.json": "*/.github/ISSUE_TEMPLATE/config.yml",
+    // "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
+    //   "/azure-pipelines/**/*.yml",
+    //   "/azure-pipelines.yml"
+    // ]
   },
   "yaml.format.singleQuote": true,
   "files.associations": {
     "**/azure-pipelines/**/*.yml": "azure-pipelines"
   },
   // "azure-pipelines.configure": true,
-  // "azure-pipelines.customSchemaFile": "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json",
   "[azure-pipelines]": {
-    "editor.detectIndentation": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.insertSpaces": true,
@@ -24,7 +22,7 @@
       "comments": false,
       "strings": true
     },
-    "editor.autoIndent": "advanced"
+    // "editor.autoIndent": "full"
   },
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one",

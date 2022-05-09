@@ -1,0 +1,17 @@
+## Get's the Connection String of a Application Insights Resource and outputs it as a secret variable connectionString
+
+steps:
+  - task: AzurePowerShell@5
+    displayName: 'Read Connection String'
+    name: readAppInsights
+    inputs:
+      azureSubscription: ${{ variables.azureSubscription }}
+      ScriptType: 'InlineScript'
+      Inline: |
+        $appInsightResource = Get-AzApplicationInsights -ResourceGroupName ${{ variables.resourceGroupName }}
+        $APPLICATIONINSIGHTS_CONNECTION_STRING = $appInsightResource.ConnectionString
+        Write-Host "##vso[task.setvariable variable=connectionString;issecret=true]$APPLICATIONINSIGHTS_CONNECTION_STRING"
+      azurePowerShellVersion: 'LatestVersion'
+      pwsh: true
+    env:
+      resourceGroupName: ${{ variables.resourceGroupName }}

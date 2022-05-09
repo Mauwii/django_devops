@@ -10,8 +10,8 @@ title: ToDo
 - [ ] Update Documentation
     - [x] update [GitGraph Example](https://mauwii.github.io/django_devops/todo/#gitgraph-example)
     - [ ] update Workflow
-- [ ] Create Variable Template with integrated, Branch-based 'mutator'
-    - [ ] Build MkDocs for main branch as well, I guess this will need mike to work properly
+- [ ] Create branch dependent Variable Templates which could be selected via expressions
+    - [ ] Build MkDocs for main branch as well, not sure if  this will need mike to work properly or if I can have more Gh-Pages Environments (4 free...)
 - [ ] use variables for default parameters in pipeline-templates
 
 maybe not necessary anymore after Idea to prevent problems at PR-Validation with overwriting yaml triggers in Azure-Pipelines

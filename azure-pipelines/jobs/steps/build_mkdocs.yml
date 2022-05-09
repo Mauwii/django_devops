@@ -2,7 +2,7 @@
 
 parameters:
   # Python Version to use for building mkdocs-material
-  - name: PythonVersion
+  - name: PYTHON_VERSION
     type: string
     default: '3.9'
   # will update Submodule of mkdocs-material if not set to false
@@ -18,20 +18,20 @@ steps:
           submodule: mkdocs-material
 
   - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.PythonVersion }}'
+    displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
     inputs:
-      versionSpec: ${{ parameters.PythonVersion }}
+      versionSpec: ${{ parameters.PYTHON_VERSION }}
       addToPath: true
       architecture: 'x64'
 
   - task: Bash@3
-    displayName: 'Install MkDocs'
+    displayName: 'Install mkdocs-material'
     inputs:
       targetType: 'inline'
       script: 'pip install -e mkdocs-material'
 
   - task: Bash@3
-    displayName: 'Build mkdocs'
+    displayName: 'Build docs'
     inputs:
       targetType: 'inline'
       script: 'mkdocs build'

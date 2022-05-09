@@ -1,13 +1,23 @@
 # pipeline to test if things would work
 
 trigger:
-  batch: true
   branches:
     include:
       - feature/experimental/*
 
 pool:
   vmImage: ubuntu-latest
+
+variables:
+  - group: django_gh
+  - name: pythonVersion
+    value: 3.9
+  - name: resourceGroupName
+    value: django_gh
+  - name: location
+    value: westeurope
+  - name: azureSubscription
+    value: django_gh
 
 stages:
   - stage: MkDocs
@@ -28,7 +38,6 @@ stages:
         displayName: Build Django
         dependsOn:
         variables:
-          - group: django_gh
           - group: django-dev
           - group: django-superuser
         steps:
@@ -38,11 +47,13 @@ stages:
               # checkoutSelf: false
               # recursive: false
               # debug: true
+          - template: jobs/steps/get_appinsights_con_str
+            parameters:
+              azureSubscription: ${{ variables.azureSubscription }}
+              resourceGroupName: ${{ variables.resourceGroup }}
           - template: jobs/steps/build_webapp_experimental.yml
             parameters:
-              azureSubscription: 'django_gh'
-              resourceGroupName: 'django_gh'
-              pythonVersion: '3.9'
+              pythonVersion: ${{ variables.pythonVersion }}
               debug: true
 
   - stage: Experimental_Django_Test
@@ -53,11 +64,15 @@ stages:
         dependsOn:
         variables:
           - group: django-dev
-          - name: PYTHON_VERSION
-            value: '3.9'
         steps:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
-              debug: true
               submodule: django_webapp
+
           - template: jobs/steps/python_django_test.yml
+            parameters:
+              PYTHON_VERSIONS:
+                - 3.10
+                - 3.9
+                - 3.8
+                - 3.7
