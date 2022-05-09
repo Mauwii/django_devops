@@ -1,9 +1,14 @@
 trigger:
-  - stable
-  - main
+  branches:
+    include:
+      - stable
+      - main
 
 pr:
-  - main
+  branches:
+    include:
+      - stable
+      - main
 
 variables:
   - group: django_gh
@@ -59,9 +64,8 @@ stages:
 
           - template: azure-pipelines/jobs/steps/build_webapp.yml
             parameters:
-              azureSubscription: django_gh
-              resourceGroupName: django_gh
-              projectRoot: $(System.DefaultWorkingDirectory)/django_webapp
+              azureSubscription: $(azureSubscription)
+              resourceGroupName: $(resourceGroupName)
               debug: false
           - template: azure-pipelines/jobs/steps/run_tests.yml
           - template: azure-pipelines/jobs/steps/publish_artifact.yml
