@@ -1,46 +1,12 @@
 parameters:
-  - name: pythonVersion
+  - name: PYTHON_VERSION
     default: '3.9'
-  - name: debug
-    type: boolean
-    default: false
 
 steps:
-  - ${{ if eq(parameters.debug, true) }}:
-      - script: |
-          echo "Variables:"
-          echo "SECRET_KEY: $SECRET_KEY"                                                       # no
-          #### -------------------------------------------------------------------------------- ####
-          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $APPLICATIONINSIGHTS_CONNECTION_STRING" # yes
-          echo "connectionString: $connectionString"                                           # yes
-          echo "secretKey: $secretKey"                                                         # yes
-          echo "SECRET_KEY: $(SECRET_KEY)"                                                     # yes
-          echo "AZURESUBSCRIPTION: $AZURESUBSCRIPTION"                                         # yes
-          echo "RESOURCEGROUPNAME: $RESOURCEGROUPNAME"                                         # yes
-          echo "PROJECTROOT: $PROJECTROOT"                                                     # yes
-          echo "APPLICATIONINSIGHTS_CONNECTION_STRING: $(connectionString)"                    # yes
-          echo "DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL"                               # yes
-          echo "DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD"                         # yes
-          echo "secretKey: $(secretKey)"                                                       # yes
-          #### -------------------------------------------------------------------------------- ####
-          echo "With 'set':"
-          set
-          echo "With 'env':"
-          env
-        displayName: debug script env
-        continueOnError: true
-        env:
-          secretKey: $(secretKey)
-          SECRET_KEY: $(SECRET_KEY)
-          APPLICATIONINSIGHTS_CONNECTION_STRING: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
-          connectionString: $(connectionString)
-          DJANGO_SUPERUSER_EMAIL: $(DJANGO_SUPERUSER_EMAIL)
-          DJANGO_SUPERUSER_PASSWORD: $(DJANGO_SUPERUSER_PASSWORD)
-
   - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.pythonVersion }}'
+    displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
     inputs:
-      versionSpec: ${{ parameters.pythonVersion }}
+      versionSpec: ${{ parameters.PYTHON_VERSION }}
       addToPath: true
 
   - script: |
