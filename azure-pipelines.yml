@@ -18,6 +18,12 @@ variables:
   - group: django_gh
   - group: django-dev
   - group: django-superuser
+  - name: isMain
+    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/main') ]
+  - name: isStable
+    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/stable') ]
+  - name: isPullRequest
+    value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
   - name: pythonVersion
     value: '3.9'
   - name: resourceGroupName
@@ -26,20 +32,22 @@ variables:
     value: 'westeurope'
   - name: azureSubscription
     value: 'django_gh'
+  - name: vmImageName
+    value: 'ubuntu-latest'
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: $(vmImageName)
 
 stages:
   - stage: MkDocs
     dependsOn:
     jobs:
-      - job:
+      - job: MkDocs
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - task: Bash@3
-            displayName: 'Deploy to GitHub-Pages'
-            condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+            displayName: Deploy to GitHub-Pages
+            condition: and(eq(variables.isStable, 'true'), succeeded())
             inputs:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
@@ -62,21 +70,19 @@ stages:
           runOnce:
             deploy:
               steps:
-                - checkout: self
-                  submodules: false
+                # - checkout: self
+                #   submodules: false
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
-  - stage: BuildWebApp
+  - stage: WebApp
     dependsOn: CreateResources
-    condition: succeeded()
-    displayName: 'Build and publish Django'
+    condition: in(dependencies.CreateResources.result, 'Succeeded', 'SucceededWithIssues', 'Skipped')
+    displayName: WebApp
     jobs:
       - job: BuildWebApp
-        displayName: 'Build Web App'
+        displayName: Build Web App
         steps:
-          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
-            parameters:
-              submodule: django_webapp
+          - template: azure-pipelines/jobs/steps/python_django_export_projectroot.yml
 
           - template: azure-pipelines/jobs/steps/get_appinsights_con_str.yml
             parameters:
@@ -89,13 +95,10 @@ stages:
 
           - template: azure-pipelines/jobs/steps/publish_artifact.yml
 
-  - stage: DeployWebApp
-    displayName: Deploy WebApp
-    dependsOn: BuildWebApp
-    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
-    jobs:
       - deployment: DeployDjango
-        displayName: 'Deploy Django to WebApp'
+        dependsOn: BuildWebApp
+        condition: and(succeeded() , eq(variables.isStable, 'true'))
+        displayName: Deploy Django to WebApp
         environment: $(environmentName)
         strategy:
           runOnce:
