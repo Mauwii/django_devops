@@ -14,7 +14,6 @@ variables:
   - group: django_gh
   - group: django-dev
   - group: django-superuser
-  - group: django_gh
   - name: pythonVersion
     value: '3.9'
   - name: resourceGroupName
@@ -53,7 +52,7 @@ stages:
   - stage: BuildWebApp
     dependsOn: CreateResources
     condition: succeeded()
-    displayName: 'Build and publish Artifact'
+    displayName: 'Build and publish Django'
     jobs:
       - job: BuildWebApp
         displayName: 'Build Web App'
@@ -62,12 +61,15 @@ stages:
             parameters:
               submodule: django_webapp
 
-          - template: azure-pipelines/jobs/steps/build_webapp.yml
+          - template: azure-pipelines/jobs/steps/get_appinsights_con_str.yml
             parameters:
               azureSubscription: $(azureSubscription)
               resourceGroupName: $(resourceGroupName)
-              debug: false
-          - template: azure-pipelines/jobs/steps/run_tests.yml
+
+          - template: azure-pipelines/jobs/steps/build_webapp.yml
+            parameters:
+              PYTHON_VERSION: $(pythonVersion)
+
           - template: azure-pipelines/jobs/steps/publish_artifact.yml
 
   - stage: DeployWebApp
