@@ -1,26 +1,31 @@
 steps:
+  - template: python_django_export_projectroot.yml
+
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '$(pythonVersion)'
-    displayName: 'Use Python version'
+      versionSpec: ${{ variables.pythonVersion }}
+    displayName: Use Python ${{ variables.pythonVersion }}
 
   - task: AzurePowerShell@5
-    displayName: 'Read WebApp Name'
+    name: readWebAppName
+    displayName: Read WebApp Name
+    retryCountOnTaskFailure: 3
+    continueOnError: false
     inputs:
       azureSubscription: $(azureSubscription)
-      ScriptType: 'InlineScript'
+      ScriptType: InlineScript
       Inline: |
-        $webAppName = (Get-AzWebApp -ResourceGroupName $(resourceGroupName)).Name
+        $webAppName = ( Get-AzWebApp -ResourceGroupName $(resourceGroupName) ).Name
         Write-Host "##vso[task.setvariable variable=webAppName]$webAppName"
-      azurePowerShellVersion: 'LatestVersion'
+      azurePowerShellVersion: LatestVersion
       pwsh: true
 
   - task: AzureWebApp@1
-    displayName: 'Deploy Azure Web App'
+    displayName: Deploy Azure Web App
     inputs:
-      azureSubscription: '$(azureSubscription)'
-      appType: 'webAppLinux'
-      appName: '$(webAppName)'
-      package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-      runtimeStack: 'PYTHON|3.9'
+      azureSubscription: $(azureSubscription)
+      appType: webAppLinux
+      appName: $(webAppName)
+      package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+      runtimeStack: PYTHON|3.9
       startUpCommand: python3.9 manage.py migrate

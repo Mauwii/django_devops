@@ -1,17 +1,20 @@
 steps:
   - task: ArchiveFiles@2
-    displayName: 'Create Build Artifact'
+    name: archiveFiles
+    displayName: Create Build Artifact
     condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
     inputs:
-      rootFolderOrFile: '$(projectRoot)'
+      rootFolderOrFile: $(projectRoot)
       includeRootFolder: false
-      archiveType: 'zip'
+      archiveType: zip
       archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       replaceExistingArchive: true
 
   - task: PublishBuildArtifacts@1
-    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+    name: publishBuildArtifacts
+    displayName: Publish Build Artifacts
+    condition: and( eq(variables.isStable, 'true'), succeeded() )
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+      ArtifactName: drop
+      publishLocation: Container

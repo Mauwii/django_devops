@@ -1,8 +1,6 @@
 # Django DevOps
 
-| [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=stable) | [![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/publish_docs.yml?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=57&branchName=stable) |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|                                                                          [Django](https://django-gh-devv72vvrgbr2qwa.azurewebsites.net/)                                                                          |                                                                                [docs](https://mauwii.github.io/django_devops/)                                                                                |
+[![Build Status](https://dev.azure.com/mauwiidev/django_gh/_apis/build/status/Mauwii.django_devops?branchName=stable)](https://dev.azure.com/mauwiidev/django_gh/_build/latest?definitionId=54&branchName=stable)
 
 ## Intro
 
@@ -15,7 +13,7 @@ Until yet I have only been using Azure-Repos in my DevOps Projects, but since th
 - [Jira](https://mauwii.atlassian.net/jira/software/c/projects/DG/issues)
 - [MkDocs-Material](https://squidfunk.github.io/mkdocs-material/)
 
-### Documentation
+## Documentation
 
 Since I had the needs for things I could play around with build-pipelines as well as a documentation framework, I decided to use MkDocs-Material since (imho):
 
