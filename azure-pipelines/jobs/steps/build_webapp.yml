@@ -1,6 +1,9 @@
 parameters:
   - name: PYTHON_VERSION
     default: '3.9'
+  - name: publishBuildArtifact
+    type: boolean
+    default: false
 
 steps:
   - task: UsePythonVersion@0
@@ -18,20 +21,21 @@ steps:
     workingDirectory: $(projectRoot)
     displayName: 'Install Requirements'
 
-  - task: ArchiveFiles@2
-    displayName: 'Archive files'
-    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
-    inputs:
-      rootFolderOrFile: '$(projectRoot)'
-      includeRootFolder: false
-      archiveType: zip
-      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      replaceExistingArchive: true
+  - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
+      - task: ArchiveFiles@2
+        displayName: 'Archive files'
+        condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+        inputs:
+          rootFolderOrFile: '$(projectRoot)'
+          includeRootFolder: false
+          archiveType: zip
+          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+          replaceExistingArchive: true
 
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Build Artifact
-    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Build Artifact
+        condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
