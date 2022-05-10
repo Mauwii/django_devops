@@ -1,7 +1,7 @@
 ## Search all subdirectories for 'manage.py' and create projectRoot variable
 
 parameters:
-  - name: 'PYTHON_VERSION'
+  - name: PYTHON_VERSION
     type: string
     default: '3.9'
 
@@ -14,12 +14,12 @@ steps:
     displayName: Use Python version ${{ parameters.PYTHON_VERSION }}
     inputs:
       versionSpec: ${{ parameters.PYTHON_VERSION }}
-      architecture: 'x64'
+      architecture: x64
 
   - task: PythonScript@0
-    displayName: 'Export project path'
+    displayName: Export project path
     inputs:
-      scriptSource: 'inline'
+      scriptSource: inline
       script: |
         """Search all subdirectories for `manage.py`."""
         from glob import iglob
