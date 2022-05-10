@@ -6,6 +6,10 @@ parameters:
     default: '3.9'
 
 steps:
+  - template: checkout_submodules.yml
+    parameters:
+      submodule: django_webapp
+
   - task: UsePythonVersion@0
     displayName: Use Python version ${{ parameters.PYTHON_VERSION }}
     inputs:
