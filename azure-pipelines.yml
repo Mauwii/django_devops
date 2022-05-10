@@ -1,8 +1,12 @@
 trigger:
   branches:
     include:
-      - stable
-      - main
+      - refs/heads/stable
+      - refs/heads/main
+      - feature/*
+      - issue/*
+    exclude:
+      - feature/experimental/*
 
 pr:
   branches:
@@ -27,6 +31,19 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
+  - stage: MkDocs
+    dependsOn:
+    jobs:
+      - job:
+        steps:
+          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+          - task: Bash@3
+            displayName: 'Deploy to GitHub-Pages'
+            condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+            inputs:
+              targetType: 'inline'
+              script: 'mkdocs gh-deploy --force --clean'
+
   - stage: ValidateBicep
     dependsOn:
     displayName: Bicep Validation
