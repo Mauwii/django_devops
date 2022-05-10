@@ -1,7 +1,15 @@
+## Search all subdirectories for 'manage.py' and create projectRoot variable
+
+parameters:
+  - name: 'PYTHON_VERSION'
+    type: string
+    default: '3.9'
+
 steps:
   - task: UsePythonVersion@0
+    displayName: Use Python version ${{ parameters.PYTHON_VERSION }}
     inputs:
-      versionSpec: '$(PYTHON_VERSION)'
+      versionSpec: ${{ parameters.PYTHON_VERSION }}
       architecture: 'x64'
 
   - task: PythonScript@0
