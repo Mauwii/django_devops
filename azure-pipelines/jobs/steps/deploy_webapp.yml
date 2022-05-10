@@ -1,8 +1,10 @@
 steps:
+  - template: python_django_export_projectroot.yml
+
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: $(pythonVersion)
-    displayName: 'Use Python version {{ pythonVersion }}'
+      versionSpec: ${{ pythonVersion }}
+    displayName: Use Python ${{ pythonVersion }}
 
   - task: AzurePowerShell@5
     name: readWebAppName
@@ -13,7 +15,7 @@ steps:
       azureSubscription: $(azureSubscription)
       ScriptType: InlineScript
       Inline: |
-        $webAppName = (Get-AzWebApp -ResourceGroupName $(resourceGroupName)).Name
+        $webAppName = ( Get-AzWebApp -ResourceGroupName $(resourceGroupName) ).Name
         Write-Host "##vso[task.setvariable variable=webAppName]$webAppName"
       azurePowerShellVersion: LatestVersion
       pwsh: true
