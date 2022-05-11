@@ -22,15 +22,14 @@ steps:
     workingDirectory: $(projectRoot)
     displayName: 'Install Requirements'
 
+  - task: PublishPipelineArtifact@1
+    # condition: and(eq(variables.isProduction, 'true'), succeeded())
+    inputs:
+      targetPath: $(projectRoot)
+      # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
+      artifactName: WebApp
+
   - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
-
-      - task: PublishPipelineArtifact@1
-        # condition: and(eq(variables.isProduction, 'true'), succeeded())
-        inputs:
-          targetPath: $(projectRoot)
-          # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
-          artifactName: WebApp
-
       # - task: ArchiveFiles@2
       #   displayName: 'Archive files'
       #   # condition: and(eq(variables.isProduction, 'true'), succeeded())
