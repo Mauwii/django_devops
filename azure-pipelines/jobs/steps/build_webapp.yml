@@ -38,7 +38,7 @@ steps:
   - task: PublishPipelineArtifact@1
     # condition: and(eq(variables.isProduction, 'true'), succeeded())
     inputs:
-      targetPath: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)
+      targetPath: $(projectRoot)
       # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
       artifactName: WebApp
 
