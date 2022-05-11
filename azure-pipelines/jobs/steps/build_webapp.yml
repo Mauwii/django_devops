@@ -12,6 +12,7 @@ steps:
     inputs:
       versionSpec: ${{ parameters.PYTHON_VERSION }}
       addToPath: true
+      architecture: 'x64'
 
   - script: |
       python -m venv antenv
@@ -22,23 +23,24 @@ steps:
     workingDirectory: $(projectRoot)
     displayName: 'Install Requirements'
 
+
+  # - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
+  # - task: ArchiveFiles@2
+  #   displayName: 'Archive files'
+  #   # condition: and(eq(variables.isProduction, 'true'), succeeded())
+  #   inputs:
+  #     rootFolderOrFile: $(projectRoot)
+  #     includeRootFolder: false
+  #     archiveType: zip
+  #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+  #     replaceExistingArchive: true
+
   - task: PublishPipelineArtifact@1
     # condition: and(eq(variables.isProduction, 'true'), succeeded())
     inputs:
-      targetPath: $(projectRoot)
+      targetPath: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)
       # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
       artifactName: WebApp
-
-  # - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
-      # - task: ArchiveFiles@2
-      #   displayName: 'Archive files'
-      #   # condition: and(eq(variables.isProduction, 'true'), succeeded())
-      #   inputs:
-      #     rootFolderOrFile: $(projectRoot)
-      #     includeRootFolder: false
-      #     archiveType: zip
-      #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      #     replaceExistingArchive: true
 
       # - task: PublishBuildArtifacts@1
       #   displayName: Publish Build Artifact

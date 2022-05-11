@@ -50,8 +50,7 @@ stages:
 
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
-            condition: succeeded()
-            # condition: and(eq(variables.isProduction, 'true'), succeeded())
+            condition: and(eq(variables.isProduction, 'true'), succeeded())
             inputs:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
@@ -65,8 +64,7 @@ stages:
   - stage: createResources
     displayName: Create Azure Resources
     dependsOn: validateBicep
-    condition: succeeded()
-    # condition: and(succeeded(), eq(variables.isProduction, 'true'))
+    condition: and(succeeded(), eq(variables.isProduction, 'true'))
     jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
@@ -95,8 +93,9 @@ stages:
           - template: azure-pipelines/jobs/steps/build_webapp.yml
             parameters:
               PYTHON_VERSION: $(pythonVersion)
+              publishBuildArtifact: true
 
-          - template: azure-pipelines/jobs/steps/publish_artifact.yml
+          # - template: azure-pipelines/jobs/steps/publish_artifact.yml
 
       - deployment: DeployDjango
         dependsOn: BuildWebApp
