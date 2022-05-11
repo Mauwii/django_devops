@@ -4,10 +4,10 @@ trigger:
     include:
       - refs/heads/stable
       - refs/heads/main
-      - feature/*
-      - issue/*
-    exclude:
-      - feature/experimental/*
+    #   - feature/*
+    #   - issue/*
+    # exclude:
+    #   - feature/experimental/*
 
 pr:
   branches:
