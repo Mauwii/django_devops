@@ -84,6 +84,9 @@ stages:
       - job: runTests
         displayName: run python tests
         steps:
+          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
+            parameters:
+              submodule: django_webapp
           - template: azure-pipelines/jobs/steps/python_django_test.yml
             parameters:
               PYTHON_VERSIONS:
