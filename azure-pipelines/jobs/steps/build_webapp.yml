@@ -29,7 +29,7 @@ steps:
       # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
       artifactName: WebApp
 
-  - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
+  # - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
       # - task: ArchiveFiles@2
       #   displayName: 'Archive files'
       #   # condition: and(eq(variables.isProduction, 'true'), succeeded())
