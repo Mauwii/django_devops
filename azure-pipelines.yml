@@ -22,7 +22,7 @@ variables:
   - name: isPullRequest
     value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
   - name: pythonVersion
-    value: '3.9.12'
+    value: '3.8'
   - name: resourceGroupName
     value: 'django_gh'
   - name: location
@@ -74,6 +74,23 @@ stages:
             deploy:
               steps:
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
+  - stage: Testing
+    dependsOn: createResources
+    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
+    displayName: Run runTests
+    variables:
+      - group: django-dev
+    jobs:
+      - job: runTests
+        displayName: run python tests
+        steps:
+          - template: azure-pipelines/jobs/steps/python_django_test.yml
+            parameters:
+              PYTHON_VERSIONS:
+                - '3.7'
+                - '3.8'
+                - '3.9'
+                - '3.10'
 
   - stage: WebApp
     dependsOn: createResources
