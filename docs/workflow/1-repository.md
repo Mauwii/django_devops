@@ -1,9 +1,15 @@
 ---
-title: Workflow
-icon: ':material-notebook-outline:'
+title: Repository
+theme:
+  icon:
+    logo: material/notebook-outline
 ---
 
-Integrate better Branching Strategy:
+In this Section you will find Informations related to the Repository, like a
+
+### Branching Strategy
+
+#### Table
 
 |     instance     | Branch name            |          accept PR from           | Create From    | other infos                                                                                                                |
 | :--------------: | :--------------------- | :-------------------------------: | :------------- | :------------------------------------------------------------------------------------------------------------------------- |
@@ -18,10 +24,12 @@ When time has come for a release, create a pull request to merge main into stabl
 
 For bigger problems, like f.E. a zero-day, create a branch from stable and name it `hotfix/<jira-id>` and try to fix the issue asap. When done, merge this hotfix back into stable as well as into main.
 
-### Flowchart
+#### Diagram
 
-```` mermaid
-  graph LR
+##### Small
+
+````mermaid
+graph LR
     dev --> main;
     main -.-> dev;
     main --> stable;
@@ -29,7 +37,27 @@ For bigger problems, like f.E. a zero-day, create a branch from stable and name 
     hotfix --> stable & main;
 ````
 
-### GitGraph example
+##### Detailed
+
+```mermaid
+graph LR
+  Code[(Code)] -- Commit<br>Changes --> FeatureBranch[Feature<br>Branch];
+  FeatureBranch[Feature<br>Branch] -- Pull<br>Request --> MainBranch[Main<br>Branch];
+  MainBranch -- Trigger<br>Build --> CheckFeature{Built<br>succesfull};
+  CheckFeature -- Yes --> CompleteMerge[/Complete Merge/];
+  CompleteMerge -- Trigger<br>Build --> CheckMain{Built<br>succesfull};
+  CheckMain -- Yes --> DeployMain[/Deploy<br>Main Branch/];
+  DeployMain --> DeleteFeature[\Delete<br>Feature Branch\];
+  CheckMain -- No --> RevertMerge[\Revert Merge\];
+  RevertMerge[\Revert Merge\] --> TryBugFix{try to<br>fix bugs};
+  TryBugFix -- No --> DeleteFeature;
+  CheckFeature -- No --> TryBugFix;
+  TryBugFix -- yes --> Code;
+```
+
+A more detailed Workflow-Diagram is located in the next
+
+#### GitGraph example
 
 ``` mermaid
     gitGraph
@@ -72,6 +100,6 @@ For bigger problems, like f.E. a zero-day, create a branch from stable and name 
         commit tag: "v2"
 ```
 
-### Automation
+#### Automation
 
 Of course the approach is to have as much automated as possible, which also means that pull-request should in the end get tested and resolved by themselves (...or the help of Azure-Pipelines :material-microsoft-azure-devops:)

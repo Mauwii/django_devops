@@ -2,4 +2,5 @@ endOfLine: lf
 tabWidth: 2
 useTabs: false
 singleQuote: true
-quoteProps: consistent
+quoteProps: as-needed
+embeddedLanguageFormatting: auto

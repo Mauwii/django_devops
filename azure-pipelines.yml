@@ -1,12 +1,13 @@
 trigger:
+  batch: true
   branches:
     include:
       - refs/heads/stable
       - refs/heads/main
-      - feature/*
-      - issue/*
-    exclude:
-      - feature/experimental/*
+    #   - feature/*
+    #   - issue/*
+    # exclude:
+    #   - feature/experimental/*
 
 pr:
   branches:
@@ -70,8 +71,6 @@ stages:
           runOnce:
             deploy:
               steps:
-                # - checkout: self
-                #   submodules: false
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: WebApp

@@ -1,8 +1,6 @@
 ---
 title: Home
 icon: material/information-outline
-hide:
-  - toc
 ---
 
 ## Intro
