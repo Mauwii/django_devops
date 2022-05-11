@@ -2,7 +2,7 @@ steps:
   - task: UsePythonVersion@0
     displayName: 'Use Python $(pythonVersion)'
     inputs:
-      versionSpec: $(pythonVersion))
+      versionSpec: $(pythonVersion)
       architecture: x64
       addToPath: true
   # - template: python_django_export_projectroot.yml
