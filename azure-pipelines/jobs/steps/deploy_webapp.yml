@@ -5,7 +5,6 @@ steps:
       versionSpec: $(pythonVersion)
       architecture: x64
       addToPath: true
-  # - template: python_django_export_projectroot.yml
 
   - task: AzurePowerShell@5
     name: readWebAppName

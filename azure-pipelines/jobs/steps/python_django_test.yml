@@ -7,7 +7,7 @@ parameters:
   - name: PYTHON_VERSIONS
     type: object
     default:
-      - '3.9'
+      - '3.8'
 
 steps:
   - ${{ each PYTHON_VERSION in parameters.PYTHON_VERSIONS }}:
@@ -48,6 +48,8 @@ steps:
           pushd '$(projectRoot)'
           python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
         displayName: 'Run tests'
+        workingDirectory: $(projectRoot)
+        continueOnError: true
         env:
           secretKey: $(secretKey)
           APPLICATIONINSIGHTS_CONNECTION_STRING: $(APPLICATIONINSIGHTS_CONNECTION_STRING)

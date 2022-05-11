@@ -17,12 +17,9 @@
   "azure-pipelines.configure": true,
   "azure-pipelines.customSchemaFile": ".vscode/azure-pipelines-schema.json",
   "[azure-pipelines]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "gitlens.codeLens.scopes": [
-      "document",
+      "document"
     ],
-    "editor.formatOnSave": true,
-    "editor.formatOnSaveMode": "modifications",
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.quickSuggestions": {
@@ -30,8 +27,9 @@
       "comments": false,
       "strings": true
     },
-    "editor.suggest.insertMode": "replace",
-    "editor.autoIndent": "full"
+    "editor.autoIndent": "brackets",
+    "editor.tabCompletion": "off",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[md]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
