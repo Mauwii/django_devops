@@ -1,5 +1,6 @@
 parameters:
   - name: PYTHON_VERSION
+    type: string
     default: '3.9'
   - name: publishBuildArtifact
     type: boolean
@@ -22,20 +23,28 @@ steps:
     displayName: 'Install Requirements'
 
   - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
-      - task: ArchiveFiles@2
-        displayName: 'Archive files'
-        condition: and(eq(variables.isProduction, 'true'), succeeded())
-        inputs:
-          rootFolderOrFile: '$(projectRoot)'
-          includeRootFolder: false
-          archiveType: zip
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-          replaceExistingArchive: true
 
-      - task: PublishBuildArtifacts@1
-        displayName: Publish Build Artifact
-        condition: and(eq(variables.isProduction, 'true'), succeeded())
+      - task: PublishPipelineArtifact@1
+        # condition: and(eq(variables.isProduction, 'true'), succeeded())
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-          ArtifactName: 'drop'
-          publishLocation: 'Container'
+          targetPath: $(projectRoot)
+          # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
+          artifactName: WebApp
+
+      # - task: ArchiveFiles@2
+      #   displayName: 'Archive files'
+      #   # condition: and(eq(variables.isProduction, 'true'), succeeded())
+      #   inputs:
+      #     rootFolderOrFile: $(projectRoot)
+      #     includeRootFolder: false
+      #     archiveType: zip
+      #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      #     replaceExistingArchive: true
+
+      # - task: PublishBuildArtifacts@1
+      #   displayName: Publish Build Artifact
+      #   condition: and(eq(variables.isProduction, 'true'), succeeded())
+      #   inputs:
+      #     PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      #     ArtifactName: 'drop'
+      #     publishLocation: 'Container'

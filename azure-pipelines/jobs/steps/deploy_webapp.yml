@@ -2,9 +2,25 @@ steps:
   - template: python_django_export_projectroot.yml
 
   - task: UsePythonVersion@0
+    displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
     inputs:
-      versionSpec: $(pythonVersion)
-    displayName: Use Python $(pythonVersion)
+      versionSpec: ${{ parameters.PYTHON_VERSION }}
+
+  - task: PythonScript@0
+    displayName: Export project path
+    inputs:
+      scriptSource: inline
+      script: |
+        """Search all subdirectories for `manage.py`."""
+        from glob import iglob
+        from os import path
+        # Python >= 3.5
+        manage_py = next(iglob(path.join('**', 'manage.py'), recursive=True), None)
+        if not manage_py:
+            raise SystemExit('Could not find a Django project')
+        project_location = path.dirname(path.abspath(manage_py))
+        print('Found Django project in', project_location)
+        print('##vso[task.setvariable variable=projectRoot]{}'.format(project_location))
 
   - task: AzurePowerShell@5
     name: readWebAppName
@@ -20,12 +36,20 @@ steps:
       azurePowerShellVersion: LatestVersion
       pwsh: true
 
+  # Download an artifact named 'WebApp' to 'bin' in $(Build.SourcesDirectory)
+  - task: DownloadPipelineArtifact@2
+    displayName: Download Pipeline Artifact
+    name: downloadPipelineArtifact
+    inputs:
+      artifactName: WebApp
+      path: $(projectRoot)
+
   - task: AzureWebApp@1
     displayName: Deploy Azure Web App
     inputs:
       azureSubscription: $(azureSubscription)
       appType: webAppLinux
       appName: $(webAppName)
-      package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+      package: $(projectRoot)/WebApp
       runtimeStack: PYTHON|3.9
       startUpCommand: python3.9 manage.py migrate
