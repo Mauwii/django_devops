@@ -2,10 +2,10 @@
 # Useful for bigger (Mono)-Repos where only a subset of submodules is necessary
 
 parameters:
-  # Parameter to checkout self first
+  # set to false to disable checkout self first
   - name: checkoutSelf
     type: boolean
-    default: false
+    default: true
   # Submodule to update/init
   - name: submodule
     type: string
@@ -23,6 +23,7 @@ steps:
   - ${{ if eq(parameters.checkoutSelf, true) }}:
       - checkout: self
         submodules: false
+        displayName: Checkout self
         persistCredentials: true
 
   - ${{ if eq(parameters.debug, true) }}:

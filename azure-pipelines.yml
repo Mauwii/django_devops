@@ -22,7 +22,7 @@ variables:
   - name: isPullRequest
     value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
   - name: pythonVersion
-    value: '3.9'
+    value: '3.9.12'
   - name: resourceGroupName
     value: 'django_gh'
   - name: location
@@ -39,9 +39,15 @@ stages:
   - stage: MkDocs
     dependsOn:
     jobs:
-      - job: MkDocs
+      - job: buildMkDocs
+        displayName: Build MkDocs-Material
         steps:
+          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
+            parameters:
+              submodule: mkdocs-material
+
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
             condition: and(eq(variables.isProduction, 'true'), succeeded())
@@ -49,15 +55,15 @@ stages:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
 
-  - stage: ValidateBicep
+  - stage: validateBicep
     dependsOn:
-    displayName: Bicep Validation
+    displayName: Validate Bicep
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
 
-  - stage: CreateResources
+  - stage: createResources
     displayName: Create Azure Resources
-    dependsOn: ValidateBicep
+    dependsOn: validateBicep
     condition: and(succeeded(), eq(variables.isProduction, 'true'))
     jobs:
       - deployment: DeployBicep
@@ -70,8 +76,8 @@ stages:
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: WebApp
-    dependsOn: CreateResources
-    condition: in(dependencies.CreateResources.result, 'Succeeded', 'SucceededWithIssues', 'Skipped')
+    dependsOn: createResources
+    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
     displayName: WebApp
     jobs:
       - job: BuildWebApp
@@ -87,8 +93,7 @@ stages:
           - template: azure-pipelines/jobs/steps/build_webapp.yml
             parameters:
               PYTHON_VERSION: $(pythonVersion)
-
-          - template: azure-pipelines/jobs/steps/publish_artifact.yml
+              publishBuildArtifact: true
 
       - deployment: DeployDjango
         dependsOn: BuildWebApp
