@@ -76,7 +76,7 @@ stages:
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
   - stage: Testing
     dependsOn: createResources
-    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
+    condition: and(eq(dependencies.validateBicep.result, 'true'), in(dependencies.createResources.result, 'Succeeded', 'Skipped'))
     displayName: Run runTests
     variables:
       - group: django-dev
@@ -96,8 +96,8 @@ stages:
                 - '3.10'
 
   - stage: WebApp
-    dependsOn: createResources
-    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
+    dependsOn: Testing
+    condition: succeeded()
     displayName: WebApp
     jobs:
       - job: BuildWebApp
