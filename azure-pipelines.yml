@@ -65,7 +65,8 @@ stages:
   - stage: createResources
     displayName: Create Azure Resources
     dependsOn: validateBicep
-    condition: and(succeeded(), eq(variables.isProduction, 'true'))
+    condition: succeeded()
+    # condition: and(succeeded(), eq(variables.isProduction, 'true'))
     jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
@@ -78,7 +79,7 @@ stages:
 
   - stage: WebApp
     dependsOn: createResources
-    condition: in(dependencies.Bicep.result, 'Succeeded', 'Skipped')
+    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
     displayName: WebApp
     jobs:
       - job: BuildWebApp
