@@ -14,14 +14,12 @@ trim_trailing_whitespace = true
 # Markdown
 [*.md]
 indent_size = 4
-indent_style = space
+trim_trailing_whitespace = true
 
 # JSON-Files
 [*.{json,jsonc}]
-trim_trailing_whitespace = true
 insert_final_newline = false
 
 # Python
 [*.py]
-indent_style = space
 indent_size = 4

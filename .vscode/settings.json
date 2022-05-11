@@ -1,20 +1,28 @@
 {
   "yaml.schemas": {
-    "https://squidfunk.github.io/mkdocs-material/schema.json": "*/mkdocs.yml",
-    "https://json.schemastore.org/github-issue-config.json": "*/.github/ISSUE_TEMPLATE/config.yml",
-    // "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
-    //   "/azure-pipelines/**/*.yml",
-    //   "/azure-pipelines.yml"
-    // ]
+    "https://squidfunk.github.io/mkdocs-material/schema.json": "**/mkdocs.yml",
+    "https://json.schemastore.org/github-issue-config.json": "**/.github/ISSUE_TEMPLATE/config.yml",
+    "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
+      "**/azure-pipelines/**/*.yml",
+      "**/azure-pipelines.yml"
+    ]
   },
+  "redhat.telemetry.enabled": false,
   "yaml.format.singleQuote": true,
+  "markdown.extension.syntax.plainTheme": true,
+  "markdown.extension.completion.root": "${workspaceFolder}",
   "files.associations": {
     "**/azure-pipelines/**/*.yml": "azure-pipelines"
   },
-  // "azure-pipelines.configure": true,
+  "azure-pipelines.configure": true,
+  "azure-pipelines.customSchemaFile": ".vscode/azure-pipelines-schema.json",
   "[azure-pipelines]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "gitlens.codeLens.scopes": [
+      "document",
+    ],
     "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modifications",
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.quickSuggestions": {
@@ -22,10 +30,23 @@
       "comments": false,
       "strings": true
     },
-    // "editor.autoIndent": "full"
+    "editor.suggest.insertMode": "replace",
+    "editor.autoIndent": "full"
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
-    "editor.formatOnSave": true
+  "[md]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[jsonc]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.suggest.insertMode": "replace",
+    "gitlens.codeLens.scopes": [
+      "document"
+    ]
   }
 }
