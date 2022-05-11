@@ -28,7 +28,7 @@ steps:
     displayName: 'Install mkdocs-material'
     inputs:
       targetType: 'inline'
-      script: 'pip install -e mkdocs-material'
+      script: 'pip install -e mkdocs-material git-revision-date-localized'
 
   - task: Bash@3
     displayName: 'Build docs'
