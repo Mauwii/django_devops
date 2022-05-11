@@ -64,8 +64,8 @@ stages:
   - stage: createResources
     displayName: Create Azure Resources
     dependsOn:
-      validateBicep
-      MkDocs
+      - validateBicep
+      - MkDocs
     condition: and(succeeded(), eq(variables.isProduction, 'true'))
     jobs:
       - deployment: DeployBicep
@@ -78,7 +78,9 @@ stages:
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: Testing
-    dependsOn: createResources
+    dependsOn:
+      - createResources
+      - validateBicep
     condition: and(eq(dependencies.validateBicep.result, 'true'), in(dependencies.createResources.result, 'Succeeded', 'Skipped'))
     displayName: Run runTests
     variables:
