@@ -39,9 +39,15 @@ stages:
   - stage: MkDocs
     dependsOn:
     jobs:
-      - job: MkDocs
+      - job: buildMkDocs
+        displayName: Build MkDocs-Material
         steps:
+          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
+            parameters:
+              submodule: mkdocs-material
+
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
             condition: and(eq(variables.isProduction, 'true'), succeeded())
@@ -49,19 +55,16 @@ stages:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
 
-  - stage: ValidateBicep
+  - stage: Bicep
     dependsOn:
-    displayName: Bicep Validation
+    displayName: Bicep
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
 
-  - stage: CreateResources
-    displayName: Create Azure Resources
-    dependsOn: ValidateBicep
-    condition: and(succeeded(), eq(variables.isProduction, 'true'))
-    jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
+        condition: succeeded()
+        # condition: and(succeeded(), eq(variables.isProduction, 'true'))
         environment: $(environmentName)
         strategy:
           runOnce:
@@ -70,8 +73,8 @@ stages:
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: WebApp
-    dependsOn: CreateResources
-    condition: in(dependencies.CreateResources.result, 'Succeeded', 'SucceededWithIssues', 'Skipped')
+    dependsOn: Bicep
+    condition: in(dependencies.Bicep.result, 'Succeeded', 'Skipped')
     displayName: WebApp
     jobs:
       - job: BuildWebApp
@@ -92,7 +95,8 @@ stages:
 
       - deployment: DeployDjango
         dependsOn: BuildWebApp
-        condition: and(succeeded(), eq(variables.isProduction, 'true'))
+        condition: succeeded()
+        # condition: and(succeeded(), eq(variables.isProduction, 'true'))
         displayName: Deploy Django to WebApp
         environment: $(environmentName)
         strategy:
