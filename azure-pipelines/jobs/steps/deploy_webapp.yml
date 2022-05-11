@@ -3,8 +3,8 @@ steps:
 
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: ${{ variables.pythonVersion }}
-    displayName: Use Python ${{ variables.pythonVersion }}
+      versionSpec: $(pythonVersion)
+    displayName: Use Python $(pythonVersion)
 
   - task: AzurePowerShell@5
     name: readWebAppName
