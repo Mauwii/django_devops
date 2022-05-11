@@ -22,7 +22,7 @@ variables:
   - name: isPullRequest
     value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
   - name: pythonVersion
-    value: '3.9'
+    value: '3.9.12'
   - name: resourceGroupName
     value: 'django_gh'
   - name: location
@@ -95,12 +95,9 @@ stages:
               PYTHON_VERSION: $(pythonVersion)
               publishBuildArtifact: true
 
-          # - template: azure-pipelines/jobs/steps/publish_artifact.yml
-
       - deployment: DeployDjango
         dependsOn: BuildWebApp
-        condition: succeeded()
-        # condition: and(succeeded(), eq(variables.isProduction, 'true'))
+        condition: and(succeeded(), eq(variables.isProduction, 'true'))
         displayName: Deploy Django to WebApp
         environment: $(environmentName)
         strategy:
