@@ -77,7 +77,7 @@ stages:
 
   - stage: Testing
     dependsOn: createResources
-    condition: and(in(dependencies.createResources.result, 'Succeeded', 'Skipped'))
+    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
     displayName: Run runTests
     variables:
       - group: django-dev
@@ -97,8 +97,8 @@ stages:
                 - '3.10'
 
   - stage: WebApp
-    dependsOn: Testing
-    condition: succeeded()
+    dependsOn: createResources
+    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
     displayName: WebApp
     jobs:
       - job: BuildWebApp
