@@ -2,17 +2,13 @@ trigger:
   batch: true
   branches:
     include:
-      - refs/heads/stable
+      - refs/heads/production
       - refs/heads/main
-    #   - feature/*
-    #   - issue/*
-    # exclude:
-    #   - feature/experimental/*
 
 pr:
   branches:
     include:
-      - stable
+      - production
       - main
 
 variables:
@@ -21,8 +17,8 @@ variables:
   - group: django-superuser
   - name: isMain
     value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/main') ]
-  - name: isStable
-    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/stable') ]
+  - name: isProduction
+    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/Production') ]
   - name: isPullRequest
     value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
   - name: pythonVersion
@@ -48,7 +44,7 @@ stages:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
-            condition: and(eq(variables.isStable, 'true'), succeeded())
+            condition: and(eq(variables.isProduction, 'true'), succeeded())
             inputs:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
@@ -62,7 +58,7 @@ stages:
   - stage: CreateResources
     displayName: Create Azure Resources
     dependsOn: ValidateBicep
-    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/stable'), succeeded())
+    condition: and(succeeded(), eq(variables.isProduction, 'true'))
     jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
@@ -96,7 +92,7 @@ stages:
 
       - deployment: DeployDjango
         dependsOn: BuildWebApp
-        condition: and(succeeded() , eq(variables.isStable, 'true'))
+        condition: and(succeeded(), eq(variables.isProduction, 'true'))
         displayName: Deploy Django to WebApp
         environment: $(environmentName)
         strategy:
