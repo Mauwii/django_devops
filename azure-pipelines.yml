@@ -50,21 +50,25 @@ stages:
 
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
-            condition: and(eq(variables.isProduction, 'true'), succeeded())
+            condition: succeeded()
+            # condition: and(eq(variables.isProduction, 'true'), succeeded())
             inputs:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
 
-  - stage: Bicep
+  - stage: validateBicep
     dependsOn:
-    displayName: Bicep
+    displayName: Validate Bicep
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
 
+  - stage: CreateResources
+    displayName: Create Azure Resources
+    dependsOn: validateBicep
+    condition: and(succeeded(), eq(variables.isProduction, 'true'))
+    jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
-        condition: succeeded()
-        # condition: and(succeeded(), eq(variables.isProduction, 'true'))
         environment: $(environmentName)
         strategy:
           runOnce:
