@@ -49,6 +49,7 @@ steps:
           python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
         displayName: 'Run tests'
         workingDirectory: $(projectRoot)
+        continueOnError: true
         env:
           secretKey: $(secretKey)
           APPLICATIONINSIGHTS_CONNECTION_STRING: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
