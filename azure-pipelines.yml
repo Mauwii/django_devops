@@ -62,7 +62,7 @@ stages:
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
 
-  - stage: CreateResources
+  - stage: createResources
     displayName: Create Azure Resources
     dependsOn: validateBicep
     condition: and(succeeded(), eq(variables.isProduction, 'true'))
@@ -77,7 +77,7 @@ stages:
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: WebApp
-    dependsOn: Bicep
+    dependsOn: createResources
     condition: in(dependencies.Bicep.result, 'Succeeded', 'Skipped')
     displayName: WebApp
     jobs:
