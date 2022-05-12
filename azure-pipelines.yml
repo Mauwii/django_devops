@@ -14,11 +14,11 @@ pr:
 variables:
   - group: django_gh
   - name: isMain
-    value: $[ eq(variables['Build.SourceBranchName'], 'main') ]
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   - name: isProduction
-    value: $[ eq(variables['Build.SourceBranchName'], 'production') ]
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/production')]
   - name: isPullRequest
-    value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
+    value: $[eq(variables['Build.Reason'], 'PullRequest')]
   - name: pythonVersion
     value: '3.10'
   - name: resourceGroupName
@@ -34,25 +34,6 @@ pool:
   vmImage: $(vmImageName)
 
 stages:
-  - stage: MkDocs
-    dependsOn:
-    jobs:
-      - job: buildMkDocs
-        displayName: Build MkDocs-Material
-        steps:
-          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
-            parameters:
-              submodule: mkdocs-material
-
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-
-          - task: Bash@3
-            displayName: Deploy to GitHub-Pages
-            condition: and(eq(variables.isMain, 'True'), eq(variables.isPullRequest, 'False'), succeeded())
-            inputs:
-              targetType: 'inline'
-              script: 'mkdocs gh-deploy --force --clean'
-
   - stage: validateBicep
     dependsOn:
     displayName: Validate Bicep
@@ -61,9 +42,7 @@ stages:
 
   - stage: createResources
     displayName: Create Azure Resources
-    dependsOn:
-      - MkDocs
-      - validateBicep
+    dependsOn: validateBicep
     condition: and(succeeded(), eq(variables.isProduction, 'True'))
     jobs:
       - deployment: DeployBicep
@@ -95,6 +74,7 @@ stages:
 
   - stage: WebApp
     dependsOn: Testing
+    condition: in(dependencies.Testing.result, 'Succeeded')
     jobs:
       - job: BuildWebApp
         displayName: Build Web App
@@ -113,7 +93,7 @@ stages:
 
       - deployment: DeployDjango
         dependsOn: BuildWebApp
-        condition: and(succeeded(), eq(variables.isProduction, 'True'), eq(variables.isPullRequest, 'False'))
+        condition: and(succeeded(), eq(variables.isProduction, 'True'))
         displayName: Deploy Django to WebApp
         environment: $(environmentName)
         strategy:
@@ -121,3 +101,23 @@ stages:
             deploy:
               steps:
                 - template: azure-pipelines/jobs/steps/deploy_webapp.yml
+
+  - stage: MkDocs
+    dependsOn: WebApp
+    condition: in(dependencies.WebApp.result, 'Succeeded')
+    jobs:
+      - job: buildMkDocs
+        displayName: Build MkDocs-Material
+        steps:
+          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
+            parameters:
+              submodule: mkdocs-material
+
+          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+
+          - task: Bash@3
+            displayName: Deploy to GitHub-Pages
+            condition: and(eq(variables.isMain, 'True'), succeeded())
+            inputs:
+              targetType: 'inline'
+              script: 'mkdocs gh-deploy --force --clean'
