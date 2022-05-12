@@ -24,7 +24,7 @@ steps:
     displayName: 'Install Requirements'
 
   - task: PublishPipelineArtifact@1
-    condition: and(eq(variables.isProduction, 'true'),eq(variables.isPullRequest, 'false') succeeded())
+    condition: and(eq(variables.isProduction, 'true'),eq(variables.isPullRequest, 'false'), succeeded())
     inputs:
       targetPath: $(projectRoot)
       # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
