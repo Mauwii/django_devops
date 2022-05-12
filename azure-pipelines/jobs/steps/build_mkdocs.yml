@@ -4,7 +4,7 @@ parameters:
   # Python Version to use for building mkdocs-material
   - name: PYTHON_VERSION
     type: string
-    default: '3.9'
+    default: $(pythonVersion)
 
 steps:
   - task: UsePythonVersion@0

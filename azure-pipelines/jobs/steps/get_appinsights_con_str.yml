@@ -1,7 +1,11 @@
 ## Get's the Connection String of a Application Insights Resource and outputs it as a secret variable connectionString
 parameters:
   - name: resourceGroupName
+    type: string
+    default: $(resourceGroupName)
   - name: azureSubscription
+    type: string
+    default: $(azureSubscription)
 
 steps:
   - script: 'env'
