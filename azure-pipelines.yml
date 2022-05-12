@@ -89,10 +89,7 @@ stages:
           - template: azure-pipelines/jobs/steps/python_django_test.yml
             parameters:
               PYTHON_VERSIONS:
-                - '3.7'
-                - '3.8'
-                - '3.9'
-                - '3.10'
+                - $(pythonVersion)
 
   - stage: WebApp
     dependsOn: createResources
