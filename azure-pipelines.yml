@@ -20,7 +20,7 @@ variables:
   - name: isPullRequest
     value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
   - name: pythonVersion
-    value: '3.8'
+    value: '3.10'
   - name: resourceGroupName
     value: 'django_gh'
   - name: location
@@ -95,8 +95,6 @@ stages:
 
   - stage: WebApp
     dependsOn: Testing
-    condition: succeeded()
-    displayName: WebApp
     jobs:
       - job: BuildWebApp
         displayName: Build Web App
