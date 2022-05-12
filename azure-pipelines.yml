@@ -13,12 +13,10 @@ pr:
 
 variables:
   - group: django_gh
-  - group: django-dev
-  - group: django-superuser
   - name: isMain
-    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/main') ]
+    value: $[ eq(variables['Build.SourceBranchName'], 'main') ]
   - name: isProduction
-    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/Production') ]
+    value: $[ eq(variables['Build.SourceBranchName'], 'production') ]
   - name: isPullRequest
     value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
   - name: pythonVersion
@@ -50,7 +48,7 @@ stages:
 
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
-            condition: and(eq(variables.isMain, 'true'), succeeded())
+            condition: and(eq(variables.isMain, 'true'), eq(variables.isPullRequest, 'false'), succeeded())
             inputs:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
