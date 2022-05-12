@@ -94,8 +94,8 @@ stages:
                 - $(pythonVersion)
 
   - stage: WebApp
-    dependsOn: createResources
-    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
+    dependsOn: Testing
+    condition: succeeded()
     displayName: WebApp
     jobs:
       - job: BuildWebApp
