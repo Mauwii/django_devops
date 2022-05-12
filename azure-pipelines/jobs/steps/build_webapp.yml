@@ -24,7 +24,7 @@ steps:
     displayName: 'Install Requirements'
 
   - task: PublishPipelineArtifact@1
-    condition: or(eq(variables.isProduction, 'True'), eq(parameters.publishBuildArtifact, 'True'))
+    condition: or(eq(variables.isProduction, 'True'), eq(${{ parameters.publishBuildArtifact }}, 'True'))
     inputs:
       targetPath: $(projectRoot)
       # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
