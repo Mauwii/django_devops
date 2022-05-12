@@ -1,19 +1,18 @@
 {
-  "yaml.schemas": {
-    "https://squidfunk.github.io/mkdocs-material/schema.json": "**/mkdocs.yml",
-    "https://json.schemastore.org/github-issue-config.json": "**/.github/ISSUE_TEMPLATE/config.yml",
-    "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
-      "**/azure-pipelines/**/*.yml",
-      "**/azure-pipelines.yml"
-    ]
-  },
-  "redhat.telemetry.enabled": false,
-  "yaml.format.singleQuote": true,
-  "markdown.extension.syntax.plainTheme": true,
-  "markdown.extension.completion.root": "${workspaceFolder}",
   "files.associations": {
-    "**/azure-pipelines/**/*.yml": "azure-pipelines"
+    "**/azure-pipelines/**/*.yml": "azure-pipelines",
+    "azure-pipelines.yml": "azure-pipelines"
   },
+  "editor.tabCompletion": "off",
+  "editor.suggest.insertMode": "replace",
+  "search.followSymlinks": false,
+  "search.exclude": {
+    "**/material": true,
+    "**/node_modules": true,
+    "**/package-lock.json": true
+  },
+  "typescript.tsdk": "mkdocs-material/node_modules/typescript/lib",
+  // Settings related to Azure Pipelines
   "azure-pipelines.configure": true,
   "azure-pipelines.customSchemaFile": ".vscode/azure-pipelines-schema.json",
   "[azure-pipelines]": {
@@ -27,15 +26,33 @@
       "comments": false,
       "strings": true
     },
-    "editor.autoIndent": "brackets",
-    "editor.tabCompletion": "off",
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.autoIndent": "full"
   },
-  "[md]": {
+  // Settings related to Markdown
+  "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
+  "markdown.extension.syntax.plainTheme": true,
+  "markdown.extension.completion.root": "${workspaceFolder}",
+  "markdown.styles": [
+    "https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+  ],
+  // Settings related to YAML
+  "redhat.telemetry.enabled": false,
+  "yaml.format.singleQuote": true,
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  // Settings related to json/jsonc
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.suggest.insertMode": "replace",
+    "gitlens.codeLens.scopes": [
+      "document"
+    ]
   },
   "[jsonc]": {
     "editor.quickSuggestions": {

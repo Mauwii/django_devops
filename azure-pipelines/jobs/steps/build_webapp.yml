@@ -1,10 +1,10 @@
 parameters:
   - name: PYTHON_VERSION
     type: string
-    default: '3.9'
+    default: $(pythonVersion)
   - name: publishBuildArtifact
     type: boolean
-    default: false
+    default: False
 
 steps:
   - task: UsePythonVersion@0
@@ -17,35 +17,15 @@ steps:
   - script: |
       python -m venv antenv
       source antenv/bin/activate
-      python -m pip install --upgrade pip
+      python -m pip install --upgrade pip wheel setuptools
       pip install setup
       pip install -r requirements.txt
     workingDirectory: $(projectRoot)
     displayName: 'Install Requirements'
 
-
-  # - ${{ if eq( parameters.publishBuildArtifact, 'true') }}:
-  # - task: ArchiveFiles@2
-  #   displayName: 'Archive files'
-  #   # condition: and(eq(variables.isProduction, 'true'), succeeded())
-  #   inputs:
-  #     rootFolderOrFile: $(projectRoot)
-  #     includeRootFolder: false
-  #     archiveType: zip
-  #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-  #     replaceExistingArchive: true
-
   - task: PublishPipelineArtifact@1
-    # condition: and(eq(variables.isProduction, 'true'), succeeded())
+    condition: or(eq(variables.isProduction, 'True'), eq(${{ parameters.publishBuildArtifact }}, 'True'))
     inputs:
       targetPath: $(projectRoot)
       # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
       artifactName: WebApp
-
-      # - task: PublishBuildArtifacts@1
-      #   displayName: Publish Build Artifact
-      #   condition: and(eq(variables.isProduction, 'true'), succeeded())
-      #   inputs:
-      #     PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      #     ArtifactName: 'drop'
-      #     publishLocation: 'Container'
