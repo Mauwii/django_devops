@@ -61,7 +61,9 @@ stages:
 
   - stage: createResources
     displayName: Create Azure Resources
-    dependsOn: validateBicep
+    dependsOn:
+      - MkDocs
+      - validateBicep
     condition: and(succeeded(), eq(variables.isProduction, 'True'))
     jobs:
       - deployment: DeployBicep
