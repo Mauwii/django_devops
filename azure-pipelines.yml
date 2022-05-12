@@ -48,7 +48,7 @@ stages:
 
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
-            condition: and(eq(variables.isMain, 'true'), eq(variables.isPullRequest, 'false'), succeeded())
+            condition: and(eq(variables.isMain, 'True'), eq(variables.isPullRequest, 'False'), succeeded())
             inputs:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'
@@ -62,7 +62,7 @@ stages:
   - stage: createResources
     displayName: Create Azure Resources
     dependsOn: validateBicep
-    condition: and(succeeded(), eq(variables.isProduction, 'true'))
+    condition: and(succeeded(), eq(variables.isProduction, 'True'))
     jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
@@ -116,7 +116,7 @@ stages:
 
       - deployment: DeployDjango
         dependsOn: BuildWebApp
-        condition: and(succeeded(), eq(variables.isProduction, 'true'))
+        condition: and(succeeded(), eq(variables.isProduction, 'True'), eq(variables.isPullRequest, 'False'))
         displayName: Deploy Django to WebApp
         environment: $(environmentName)
         strategy:
