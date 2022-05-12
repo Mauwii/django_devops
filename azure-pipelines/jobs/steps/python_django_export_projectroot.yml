@@ -3,7 +3,7 @@
 parameters:
   - name: PYTHON_VERSION
     type: string
-    default: '3.9'
+    default: $(pythonVersion)
 
 steps:
   - template: checkout_submodules.yml
