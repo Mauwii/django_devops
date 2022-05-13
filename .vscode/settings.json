@@ -11,10 +11,9 @@
     "**/node_modules": true,
     "**/package-lock.json": true
   },
-  "typescript.tsdk": "mkdocs-material/node_modules/typescript/lib",
+  "typescript.tsdk": "src/mkdocs-material/node_modules/typescript/lib",
   // Settings related to Azure Pipelines
   "azure-pipelines.configure": true,
-  "azure-pipelines.customSchemaFile": ".vscode/azure-pipelines-schema.json",
   "[azure-pipelines]": {
     "gitlens.codeLens.scopes": [
       "document"
@@ -41,10 +40,10 @@
   "redhat.telemetry.enabled": false,
   "yaml.format.singleQuote": true,
   "yaml.schemas": {
-    "mkdocs-material/docs/schema.json": "mkdocs.yml"
+    "src/mkdocs-material/docs/schema.json": "**/mkdocs.yml"
   },
   // Settings related to json/jsonc
-  "[json]": {
+  "[json,jsonc]": {
     "editor.quickSuggestions": {
       "strings": true
     },
@@ -54,14 +53,4 @@
       "document"
     ]
   },
-  "[jsonc]": {
-    "editor.quickSuggestions": {
-      "strings": true
-    },
-    "editor.defaultFormatter": "vscode.json-language-features",
-    "editor.suggest.insertMode": "replace",
-    "gitlens.codeLens.scopes": [
-      "document"
-    ]
-  }
 }

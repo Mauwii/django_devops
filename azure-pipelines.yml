@@ -78,7 +78,7 @@ stages:
         steps:
           - template: azure-pipelines/jobs/steps/checkout_submodules.yml
             parameters:
-              submodule: django_webapp
+              submodule: 'src/webapp'
           - template: azure-pipelines/jobs/steps/python_django_test.yml
             parameters:
               PYTHON_VERSIONS:
@@ -114,18 +114,12 @@ stages:
         dependsOn:
         condition: eq(variables.isMain, 'False')
         steps:
-          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
-            parameters:
-              submodule: mkdocs-material
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
       - job: deployMkDocs
-        displayName: Deploy MkDocs
+        displayName: Deploy MkDocs-Material
         dependsOn:
         condition: eq(variables.isMain, 'True')
         steps:
-          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
-            parameters:
-              submodule: mkdocs-material
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
