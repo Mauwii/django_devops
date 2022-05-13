@@ -5,10 +5,7 @@ trigger:
     include:
       - feature/experimental/*
 
-pr:
-  branches:
-    include:
-      - feature/*
+pr: none
 
 pool:
   vmImage: ubuntu-latest
