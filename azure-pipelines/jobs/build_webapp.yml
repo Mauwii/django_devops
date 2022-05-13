@@ -1,0 +1,7 @@
+jobs:
+  - job: BuildWebApp
+    displayName: Build Web App
+    steps:
+      - template: steps/python_django_export_projectroot.yml
+      - template: steps/get_appinsights_con_str.yml
+      - template: steps/build_webapp.yml

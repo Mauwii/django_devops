@@ -62,7 +62,7 @@ stages:
                 - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: Testing
-    dependsOn: createResources
+    dependsOn: Bicep
     condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
     displayName: Run runTests
     variables:
@@ -83,12 +83,7 @@ stages:
     dependsOn: Testing
     condition: in(dependencies.Testing.result, 'Succeeded')
     jobs:
-      - job: BuildWebApp
-        displayName: Build Web App
-        steps:
-          - template: azure-pipelines/jobs/steps/python_django_export_projectroot.yml
-          - template: azure-pipelines/jobs/steps/get_appinsights_con_str.yml
-          - template: azure-pipelines/jobs/steps/build_webapp.yml
+      - template: azure-pipelines/jobs/build_webapp.yml
       - deployment: DeployDjango
         dependsOn: BuildWebApp
         condition: eq(variables.isProduction, 'True')
