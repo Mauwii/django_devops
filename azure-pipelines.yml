@@ -107,6 +107,7 @@ stages:
 
   - stage: MkDocs
     dependsOn: WebApp
+    condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
       - job: buildMkDocs
         displayName: Build MkDocs-Material
