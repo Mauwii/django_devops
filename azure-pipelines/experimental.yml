@@ -40,6 +40,13 @@ stages:
         steps:
           - script: 'env'
 
+  - stage: pulumi
+    dependsOn:
+    jobs:
+      - job:
+        steps:
+          - script: 'brew install pulumi'
+
   # - stage: MkDocs
   #   dependsOn:
   #   jobs:
