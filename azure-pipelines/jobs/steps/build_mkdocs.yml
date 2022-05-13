@@ -9,7 +9,7 @@ parameters:
 steps:
   - template: checkout_submodules.yml
     parameters:
-      submodule: mkdocs-material
+      submodule: src/mkdocs-material
 
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
