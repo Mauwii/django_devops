@@ -29,6 +29,8 @@ variables:
   - name: destinationBranchName
     value: $[variables['System.PullRequest.TargetBranch']]
     readonly: True
+  - name: usePulumiTask
+    value: False
 
 stages:
   - stage: validateBranch
@@ -50,27 +52,40 @@ stages:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
               submodule: 'src/pulumi'
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: $(pythonVersion)
-              addToPath: true
-              architecture: x64
-          - script: |
-              brew install pulumi azure-cli
-              python3 -m venv venv
-              source venv/bin/activate
-              pip install -r requirements.txt
-              # unfortunatelly SP is not working as login method :-(
-              # az login --service-principal -u '$(SPAPPID)' -p '$(SPSECRET)' --tenant '$(SPTENANT)'
-              az login --use-device-code
-              pulumi stack select dev
-              pulumi up --yes
-            env:
-              PULUMI_ACCESS_TOKEN: $(pulumiToken)
-              SPAPPID: $(SpAppId)
-              SPSECRET: $(SpSecret)
-              SPTENANT: $(SpTenant)
-            workingDirectory: 'src/quickstart'
+          - ${{ if eq(variables.usePulumiTask, 'True') }}:
+              - task: UsePythonVersion@0
+                inputs:
+                  versionSpec: $(pythonVersion)
+                  addToPath: true
+                  architecture: x64
+              - script: |
+                  brew install pulumi azure-cli
+                  python3 -m venv venv
+                  source venv/bin/activate
+                  pip install -r requirements.txt
+                  # unfortunatelly SP is not working as login method :-(
+                  # az login --service-principal -u '$(SPAPPID)' -p '$(SPSECRET)' --tenant '$(SPTENANT)'
+                  az login --use-device-code
+                  pulumi stack select dev
+                  pulumi up --yes
+                env:
+                  PULUMI_ACCESS_TOKEN: $(pulumiToken)
+                  SPAPPID: $(SpAppId)
+                  SPSECRET: $(SpSecret)
+                  SPTENANT: $(SpTenant)
+                workingDirectory: 'src/quickstart'
+                displayName: No Pulumi Addon - script
+
+          - ${{ if eq(variables.usePulumiTask, 'True') }}:
+              - task: Pulumi@1
+                displayName: Pulumi Addon Task
+                inputs:
+                  # Using a service connection is optional. Specify build variables for your pipeline or link variable groups
+                  # that contain the necessary environment variables needed by the Pulumi provider your Pulumi app uses.
+                  azureSubscription: 'django_gh'
+                  command: 'preview'
+                  cwd: 'src/quickstart'
+                  stack: 'dev'
 
   # - stage: MkDocs
   #   dependsOn:
