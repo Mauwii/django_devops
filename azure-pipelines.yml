@@ -111,6 +111,8 @@ stages:
     jobs:
       - job: buildMkDocs
         displayName: Build MkDocs-Material
+        dependsOn:
+        condition: eq(variables.isMain, 'False')
         steps:
           - template: azure-pipelines/jobs/steps/checkout_submodules.yml
             parameters:
@@ -118,9 +120,13 @@ stages:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
       - job: deployMkDocs
         displayName: Deploy MkDocs
-        dependsOn: buildMkDocs
+        dependsOn:
         condition: eq(variables.isMain, 'True')
         steps:
+          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
+            parameters:
+              submodule: mkdocs-material
+          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
             inputs:
