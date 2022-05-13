@@ -60,14 +60,14 @@ stages:
               PULUMI_ACCESS_TOKEN: '$(pulumi)'
             inputs:
               azureSubscription: django_gh
-              scriptType: pscore
+              scriptType: bash
               workingDirectory: src/quickstart
               inlineScript: |
-                ls -la
                 python3 -m venv venv
                 source venv/bin/activate
                 brew install pulumi
                 pulumi up --yes
+
   # - stage: MkDocs
   #   dependsOn:
   #   jobs:
