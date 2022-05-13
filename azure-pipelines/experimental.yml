@@ -64,7 +64,7 @@ stages:
               pulumi config set azure-native:location westeurope
             workingDirectory: src/pulumi/azure-py-aci
             env:
-              PULUMI_ACCESS_TOKEN: $(pulumi)
+              PULUMI_ACCESS_TOKEN: '$(pulumi)'
 
   # - stage: MkDocs
   #   dependsOn:
