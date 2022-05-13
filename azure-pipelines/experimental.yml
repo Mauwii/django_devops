@@ -60,7 +60,9 @@ stages:
               python3 -m venv venv
               source venv/bin/activate
               pip install -r requirements.txt
-              az login --service-principal -u '$(SPAPPID)' -p '$(SPSECRET)' --tenant '$(SPTENANT)'
+              # unfortunatelly SP is not working as login method :-(
+              # az login --service-principal -u '$(SPAPPID)' -p '$(SPSECRET)' --tenant '$(SPTENANT)'
+              az login --use-device-code
               pulumi stack select dev
               pulumi up --yes
             env:
