@@ -96,23 +96,26 @@ stages:
                 - template: azure-pipelines/jobs/steps/deploy_webapp.yml
 
   - stage: MkDocs
+    displayName: MkDocs-Material
     dependsOn: WebApp
     condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
-      - job: buildMkDocs
-        displayName: Build MkDocs-Material
-        dependsOn:
-        condition: eq(variables.isMain, 'False')
-        steps:
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-      - job: deployMkDocs
-        displayName: Deploy MkDocs-Material
-        dependsOn:
-        condition: eq(variables.isMain, 'True')
-        steps:
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-          - task: Bash@3
-            displayName: Deploy to GitHub-Pages
-            inputs:
-              targetType: 'inline'
-              script: 'mkdocs gh-deploy --force --clean'
+      - ${{ if eq(variables.isMain, 'False') }}:
+          - job: buildMkDocs
+            displayName: Build MkDocs-Material
+            dependsOn:
+            condition: eq(variables.isMain, 'False')
+            steps:
+              - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+      - ${{ if eq(variables.isMain, 'True') }}:
+          - job: deployMkDocs
+            displayName: Deploy MkDocs-Material
+            dependsOn:
+            condition: eq(variables.isMain, 'True')
+            steps:
+              - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+              - task: Bash@3
+                displayName: Deploy to GitHub-Pages
+                inputs:
+                  targetType: 'inline'
+                  script: 'mkdocs gh-deploy --force --clean'
