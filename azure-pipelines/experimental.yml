@@ -57,6 +57,7 @@ stages:
               architecture: x64
           - script: |
               brew install pulumi
+              python3 -m venv venv
               pulumi about --non-interactive
             workingDirectory: src/pulumi/azure-py-aci
             env:
