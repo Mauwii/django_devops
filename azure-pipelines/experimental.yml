@@ -56,14 +56,18 @@ stages:
               addToPath: true
               architecture: x64
           - script: |
-              export PULUMI_ACCESS_TOKEN
+              brew install pulumi azure-cli
               python3 -m venv venv
               source venv/bin/activate
-              brew install pulumi
+              pip install -r requirements.txt
+              az login --service-principal -u '$(SPAPPID)' -p '$(SPSECRET)' --tenant '$(SPTENANT)'
               pulumi stack select dev
               pulumi up --yes
             env:
-              PULUMI_ACCESS_TOKEN: '$(pulumiToken)'
+              PULUMI_ACCESS_TOKEN: $(pulumiToken)
+              SPAPPID: $(SpAppId)
+              SPSECRET: $(SpSecret)
+              SPTENANT: $(SpTenant)
             workingDirectory: 'src/quickstart'
 
   # - stage: MkDocs
