@@ -46,29 +46,23 @@ pool:
   vmImage: $(vmImageName)
 
 stages:
-  - stage: validateBicep
+  - stage: Bicep
     dependsOn:
-    displayName: Validate Bicep
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
-
-  - stage: createResources
-    displayName: Create Azure Resources
-    dependsOn: validateBicep
-    condition: and(succeeded(), eq(variables.isProduction, 'True'))
-    jobs:
-      - deployment: DeployBicep
-        displayName: Create Azure Resources
-        environment: $(environmentName)
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - template: azure-pipelines/jobs/steps/deploy_bicep.yml
+      - ${{ if eq(variables.isMain, 'True') }}:
+          - deployment: DeployBicep
+            displayName: Create Azure Resources
+            environment: $(environmentName)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: Testing
-    dependsOn: createResources
-    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
+    dependsOn: Bicep
+    condition: in(dependencies.Bicep.result, 'Succeeded', 'Skipped')
     displayName: Run runTests
     variables:
       - group: django-dev
@@ -88,24 +82,20 @@ stages:
     dependsOn: Testing
     condition: in(dependencies.Testing.result, 'Succeeded')
     jobs:
-      - job: BuildWebApp
-        displayName: Build Web App
-        steps:
-          - template: azure-pipelines/jobs/steps/python_django_export_projectroot.yml
-          - template: azure-pipelines/jobs/steps/get_appinsights_con_str.yml
-          - template: azure-pipelines/jobs/steps/build_webapp.yml
-      - deployment: DeployDjango
-        dependsOn: BuildWebApp
-        condition: eq(variables.isProduction, 'True')
-        displayName: Deploy Django to WebApp
-        environment: $(environmentName)
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - template: azure-pipelines/jobs/steps/deploy_webapp.yml
+      - template: azure-pipelines/jobs/build_webapp.yml
+      - ${{ if eq(variables.isProduction, 'True') }}:
+          - deployment: DeployDjango
+            dependsOn: BuildWebApp
+            displayName: Deploy Django to WebApp
+            environment: $(environmentName)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - template: azure-pipelines/jobs/steps/deploy_webapp.yml
 
   - stage: MkDocs
+    displayName: MkDocs-Material
     dependsOn: WebApp
     condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
@@ -115,14 +105,14 @@ stages:
         condition: eq(variables.isMain, 'False')
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-      - job: deployMkDocs
-        displayName: Deploy MkDocs-Material
-        dependsOn:
-        condition: eq(variables.isMain, 'True')
-        steps:
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-          - task: Bash@3
-            displayName: Deploy to GitHub-Pages
-            inputs:
-              targetType: 'inline'
-              script: 'mkdocs gh-deploy --force --clean'
+      - ${{ if eq(variables.isMain, 'True') }}:
+          - job: deployMkDocs
+            displayName: Deploy MkDocs-Material
+            dependsOn:
+            steps:
+              - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+              - task: Bash@3
+                displayName: Deploy to GitHub-Pages
+                inputs:
+                  targetType: 'inline'
+                  script: 'mkdocs gh-deploy --force --clean'
