@@ -8,7 +8,7 @@ parameters:
 steps:
   - template: checkout_submodules.yml
     parameters:
-      submodule: django_webapp
+      submodule: webapp
 
   - task: UsePythonVersion@0
     displayName: Use Python version ${{ parameters.PYTHON_VERSION }}

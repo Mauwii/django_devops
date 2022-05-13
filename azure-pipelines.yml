@@ -78,7 +78,7 @@ stages:
         steps:
           - template: azure-pipelines/jobs/steps/checkout_submodules.yml
             parameters:
-              submodule: django_webapp
+              submodule: webapp
           - template: azure-pipelines/jobs/steps/python_django_test.yml
             parameters:
               PYTHON_VERSIONS:
@@ -111,13 +111,13 @@ stages:
       - job: buildMkDocs
         displayName: Build MkDocs-Material
         dependsOn:
-        condition: eq(variables.isMain, 'False')
+        condition: and(succeeded(), eq(variables.isMain, 'False'))
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
       - job: deployMkDocs
         displayName: Deploy MkDocs
         dependsOn:
-        condition: eq(variables.isMain, 'True')
+        condition: and(succeeded(), eq(variables.isMain, 'True'))
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - task: Bash@3
