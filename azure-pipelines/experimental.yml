@@ -30,7 +30,7 @@ variables:
     value: $[variables['System.PullRequest.TargetBranch']]
     readonly: True
   - name: usePulumiTask
-    value: False
+    value: 'True'
 
 stages:
   - stage: validateBranch
@@ -52,7 +52,7 @@ stages:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
               submodule: 'src/pulumi'
-          - ${{ if eq(variables.usePulumiTask, 'True') }}:
+          - ${{ if eq(variables.usePulumiTask, 'False') }}:
               - task: UsePythonVersion@0
                 inputs:
                   versionSpec: $(pythonVersion)
