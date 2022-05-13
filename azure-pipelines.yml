@@ -111,13 +111,13 @@ stages:
       - job: buildMkDocs
         displayName: Build MkDocs-Material
         dependsOn:
-        condition: and(succeeded(), eq(variables.isMain, 'False'))
+        condition: eq(variables.isMain, 'False')
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
       - job: deployMkDocs
-        displayName: Deploy MkDocs
+        displayName: Deploy MkDocs-Material
         dependsOn:
-        condition: and(succeeded(), eq(variables.isMain, 'True'))
+        condition: eq(variables.isMain, 'True')
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - task: Bash@3
