@@ -63,14 +63,14 @@ stages:
                   # python3 -m venv venv
                   # source venv/bin/activate
                   # pip install -r requirements.txt
-                  az login -u '$(AZPULUMIUSER)' -p '$(AZPULUMIPW)' --tenant '$(AZPULUMITENANT)'
+                  az login -u '$(azPulumiUser)' -p '$(azPulumiPw)' --tenant '$(SpTenant)'
                   pulumi stack select dev
                   pulumi preview
                 env:
                   PULUMI_ACCESS_TOKEN: $(pulumiToken)
                   AZPULUMIUSER: $(SpAppId)
                   AZPULUMIPW: $(SpSecret)
-                  AZPULUMITENANT: $(SpTenant)
+                  SPTENANT: $(SpTenant)
                 workingDirectory: 'src/quickstart/'
                 displayName: No Pulumi Addon - script
 
