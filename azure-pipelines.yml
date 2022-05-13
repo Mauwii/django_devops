@@ -50,16 +50,15 @@ stages:
     dependsOn:
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
-
-      - deployment: DeployBicep
-        displayName: Create Azure Resources
-        condition: eq(variables.isProduction, 'True')
-        environment: $(environmentName)
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - template: azure-pipelines/jobs/steps/deploy_bicep.yml
+      - ${{ if eq(variables.isMain, 'True') }}:
+          - deployment: DeployBicep
+            displayName: Create Azure Resources
+            environment: $(environmentName)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - template: azure-pipelines/jobs/steps/deploy_bicep.yml
 
   - stage: Testing
     dependsOn: Bicep
@@ -104,14 +103,12 @@ stages:
           - job: buildMkDocs
             displayName: Build MkDocs-Material
             dependsOn:
-            condition: eq(variables.isMain, 'False')
             steps:
               - template: azure-pipelines/jobs/steps/build_mkdocs.yml
       - ${{ if eq(variables.isMain, 'True') }}:
           - job: deployMkDocs
             displayName: Deploy MkDocs-Material
             dependsOn:
-            condition: eq(variables.isMain, 'True')
             steps:
               - template: azure-pipelines/jobs/steps/build_mkdocs.yml
               - task: Bash@3
