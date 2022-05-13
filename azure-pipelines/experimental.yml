@@ -59,7 +59,7 @@ stages:
             env:
               PULUMI_ACCESS_TOKEN: '$(pulumi)'
             inputs:
-              azureSubscription: Mauwii
+              azureSubscription: django_gh
               scriptType: pscore
               workingDirectory: src/quickstart
               inlineScript: |
@@ -67,8 +67,7 @@ stages:
                 python3 -m venv venv
                 source venv/bin/activate
                 brew install pulumi
-                pulumi about
-                pulumi config set azure-native:location westeurope
+                pulumi up --yes
   # - stage: MkDocs
   #   dependsOn:
   #   jobs:
