@@ -5,10 +5,7 @@ trigger:
     include:
       - feature/experimental/*
 
-pr:
-  branches:
-    include:
-      - feature/*
+pr: none
 
 pool:
   vmImage: ubuntu-latest
@@ -48,7 +45,7 @@ stages:
         steps:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
-              submodule: django_webapp
+              submodule: 'src/webapp'
               # checkoutSelf: false
               # recursive: false
               # debug: true
@@ -72,7 +69,7 @@ stages:
         steps:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
-              submodule: django_webapp
+              submodule: 'src/webapp'
 
           - template: jobs/steps/python_django_test_experimental.yml
             parameters:

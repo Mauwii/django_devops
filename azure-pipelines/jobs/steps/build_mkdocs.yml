@@ -7,6 +7,10 @@ parameters:
     default: $(pythonVersion)
 
 steps:
+  - template: checkout_submodules.yml
+    parameters:
+      submodule: 'src/mkdocs-material'
+
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
     inputs:
@@ -19,7 +23,8 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        pip install -e mkdocs-material
+        pip install --upgrade pip wheel setuptools
+        pip install -e src/mkdocs-material
         pip install mkdocs-git-revision-date-plugin
 
   - task: Bash@3

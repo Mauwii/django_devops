@@ -23,16 +23,20 @@ I used a combination of these tools and frameworks to have a useful playground I
 You should try to keep your expectations low, then you will be amazed even more while finding out about the things I am just finding out myself with this playground.
 
 ``` mermaid
-graph TD
-  You[You] -->|when found<br>this Page| expectation{Expectations}
-  expectation{Expectations} -->|High| Disappointed(maybe<br>Disappointed)
-  expectation{Expectations} -->|Low| Amazed(surely<br>Amazed)
+graph LR;
+    You[You] -->|when found<br>this Page| expectation{Expectations};
+    expectation{Expectations} -->|Low| Amazed(surely Amazed );
+    expectation{Expectations} -->|High| Disappointed(maybe Disappointed);
 ```
 
 ## Current Config
 
-This is the mkdcos.yml which was used when this Site was built.
+This is the YAML file which was used to Configure the website you are currently viewing.
 
-``` yaml title="mkdocs.yml" linenums="1"
+```yaml title="mkdocs.yml" linenums="1"
 --8<-- "mkdocs.yml"
 ```
+
+## License
+
+--8<-- "LICENSE"

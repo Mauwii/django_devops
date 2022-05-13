@@ -237,13 +237,3 @@ we don't consider them a good choice, mostly as they don't work well on mobile.
   [user journeys]: https://mermaid-js.github.io/mermaid/#/user-journey
   [git graphs]: https://mermaid-js.github.io/mermaid/#/gitgraph
   [requirement diagrams]: https://mermaid-js.github.io/mermaid/#/requirementDiagram
-
-## Usefull Links
-
-### Official Documentation
-
-If you want to find out more about how to configure MkDocs-Material to use Diagrams you can do so [here](https://squidfunk.github.io/mkdocs-material/reference/diagrams/?h=mermaid).
-
-### Mermaid Live Editor
-
-If you want to get started with Mermaid Diagrams, or already use them for your Project, I recommend to take a look at the [Mermaid live Editor](https://mermaid.live/), which is pretty helpflull for newbes as well as advanced users.
