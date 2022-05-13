@@ -20,61 +20,79 @@ variables:
     value: 'westeurope'
   - name: azureSubscription
     value: 'django_gh'
+  - name: isPullRequest
+    value: $[eq(variables['Build.Reason'], 'PullRequest')]
+    readonly: True
+  - name: sourceBranchName
+    value: $[variables['Build.SourceBranchName']]
+    readonly: True
+  - name: destinationBranchName
+    value: $[variables['System.PullRequest.TargetBranch']]
+    readonly: True
 
 stages:
-  - stage: MkDocs
+  - stage: validateBranch
     dependsOn:
+    displayName: Validate Branch
     jobs:
-      - job: BuildDocs
-        displayName: 'Build MkDocs'
-        dependsOn:
+      - job: isPullRequest
+        condition: and(eq(variables.isPullRequest, 'False'), in(variables.sourceBranchName, 'main', 'feature/*', 'issue/*', 'hotfix/*'))
         steps:
-          - template: jobs/steps/build_mkdocs.yml
-            parameters:
-              update_submodule: true
+          - script: echo "This Trigger was fired!"
 
-  - stage: Experimental_Django
-    dependsOn:
-    jobs:
-      - job: BuildDjango
-        displayName: 'Build Django'
-        dependsOn:
-        variables:
-          - group: django-dev
-          - group: django-superuser
-        steps:
-          - template: jobs/steps/checkout_submodules.yml
-            parameters:
-              submodule: 'src/webapp'
-              # checkoutSelf: false
-              # recursive: false
-              # debug: true
-          - template: jobs/steps/get_appinsights_con_str.yml
-            parameters:
-              azureSubscription: $(azureSubscription)
-              resourceGroupName: $(resourceGroupName)
-          - template: jobs/steps/build_webapp_experimental.yml
-            parameters:
-              pythonVersion: $(pythonVersion)
-              debug: true
+  # - stage: MkDocs
+  #   dependsOn:
+  #   jobs:
+  #     - job: BuildDocs
+  #       displayName: 'Build MkDocs'
+  #       dependsOn:
+  #       steps:
+  #         - template: jobs/steps/build_mkdocs.yml
+  #           parameters:
+  #             update_submodule: true
 
-  - stage: Experimental_Django_Test
-    dependsOn:
-    jobs:
-      - job: Run_Tests
-        displayName: Python Tests
-        dependsOn:
-        variables:
-          - group: django-dev
-        steps:
-          - template: jobs/steps/checkout_submodules.yml
-            parameters:
-              submodule: 'src/webapp'
+  # - stage: Experimental_Django
+  #   dependsOn:
+  #   jobs:
+  #     - job: BuildDjango
+  #       displayName: 'Build Django'
+  #       dependsOn:
+  #       variables:
+  #         - group: django-dev
+  #         - group: django-superuser
+  #       steps:
+  #         - template: jobs/steps/checkout_submodules.yml
+  #           parameters:
+  #             submodule: 'src/webapp'
+  #             # checkoutSelf: false
+  #             # recursive: false
+  #             # debug: true
+  #         - template: jobs/steps/get_appinsights_con_str.yml
+  #           parameters:
+  #             azureSubscription: $(azureSubscription)
+  #             resourceGroupName: $(resourceGroupName)
+  #         - template: jobs/steps/build_webapp_experimental.yml
+  #           parameters:
+  #             pythonVersion: $(pythonVersion)
+  #             debug: true
 
-          - template: jobs/steps/python_django_test_experimental.yml
-            parameters:
-              PYTHON_VERSIONS:
-                - '3.10'
-                - '3.9'
-                - '3.8'
-                - '3.7'
+  # - stage: Experimental_Django_Test
+  #   dependsOn:
+  #   jobs:
+  #     - job: Run_Tests
+  #       displayName: Python Tests
+  #       dependsOn:
+  #       variables:
+  #         - group: django-dev
+  #       steps:
+  #         - template: jobs/steps/checkout_submodules.yml
+  #           parameters:
+  #             submodule: 'src/webapp'
+
+  #         - template: jobs/steps/python_django_test_experimental.yml
+  #           parameters:
+  #             PYTHON_VERSIONS:
+  #               - '3.10'
+  #               - '3.9'
+  #               - '3.8'
+  #               - '3.7'
