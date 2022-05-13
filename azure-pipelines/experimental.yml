@@ -55,17 +55,20 @@ stages:
               versionSpec: $(pythonVersion)
               addToPath: true
               architecture: x64
-          - script: |
-              ls -la
-              python3 -m venv venv
-              source venv/bin/activate
-              brew install pulumi
-              pulumi about
-              pulumi config set azure-native:location westeurope
-            workingDirectory: src/pulumi/azure-py-aci
+          - task: AzureCLI@2
             env:
               PULUMI_ACCESS_TOKEN: '$(pulumi)'
-
+            inputs:
+              azureSubscription: Mauwii
+              scriptType: pscore
+              workingDirectory: src/quickstart
+              inlineScript: |
+                ls -la
+                python3 -m venv venv
+                source venv/bin/activate
+                brew install pulumi
+                pulumi about
+                pulumi config set azure-native:location westeurope
   # - stage: MkDocs
   #   dependsOn:
   #   jobs:
