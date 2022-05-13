@@ -55,21 +55,15 @@ stages:
               versionSpec: $(pythonVersion)
               addToPath: true
               architecture: x64
-          - task: AzureCLI@2
-            env:
-              PULUMI_ACCESS_TOKEN: '$(pulumiToken)'
-            inputs:
-              azureSubscription: django_gh
-              scriptType: bash
-              inlineScript: az login
           - script: |
-              cd src/quickstart
+              export PULUMI_ACCESS_TOKEN
               python3 -m venv venv
               source venv/bin/activate
               brew install pulumi
-              pulumi up --yes'
+              pulumi up --yes
             env:
               PULUMI_ACCESS_TOKEN: '$(pulumiToken)'
+            workingDirectory: 'src/quickstart'
 
   # - stage: MkDocs
   #   dependsOn:
