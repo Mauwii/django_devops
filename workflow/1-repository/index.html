@@ -81,7 +81,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="Azure-DevOps with GitHub-Repo" class="md-header__button md-logo" aria-label="Azure-DevOps with GitHub-Repo" data-md-component="logo">
       
@@ -187,14 +189,8 @@
     
   </nav>
   
-</header>
     
-    <div class="md-container" data-md-component="container">
       
-      
-        
-          
-            
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -207,18 +203,6 @@
   <li class="md-tabs__item">
     <a href="../.." class="md-tabs__link">
       Home
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../license/" class="md-tabs__link">
-      License
     </a>
   </li>
 
@@ -248,7 +232,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../todo/1-open/" class="md-tabs__link">
+      <a href="../../todo/" class="md-tabs__link">
         Todo
       </a>
     </li>
@@ -276,7 +260,13 @@
     </ul>
   </div>
 </nav>
-          
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
         
       
       <main class="md-main" data-md-component="main">
@@ -341,26 +331,11 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../license/" class="md-nav__link">
-        License
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
     
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -380,14 +355,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../reference/">Reference</a>
           
-            <label for="__nav_3">
+            <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Reference
         </label>
@@ -440,71 +415,31 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
       
       
       
         
           
-        
-          
-        
+            
           
         
       
       
-        <label class="md-nav__link" for="__nav_4">
-          Todo
-          <span class="md-nav__icon md-icon"></span>
-        </label>
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../todo/">Todo</a>
+          
+        </div>
       
       <nav class="md-nav" aria-label="Todo" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
+        <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           Todo
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../todo/1-open/" class="md-nav__link">
-        Open
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../todo/2-done/" class="md-nav__link">
-        Done
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../todo/3-ideas/" class="md-nav__link">
-        Ideas
-      </a>
-    </li>
-  
-
             
           
         </ul>
@@ -526,7 +461,7 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -537,13 +472,13 @@
         
       
       
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_4">
           Workflow
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Workflow" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Workflow
         </label>
@@ -600,11 +535,11 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#diagram" class="md-nav__link">
-    Diagram
+  <a href="#diagrams" class="md-nav__link">
+    Diagrams
   </a>
   
-    <nav class="md-nav" aria-label="Diagram">
+    <nav class="md-nav" aria-label="Diagrams">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -619,6 +554,21 @@
     Detailed
   </a>
   
+    <nav class="md-nav" aria-label="Detailed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-dev-to-main" class="md-nav__link">
+    From Dev to Main
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-main-to-prod" class="md-nav__link">
+    From Main to Prod
+  </a>
+  
 </li>
         
       </ul>
@@ -630,6 +580,11 @@
   <a href="#gitgraph-example" class="md-nav__link">
     GitGraph example
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -694,9 +649,9 @@
 
   <h1>Repository</h1>
 
-<p>In this Section you will find Informations related to the Repository, like a</p>
-<h3 id="branching-strategy">Branching Strategy<a class="headerlink" href="#branching-strategy" title="Permanent link">&para;</a></h3>
-<h4 id="table">Table<a class="headerlink" href="#table" title="Permanent link">&para;</a></h4>
+<p>In this Section you will find Informations related to the Workflow of the Repository.</p>
+<h2 id="branching-strategy">Branching Strategy<a class="headerlink" href="#branching-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="table">Table<a class="headerlink" href="#table" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -709,13 +664,6 @@
 </thead>
 <tbody>
 <tr>
-<td align="center">feature-branches</td>
-<td align="left">feature/*<br>issue/*</td>
-<td align="center">main</td>
-<td align="left">Head of main</td>
-<td align="left">must be up to date with main for PR</td>
-</tr>
-<tr>
 <td align="center">working branch</td>
 <td align="left">main</td>
 <td align="center">feature/* <br>issue/*<br>hotfix</td>
@@ -723,15 +671,22 @@
 <td align="left">Require linear history<br>Require status checks to pass before merging<br>Require branches to be up to date before merging</td>
 </tr>
 <tr>
+<td align="center">Dev</td>
+<td align="left">feature/*<br>issue/*</td>
+<td align="center">main</td>
+<td align="left">Head of main</td>
+<td align="left">must be up to date with main for PR</td>
+</tr>
+<tr>
 <td align="center">hotfix</td>
 <td align="left">hotfix/*</td>
 <td align="center">-</td>
-<td align="left">Head of stable</td>
+<td align="left">Head of Production</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="center">release</td>
-<td align="left">stable</td>
+<td align="center">Production</td>
+<td align="left">Production</td>
 <td align="center">main<br>hotfix</td>
 <td align="left">Pull-Request</td>
 <td align="left"></td>
@@ -739,71 +694,84 @@
 </tbody>
 </table>
 <p>Main branch is used as the working branch. To develope new features, create branch from main branch called <code>feature/&lt;jira-id&gt;-&lt;feature-name&gt;</code> for new features, or <code>issue/&lt;jira-id&gt;</code> when solving a issue. When development of the feature or issue is done, merge it back into the main branch with a pull request.</p>
-<p>When time has come for a release, create a pull request to merge main into stable.</p>
-<p>For bigger problems, like f.E. a zero-day, create a branch from stable and name it <code>hotfix/&lt;jira-id&gt;</code> and try to fix the issue asap. When done, merge this hotfix back into stable as well as into main.</p>
-<h4 id="diagram">Diagram<a class="headerlink" href="#diagram" title="Permanent link">&para;</a></h4>
-<h5 id="small">Small<a class="headerlink" href="#small" title="Permanent link">&para;</a></h5>
+<p>When time has come for a release, create a pull request to merge main into Production.</p>
+<p>For bigger problems, like f.E. a zero-day, create a branch from Production and name it <code>hotfix/&lt;jira-id&gt;</code> and try to fix the issue asap. When done, merge this hotfix back into stable as well as into main.</p>
+<h3 id="diagrams">Diagrams<a class="headerlink" href="#diagrams" title="Permanent link">&para;</a></h3>
+<h4 id="small">Small<a class="headerlink" href="#small" title="Permanent link">&para;</a></h4>
 <pre class="mermaid"><code>graph LR
     dev --&gt; main;
     main -.-&gt; dev;
-    main --&gt; stable;
-    stable -.-&gt; hotfix;
-    hotfix --&gt; stable &amp; main;</code></pre>
-<h5 id="detailed">Detailed<a class="headerlink" href="#detailed" title="Permanent link">&para;</a></h5>
+    main --&gt; production;
+    production -.-&gt; hotfix;
+    hotfix --&gt; production &amp; main;</code></pre>
+<h4 id="detailed">Detailed<a class="headerlink" href="#detailed" title="Permanent link">&para;</a></h4>
+<h5 id="from-dev-to-main">From Dev to Main<a class="headerlink" href="#from-dev-to-main" title="Permanent link">&para;</a></h5>
 <pre class="mermaid"><code>graph LR
-  Code[(Code)] -- Commit&lt;br&gt;Changes --&gt; FeatureBranch[Feature&lt;br&gt;Branch];
-  FeatureBranch[Feature&lt;br&gt;Branch] -- Pull&lt;br&gt;Request --&gt; MainBranch[Main&lt;br&gt;Branch];
+  Code[/Write Code\] -- Commit&lt;br&gt;Changes --&gt; FeatureBranch[Feature Branch];
+  MainBranch -. Create new Branch .-&gt; FeatureBranch[Feature Branch];
+  FeatureBranch -- Pull&lt;br&gt;Request --&gt; MainBranch[Main Branch];
   MainBranch -- Trigger&lt;br&gt;Build --&gt; CheckFeature{Built&lt;br&gt;succesfull};
-  CheckFeature -- Yes --&gt; CompleteMerge[/Complete Merge/];
-  CompleteMerge -- Trigger&lt;br&gt;Build --&gt; CheckMain{Built&lt;br&gt;succesfull};
-  CheckMain -- Yes --&gt; DeployMain[/Deploy&lt;br&gt;Main Branch/];
-  DeployMain --&gt; DeleteFeature[\Delete&lt;br&gt;Feature Branch\];
-  CheckMain -- No --&gt; RevertMerge[\Revert Merge\];
-  RevertMerge[\Revert Merge\] --&gt; TryBugFix{try to&lt;br&gt;fix bugs};
-  TryBugFix -- No --&gt; DeleteFeature;
-  CheckFeature -- No --&gt; TryBugFix;
-  TryBugFix -- yes --&gt; Code;</code></pre>
-<p>A more detailed Workflow-Diagram is located in the next</p>
+  CheckFeature -- Yes --&gt; CompletePR[/Complete PR/];
+  CheckFeature -- No --&gt; TryFixBugsFeature{Try to&lt;br&gt;fix bugs};;
+  TryFixBugsFeature -- Yes --&gt; Code;
+  TryFixBugsFeature -- No --&gt; DeleteFeatureBranch[\Delete Feature Branch\];
+  CompletePR --&gt; DeleteFeatureBranch
+</code></pre>
+<h5 id="from-main-to-prod">From Main to Prod<a class="headerlink" href="#from-main-to-prod" title="Permanent link">&para;</a></h5>
+<p>incomplete</p>
+<pre class="mermaid"><code>graph LR
+    MainBranch[Main Branch] -- Pull Request --&gt; ProductionBranch;
+    ProductionBranch[Production&lt;br&gt;branch] -- Trigger&lt;br&gt;Build --&gt; CheckPrProduction{Built&lt;br&gt;succesfull};
+    CheckPrProduction -- yes --&gt; CompleteMergeProduction[/Complete PR/];
+    CompleteMergeProduction --&gt; DeployProduction[/Deploy&lt;br&gt;to Production/];
+    CheckPrProduction -- No --&gt; TryFixBugsProduction[Fix Bugs];</code></pre>
 <h4 id="gitgraph-example">GitGraph example<a class="headerlink" href="#gitgraph-example" title="Permanent link">&para;</a></h4>
-<pre class="mermaid"><code>    gitGraph
-        commit
-        branch stable
-        checkout stable
-        commit tag: "v1"
-        checkout main
-        branch feature-1
-        checkout feature-1
-        commit
-        commit
-        checkout main
-        branch feature-2
-        checkout feature-2
-        commit
-        checkout main
-        merge feature-1
-        commit
-        checkout feature-2
-        commit
-        checkout stable
-        branch hotfix-1
-        commit
-        commit
-        checkout main
-        merge hotfix-1
-        commit
-        checkout stable
-        merge hotfix-1
-        commit tag: "v1-hotfix"
-        checkout feature-2
-        commit
-        merge main
-        checkout main
-        merge feature-2
-        commit
-        checkout stable
-        merge main
-        commit tag: "v2"</code></pre>
-<h4 id="automation">Automation<a class="headerlink" href="#automation" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>gitGraph
+    commit
+    branch production
+    checkout production
+    checkout main
+    branch feature-1
+    checkout feature-1
+    commit
+    checkout main
+    merge feature-1
+    checkout production
+    merge main
+    checkout main
+    branch feature-2
+    checkout feature-2
+    commit
+    checkout main
+    branch feature-3
+    checkout feature-3
+    commit
+    commit
+    checkout feature-2
+    commit
+    checkout main
+    merge feature-2
+    checkout production
+    merge main
+    checkout feature-3
+    commit
+    commit
+    checkout main
+    checkout production
+    branch hotfix-1
+    commit
+    checkout production
+    merge hotfix-1
+    checkout main
+    merge hotfix-1
+    checkout main
+    checkout feature-3
+    merge main
+    checkout main
+    merge feature-3
+    checkout production
+    merge main</code></pre>
+<h3 id="automation">Automation<a class="headerlink" href="#automation" title="Permanent link">&para;</a></h3>
 <p>Of course the approach is to have as much automated as possible, which also means that pull-request should in the end get tested and resolved by themselves (...or the help of Azure-Pipelines <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m22 18-5 4-8-3v3l-4.19-5.75 12.91 1.05V6.34L22 5.65V18M4.81 16.25V8.96l12.91-2.62L10.6 2v2.84L3.97 6.76 2 9.38v5.69l2.81 1.18Z"/></svg></span>)</p>
 
   <hr>
@@ -811,7 +779,7 @@
   <small>
     
       Last update:
-      2022-05-11
+      2022-05-13
     
   </small>
 </div>
@@ -833,7 +801,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../../todo/3-ideas/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Ideas" rel="prev">
+        <a href="../../todo/" class="md-footer__link md-footer__link--prev" aria-label="Previous: ToDo" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -842,7 +810,7 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Ideas
+              ToDo
             </div>
           </div>
         </a>
@@ -917,7 +885,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.tooltips", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.tooltips", "navigation.expand", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.a6c66575.min.js"></script>

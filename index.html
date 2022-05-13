@@ -81,7 +81,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Azure-DevOps with GitHub-Repo" class="md-header__button md-logo" aria-label="Azure-DevOps with GitHub-Repo" data-md-component="logo">
       
@@ -187,14 +189,8 @@
     
   </nav>
   
-</header>
     
-    <div class="md-container" data-md-component="container">
       
-      
-        
-          
-            
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -209,18 +205,6 @@
   <li class="md-tabs__item">
     <a href="." class="md-tabs__link md-tabs__link--active">
       Home
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="license/" class="md-tabs__link">
-      License
     </a>
   </li>
 
@@ -250,7 +234,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="todo/1-open/" class="md-tabs__link">
+      <a href="todo/" class="md-tabs__link">
         Todo
       </a>
     </li>
@@ -276,7 +260,13 @@
     </ul>
   </div>
 </nav>
-          
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
         
       
       <main class="md-main" data-md-component="main">
@@ -384,6 +374,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    License
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -399,26 +396,11 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="license/" class="md-nav__link">
-        License
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
     
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -438,14 +420,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="reference/">Reference</a>
           
-            <label for="__nav_3">
+            <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Reference
         </label>
@@ -498,71 +480,31 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
       
       
       
         
           
-        
-          
-        
+            
           
         
       
       
-        <label class="md-nav__link" for="__nav_4">
-          Todo
-          <span class="md-nav__icon md-icon"></span>
-        </label>
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="todo/">Todo</a>
+          
+        </div>
       
       <nav class="md-nav" aria-label="Todo" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
+        <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           Todo
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="todo/1-open/" class="md-nav__link">
-        Open
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="todo/2-done/" class="md-nav__link">
-        Done
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="todo/3-ideas/" class="md-nav__link">
-        Ideas
-      </a>
-    </li>
-  
-
             
           
         </ul>
@@ -582,7 +524,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -593,13 +535,13 @@
         
       
       
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_4">
           Workflow
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Workflow" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Workflow
         </label>
@@ -672,12 +614,12 @@
 </ul>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>You should try to keep your expectations low, then you will be amazed even more while finding out about the things I am just finding out myself with this playground.</p>
-<pre class="mermaid"><code>graph TD
-  You[You] --&gt;|when found&lt;br&gt;this Page| expectation{Expectations}
-  expectation{Expectations} --&gt;|High| Disappointed(maybe&lt;br&gt;Disappointed)
-  expectation{Expectations} --&gt;|Low| Amazed(surely&lt;br&gt;Amazed)</code></pre>
+<pre class="mermaid"><code>graph LR;
+    You[You] --&gt;|when found&lt;br&gt;this Page| expectation{Expectations};
+    expectation{Expectations} --&gt;|Low| Amazed(surely Amazed );
+    expectation{Expectations} --&gt;|High| Disappointed(maybe Disappointed);</code></pre>
 <h2 id="current-config">Current Config<a class="headerlink" href="#current-config" title="Permanent link">&para;</a></h2>
-<p>This is the mkdcos.yml which was used when this Site was built.</p>
+<p>This is the YAML file which was used to Configure the website you are currently viewing.</p>
 <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">mkdocs.yml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">  1</a></span>
 <span class="normal"><a href="#__codelineno-0-2">  2</a></span>
 <span class="normal"><a href="#__codelineno-0-3">  3</a></span>
@@ -861,7 +803,7 @@
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="c1"># Configuration</span><span class="w"></span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="nt">theme</span><span class="p">:</span><span class="w"></span>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w"></span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="w">  </span><span class="nt">custom_dir</span><span class="p">:</span><span class="w"> </span><span class="kt">!ENV</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">THEME_DIR</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;mkdocs-material/material&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="w">  </span><span class="nt">custom_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;mkdocs-material/material&#39;</span><span class="w"></span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="w">  </span><span class="c1"># 404 page</span><span class="w"></span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">  </span><span class="nt">static_templates</span><span class="p">:</span><span class="w"></span>
@@ -878,12 +820,12 @@
 <a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="w">    </span><span class="c1"># - content.tabs.link</span><span class="w"></span>
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">content.tooltips</span><span class="w"></span>
 <a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">    </span><span class="c1"># - header.autohide</span><span class="w"></span>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="w">    </span><span class="c1"># - navigation.expand</span><span class="w"></span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">navigation.expand</span><span class="w"></span>
 <a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">navigation.indexes</span><span class="w"></span>
 <a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">    </span><span class="c1"># - navigation.instant</span><span class="w"></span>
 <a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">navigation.sections</span><span class="w"></span>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">navigation.tabs</span><span class="w"></span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">    </span><span class="c1"># - navigation.tabs.sticky</span><span class="w"></span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">navigation.tabs.sticky</span><span class="w"></span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">navigation.top</span><span class="w"></span>
 <a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">navigation.tracking</span><span class="w"></span>
 <a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">search.highlight</span><span class="w"></span>
@@ -966,13 +908,30 @@
 <a id="__codelineno-0-143" name="__codelineno-0-143"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">search</span><span class="w"></span>
 <a id="__codelineno-0-144" name="__codelineno-0-144"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git-revision-date</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>Copyright &copy; 2022 Matthias Wild <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#97;&#117;&#119;&#105;&#105;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#100;&#101;">&#109;&#97;&#117;&#119;&#105;&#105;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#100;&#101;</a></p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to
+deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.</p>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      2022-05-11
+      2022-05-13
     
   </small>
 </div>
@@ -995,13 +954,13 @@
       
       
         
-        <a href="license/" class="md-footer__link md-footer__link--next" aria-label="Next: License" rel="next">
+        <a href="reference/" class="md-footer__link md-footer__link--next" aria-label="Next: Reference" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              License
+              Reference
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -1063,7 +1022,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "content.tooltips", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.integrate"], "search": "assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "content.tooltips", "navigation.expand", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.integrate"], "search": "assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
       <script src="assets/javascripts/bundle.a6c66575.min.js"></script>
