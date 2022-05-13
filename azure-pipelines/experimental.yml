@@ -60,6 +60,7 @@ stages:
               python3 -m venv venv
               source venv/bin/activate
               brew install pulumi
+              pulumi stack select dev
               pulumi up --yes
             env:
               PULUMI_ACCESS_TOKEN: '$(pulumiToken)'
