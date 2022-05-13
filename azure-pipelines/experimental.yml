@@ -35,10 +35,10 @@ stages:
     dependsOn:
     displayName: Validate Branch
     jobs:
-      - job: isPullRequest
-        condition: and(eq(variables.isPullRequest, 'False'), or(eq(variables.sourceBranchName, 'feature/hotfix/*'), eq(variables.sourceBranchName, 'main')))
+      - job: noPullRequest
+        condition: eq(variables.isPullRequest, 'False')
         steps:
-          - script: echo "This Trigger was fired!"
+          - script: 'env'
 
   # - stage: MkDocs
   #   dependsOn:
