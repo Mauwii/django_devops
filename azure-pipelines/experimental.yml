@@ -47,11 +47,15 @@ stages:
         variables:
           - group: pulumi
         steps:
+          - template: jobs/steps/checkout_submodules.yml
+            parameters:
+              submodule: 'src/pulumi'
           - script: |
               brew install pulumi
-              pulumi about --secret $(pulumiToken) --non-interactive
+              pulumi about --non-interactive
+            workingDirectory: src/pulumi/azure-py-aci
             env:
-              pulumi: $(pulumi)
+              PULUMI_ACCESS_TOKEN: $(pulumi)
 
   # - stage: MkDocs
   #   dependsOn:

@@ -4,3 +4,6 @@
 [submodule "webapp"]
 	path = src/webapp
 	url = https://github.com/Mauwii/msdocs-python-django-webapp-quickstart.git
+[submodule "pulumi"]
+	path = src/pulumi
+	url = https://github.com/pulumi/examples.git
