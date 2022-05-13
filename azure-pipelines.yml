@@ -83,16 +83,16 @@ stages:
     condition: in(dependencies.Testing.result, 'Succeeded')
     jobs:
       - template: azure-pipelines/jobs/build_webapp.yml
-      - deployment: DeployDjango
-        dependsOn: BuildWebApp
-        condition: eq(variables.isProduction, 'True')
-        displayName: Deploy Django to WebApp
-        environment: $(environmentName)
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - template: azure-pipelines/jobs/steps/deploy_webapp.yml
+      - ${{ if eq(variables.isProduction, 'True') }}:
+          - deployment: DeployDjango
+            dependsOn: BuildWebApp
+            displayName: Deploy Django to WebApp
+            environment: $(environmentName)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - template: azure-pipelines/jobs/steps/deploy_webapp.yml
 
   - stage: MkDocs
     displayName: MkDocs-Material
