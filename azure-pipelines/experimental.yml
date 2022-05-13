@@ -36,7 +36,7 @@ stages:
     displayName: Validate Branch
     jobs:
       - job: isPullRequest
-        condition: and(eq(variables.isPullRequest, 'False'), in(variables.sourceBranchName, 'main', 'feature/*', 'issue/*', 'hotfix/*'))
+        condition: and(eq(variables.isPullRequest, 'False'), or(eq(variables.sourceBranchName, 'feature/hotfix/*'), eq(variables.sourceBranchName, 'main')))
         steps:
           - script: echo "This Trigger was fired!"
 
