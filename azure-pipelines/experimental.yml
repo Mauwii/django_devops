@@ -61,7 +61,15 @@ stages:
             inputs:
               azureSubscription: django_gh
               scriptType: bash
-              inlineScript: 'cd src/quickstart && python3 -m venv venv && source venv/bin/activate && brew install pulumi && pulumi up --yes'
+              inlineScript: az login
+          - script: |
+              cd src/quickstart
+              python3 -m venv venv
+              source venv/bin/activate
+              brew install pulumi
+              pulumi up --yes'
+            env:
+              PULUMI_ACCESS_TOKEN: '$(pulumiToken)'
 
   # - stage: MkDocs
   #   dependsOn:
