@@ -44,8 +44,14 @@ stages:
     dependsOn:
     jobs:
       - job:
+        variables:
+          - group: pulumi
         steps:
-          - script: 'brew install pulumi'
+          - script: |
+              brew install pulumi
+              pulumi about --secret $(pulumiToken) --non-interactive
+            env:
+              pulumi: $(pulumi)
 
   # - stage: MkDocs
   #   dependsOn:
