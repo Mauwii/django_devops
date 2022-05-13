@@ -63,7 +63,7 @@ stages:
 
   - stage: Testing
     dependsOn: Bicep
-    condition: in(dependencies.createResources.result, 'Succeeded', 'Skipped')
+    condition: in(dependencies.Bicep.result, 'Succeeded', 'Skipped')
     displayName: Run runTests
     variables:
       - group: django-dev
