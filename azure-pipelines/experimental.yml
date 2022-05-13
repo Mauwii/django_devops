@@ -57,16 +57,11 @@ stages:
               architecture: x64
           - task: AzureCLI@2
             env:
-              PULUMI_ACCESS_TOKEN: '$(pulumi)'
+              PULUMI_ACCESS_TOKEN: '$(pulumiToken)'
             inputs:
               azureSubscription: django_gh
               scriptType: bash
-              workingDirectory: src/quickstart
-              inlineScript: |
-                python3 -m venv venv
-                source venv/bin/activate
-                brew install pulumi
-                pulumi up --yes
+              inlineScript: 'cd src/quickstart && python3 -m venv venv && source venv/bin/activate && brew install pulumi && pulumi up --yes'
 
   # - stage: MkDocs
   #   dependsOn:
