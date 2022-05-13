@@ -84,8 +84,10 @@ stages:
                   # that contain the necessary environment variables needed by the Pulumi provider your Pulumi app uses.
                   azureSubscription: 'django_gh'
                   command: 'preview'
-                  cwd: 'src/quickstart'
+                  cwd: 'src/quickstart/'
                   stack: 'dev'
+                env:
+                  PULUMI_ACCESS_TOKEN: $(pulumiToken)
 
   # - stage: MkDocs
   #   dependsOn:
