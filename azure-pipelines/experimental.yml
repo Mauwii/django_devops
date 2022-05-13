@@ -56,9 +56,12 @@ stages:
               addToPath: true
               architecture: x64
           - script: |
-              brew install pulumi
+              ls -la
               python3 -m venv venv
-              pulumi about --non-interactive
+              source venv/bin/activate
+              brew install pulumi
+              pulumi about
+              pulumi config set azure-native:location westeurope
             workingDirectory: src/pulumi/azure-py-aci
             env:
               PULUMI_ACCESS_TOKEN: $(pulumi)
