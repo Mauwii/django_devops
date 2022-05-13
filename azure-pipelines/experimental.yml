@@ -50,6 +50,11 @@ stages:
           - template: jobs/steps/checkout_submodules.yml
             parameters:
               submodule: 'src/pulumi'
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: $(pythonVersion)
+              addToPath: true
+              architecture: x64
           - script: |
               brew install pulumi
               pulumi about --non-interactive
