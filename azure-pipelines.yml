@@ -46,19 +46,14 @@ pool:
   vmImage: $(vmImageName)
 
 stages:
-  - stage: validateBicep
+  - stage: Bicep
     dependsOn:
-    displayName: Validate Bicep
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
 
-  - stage: createResources
-    displayName: Create Azure Resources
-    dependsOn: validateBicep
-    condition: and(succeeded(), eq(variables.isProduction, 'True'))
-    jobs:
       - deployment: DeployBicep
         displayName: Create Azure Resources
+        condition: eq(variables.isProduction, 'True')
         environment: $(environmentName)
         strategy:
           runOnce:
