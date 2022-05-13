@@ -4,6 +4,10 @@ trigger:
     include:
       - refs/heads/production
       - refs/heads/main
+      - feature/*
+      - issue/*
+    exclude:
+      - feature/experimental/*
 
 pr:
   branches:
@@ -15,20 +19,28 @@ variables:
   - group: django_gh
   - name: isMain
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+    readonly: true
   - name: isProduction
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/production')]
+    readonly: true
   - name: isPullRequest
     value: $[eq(variables['Build.Reason'], 'PullRequest')]
+    readonly: true
   - name: pythonVersion
-    value: '3.10'
+    value: '3.9'
+    readonly: true
   - name: resourceGroupName
     value: 'django_gh'
+    readonly: true
   - name: location
     value: 'westeurope'
+    readonly: true
   - name: azureSubscription
     value: 'django_gh'
+    readonly: true
   - name: vmImageName
     value: 'ubuntu-latest'
+    readonly: true
 
 pool:
   vmImage: $(vmImageName)
@@ -80,17 +92,8 @@ stages:
         displayName: Build Web App
         steps:
           - template: azure-pipelines/jobs/steps/python_django_export_projectroot.yml
-
           - template: azure-pipelines/jobs/steps/get_appinsights_con_str.yml
-            # parameters:
-            #   azureSubscription: $(azureSubscription)
-            #   resourceGroupName: $(resourceGroupName)
-
           - template: azure-pipelines/jobs/steps/build_webapp.yml
-            # parameters:
-            #   PYTHON_VERSION: $(pythonVersion)
-            #   publishBuildArtifact: true
-
       - deployment: DeployDjango
         dependsOn: BuildWebApp
         condition: eq(variables.isProduction, 'True')
@@ -112,12 +115,14 @@ stages:
           - template: azure-pipelines/jobs/steps/checkout_submodules.yml
             parameters:
               submodule: mkdocs-material
-
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-
+      - job: deployMkDocs
+        displayName: Deploy MkDocs
+        dependsOn: buildMkDocs
+        condition: eq(variables.isMain, 'True')
+        steps:
           - task: Bash@3
             displayName: Deploy to GitHub-Pages
-            condition: eq(variables.isProduction, 'True')
             inputs:
               targetType: 'inline'
               script: 'mkdocs gh-deploy --force --clean'

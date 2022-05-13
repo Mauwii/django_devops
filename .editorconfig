@@ -5,14 +5,11 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
+tab_width = 2
 indent_size = 2
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
-
-# Markdown
-[*.md]
-trim_trailing_whitespace = false
 
 # JSON-Files
 [*.{json,jsonc}]
@@ -24,3 +21,7 @@ insert_final_newline = false
 # Python
 [*.py]
 indent_size = 4
+tab_width = 4
+
+[.editorconfig]
+insert_final_newline = false

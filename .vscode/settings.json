@@ -40,8 +40,8 @@
   // Settings related to YAML
   "redhat.telemetry.enabled": false,
   "yaml.format.singleQuote": true,
-  "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+  "yaml.schemas": {
+    "mkdocs-material/docs/schema.json": "mkdocs.yml"
   },
   // Settings related to json/jsonc
   "[json]": {
