@@ -42,15 +42,4 @@
   "yaml.schemas": {
     "src/mkdocs-material/docs/schema.json": "**/mkdocs.yml"
   },
-  // Settings related to json/jsonc
-  "[json,jsonc]": {
-    "editor.quickSuggestions": {
-      "strings": true
-    },
-    "editor.defaultFormatter": "vscode.json-language-features",
-    "editor.suggest.insertMode": "replace",
-    "gitlens.codeLens.scopes": [
-      "document"
-    ]
-  },
 }
