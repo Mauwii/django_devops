@@ -1,7 +1,5 @@
-root = true
+root = false
 
 # Markdown
 [*.md]
-indent_size = 2
-indent_style = space
 trim_trailing_whitespace = false
