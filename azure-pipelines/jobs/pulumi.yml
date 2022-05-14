@@ -1,0 +1,41 @@
+jobs:
+  - job:
+    variables:
+      - group: pulumi
+    steps:
+      - template: jobs/steps/checkout_submodules.yml
+        parameters:
+          submodule: 'src/pulumi'
+      - ${{ if eq(variables.usePulumiTask, 'False') }}:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: $(pythonVersion)
+              addToPath: true
+              architecture: x64
+          - script: |
+              brew install pulumi azure-cli
+              # python3 -m venv venv
+              # source venv/bin/activate
+              # pip install -r requirements.txt
+              az login -u '$(azPulumiUser)' -p '$(azPulumiPw)' --tenant '$(SpTenant)'
+              pulumi stack select dev
+              pulumi preview
+            env:
+              PULUMI_ACCESS_TOKEN: $(pulumiToken)
+              AZPULUMIUSER: $(SpAppId)
+              AZPULUMIPW: $(SpSecret)
+              SPTENANT: $(SpTenant)
+            workingDirectory: 'src/quickstart/'
+            displayName: No Pulumi Addon - script
+      - ${{if eq(variables.usePulumiTask, 'true')}}:
+          - task: Pulumi@1
+            displayName: Pulumi Addon Task
+            inputs:
+              # Using a service connection is optional. Specify build variables for your pipeline or link variable groups
+              # that contain the necessary environment variables needed by the Pulumi provider your Pulumi app uses.
+              azureSubscription: 'django_gh'
+              command: 'preview'
+              cwd: 'src/quickstart/'
+              stack: 'dev'
+            env:
+              PULUMI_ACCESS_TOKEN: $(pulumiToken)
