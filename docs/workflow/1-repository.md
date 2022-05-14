@@ -91,29 +91,37 @@ gitGraph
     branch feature-3
     checkout feature-3
     commit
-    commit
-    checkout feature-2
-    commit
     checkout main
     merge feature-2
     checkout production
     merge main
     checkout feature-3
-    commit
-    commit
     checkout main
     checkout production
-    branch hotfix-1
-    commit
-    checkout production
-    merge hotfix-1
-    checkout main
-    merge hotfix-1
     checkout main
     checkout feature-3
     merge main
     checkout main
     merge feature-3
+    checkout production
+    merge main
+    checkout main
+    branch feature-4
+    checkout feature-4
+    commit
+    checkout production
+    branch hotfix-1
+    checkout hotfix-1
+    commit
+    checkout production
+    merge hotfix-1
+    checkout main
+    merge hotfix-1
+    checkout feature-4
+    commit
+    merge main
+    checkout main
+    merge feature-4
     checkout production
     merge main
 ```
