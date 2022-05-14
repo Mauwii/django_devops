@@ -11,10 +11,15 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+# Markdown
+[*.md]
+trim_trailing_whitespace = false
+
 # JSON-Files
 [*.{json,jsonc}]
 insert_final_newline = false
 
+# YAML
 [*.{yml,yaml}]
 insert_final_newline = false
 
