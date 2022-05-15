@@ -36,7 +36,7 @@ variables:
       - template: azure-pipelines/variables/stable.yml
 
 pool:
-  vmImage: '${{ variables.vmImageName }}'
+  vmImage: $(vmImageName)
 
 stages:
   - stage: Bicep
@@ -48,7 +48,7 @@ stages:
       - ${{ if or(eq(variables.isMain, 'True'), eq(variables.isStable, 'True')) }}:
           - deployment: DeployBicep
             displayName: Create Azure Resources
-            environment: '${{ variables.environmentName }}'
+            environment: $(environmentName)
             strategy:
               runOnce:
                 deploy:
