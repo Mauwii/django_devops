@@ -1,21 +1,5 @@
 ## Search all subdirectories for 'manage.py' and create projectRoot variable
-
-parameters:
-  - name: pythonVersion
-    type: string
-    default: '3.9'
-
 steps:
-  - template: checkout_submodules.yml
-    parameters:
-      submodule: 'src/webapp'
-
-  - task: UsePythonVersion@0
-    displayName: Use Python version ${{ parameters.pythonVersion }}
-    inputs:
-      versionSpec: ${{ parameters.pythonVersion }}
-      architecture: x64
-
   - task: PythonScript@0
     displayName: Export project path
     inputs:
