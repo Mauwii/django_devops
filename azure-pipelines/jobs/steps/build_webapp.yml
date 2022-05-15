@@ -7,20 +7,20 @@ steps:
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ parameters.pythonVersion }}'
     inputs:
-      versionSpec: ${{ parameters.pythonVersion }}
+      versionSpec: '${{ parameters.pythonVersion }}'
       addToPath: true
       architecture: 'x64'
 
   - script: |
-      python -m venv antenv
+      python3 -m venv antenv
       source antenv/bin/activate
-      python -m pip install --upgrade pip wheel setuptools
-      pip install setup
+      pip install --upgrade pip wheel setuptools
+      # pip install setup
       pip install -r requirements.txt
     workingDirectory: $(projectRoot)
     displayName: 'Install Requirements'
 
-  - ${{ if or(eq(variables.isStable, 'True'), eq(variables.isMain, 'True')) }}:
+  - ${{ if or( eq(variables.isStable, 'True'), eq(variables.isMain, 'True') ) }}:
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: $(projectRoot)

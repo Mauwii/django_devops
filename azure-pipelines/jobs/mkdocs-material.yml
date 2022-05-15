@@ -1,4 +1,6 @@
 parameters:
+  - name: pythonVersion
+    type: string
   - name: mkdocsSiteDir
     type: string
   - name: mkdocsDeploy
@@ -13,5 +15,6 @@ jobs:
           submodule: 'src/mkdocs-material'
       - template: steps/build_mkdocs.yml
         parameters:
+          pythonVersion: '${{ parameters.pythonVersion }}'
           mkdocsSiteDir: '${{ parameters.mkdocsSiteDir }}'
           mkdocsDeploy: '${{ parameters.mkdocsDeploy }}'

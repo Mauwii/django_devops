@@ -2,13 +2,10 @@
 parameters:
   - name: pythonVersion
     type: string
-    default: $(pythonVersion)
   - name: mkdocsSiteDir
     type: string
-    default: 'site'
   - name: mkdocsDeploy
     type: boolean
-    default: false
 
 steps:
   - task: UsePythonVersion@0

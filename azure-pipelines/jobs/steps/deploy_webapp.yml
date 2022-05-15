@@ -1,21 +1,20 @@
-steps:
-  - task: UsePythonVersion@0
-    displayName: 'Use Python $(pythonVersion)'
-    inputs:
-      versionSpec: $(pythonVersion)
-      architecture: x64
-      addToPath: true
+parameters:
+  - name: resourceGroupName
+    type: string
+  - name: azureSubscription
+    type: string
 
+steps:
   - task: AzurePowerShell@5
     name: readWebAppName
     displayName: Read WebApp Name
     retryCountOnTaskFailure: 3
     continueOnError: false
     inputs:
-      azureSubscription: $(azureSubscription)
+      azureSubscription: '${{ parameters.azureSubscription }}'
       ScriptType: InlineScript
       Inline: |
-        $webAppName = ( Get-AzWebApp -ResourceGroupName $(resourceGroupName) ).Name
+        $webAppName = ( Get-AzWebApp -ResourceGroupName ${{ parameters.resourceGroupName }} ).Name
         Write-Host "##vso[task.setvariable variable=webAppName]$webAppName"
       azurePowerShellVersion: LatestVersion
       pwsh: true
@@ -26,14 +25,14 @@ steps:
     name: downloadPipelineArtifact
     inputs:
       artifactName: WebApp
-      path: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)/WebApp
+      path: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/WebApp'
 
   - task: AzureWebApp@1
     displayName: Deploy Azure Web App
     inputs:
-      azureSubscription: $(azureSubscription)
+      azureSubscription: '${{ parameters.azureSubscription}}'
       appType: webAppLinux
       appName: $(webAppName)
-      package: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)/WebApp
+      package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/WebApp'
       runtimeStack: PYTHON|3.9
       startUpCommand: python3.9 manage.py migrate
