@@ -43,17 +43,30 @@ stages:
     dependsOn:
     variables:
       - group: django-dev
+      - group: django-superuser
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
-      - ${{ if or(eq(variables.isMain, 'True'), eq(variables.isStable, 'True')) }}:
-          - deployment: DeployBicep
-            displayName: Create Azure Resources
-            environment: $(environmentName)
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - template: azure-pipelines/jobs/steps/deploy_bicep.yml
+      - ${{ if eq(variables.sourceBranchName, 'main') }}:
+          - job:
+            variables:
+              - group: django-dev
+              - group: django-superuser
+            steps:
+              - task: AzureCLI@2
+                name: DeployBicepFile
+                displayName: Deploy Bicep file
+                inputs:
+                  azureSubscription: $(azureSubscription)
+                  scriptType: bash
+                  scriptLocation: inlineScript
+                  inlineScript: |
+                    az deployment group create \
+                      --name $(Build.BuildNumber) \
+                      --resource-group $(resourceGroupName) \
+                      --template-file main.bicep \
+                      --parameters secretKey=$(secretKey)
+                env:
+                  secretKey: $(secretKey)
 
   - stage: Testing
     dependsOn: Bicep
@@ -74,25 +87,22 @@ stages:
 
   - stage: WebApp
     dependsOn: Testing
+    variables:
+      - group: dhango-dev
+      - group: django-superuser
     jobs:
       - template: azure-pipelines/jobs/build_webapp.yml
         parameters:
           pythonVersion: $(pythonVersion)
           resourceGroupName: $(resourceGroupName)
           azureSubscription: $(azureSubscription)
-
-      - ${{ if eq(variables.isStable, 'True') }}:
-          - deployment: deployWebApp
-            displayName: 'Deploy WebApp'
-            environment: '${{ variables.environmentName }}'
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - template: azure-pipelines/jobs/steps/deploy_webapp.yml
-                      parameters:
-                        resourceGroupName: $(resourceGroupName)
-                        azureSubscription: $(azureSubscription)
+      - job:
+        condition: eq(variables.sourceBranchName, 'main')
+        steps:
+          - template: azure-pipelines/jobs/steps/deploy_webapp.yml
+            parameters:
+              resourceGroupName: $(resourceGroupName)
+              azureSubscription: $(azureSubscription)
 
   - stage: MkDocs
     dependsOn: WebApp
