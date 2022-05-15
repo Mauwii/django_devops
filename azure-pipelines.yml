@@ -26,7 +26,10 @@ variables:
   - name: isPullRequest
     value: $[eq(variables['Build.Reason'], 'PullRequest')]
     readonly: true
-  - template: azure-pipelines/variables/main.yml
+  # - name: sourceBranchName
+  #   value: $[variables['Build.SourceBranchName']]
+  #   readonly: true
+  - template: azure-pipelines/variables/default.yml
 
 pool:
   vmImage: $(vmImageName)
@@ -82,6 +85,11 @@ stages:
 
   - stage: MkDocs
     dependsOn: WebApp
+    variables:
+      - ${{ if eq(variables.isMain, 'true') }}:
+          - template: azure-pipelines/variables/main.yml
+      - ${{ if eq(variables.isStable, 'true') }}:
+          - template: azure-pipelines/variables/stable.yml
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
         parameters:
