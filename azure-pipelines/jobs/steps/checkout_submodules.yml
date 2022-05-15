@@ -9,7 +9,6 @@ parameters:
   # Submodule to update/init
   - name: submodule
     type: string
-    default: ''
   # Update submodules recursive
   - name: recursive
     type: boolean

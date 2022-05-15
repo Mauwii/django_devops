@@ -1,9 +1,10 @@
 parameters:
-  - name: mkdocs_site_dir
+  - name: pythonVersion
     type: string
-  - name: mkdocs_deploy
+  - name: mkdocsSiteDir
+    type: string
+  - name: mkdocsDeploy
     type: boolean
-
 jobs:
   - job:
     displayName: MkDocs-Material
@@ -13,5 +14,6 @@ jobs:
           submodule: 'src/mkdocs-material'
       - template: steps/build_mkdocs.yml
         parameters:
-          mkdocs_site_dir: '${{ parameters.mkdocs_site_dir }}'
-          mkdocs_deploy: '${{ parameters.mkdocs_deploy }}'
+          pythonVersion: '${{ parameters.pythonVersion }}'
+          mkdocsSiteDir: '${{ parameters.mkdocsSiteDir }}'
+          mkdocsDeploy: '${{ parameters.mkdocsDeploy }}'
