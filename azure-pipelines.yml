@@ -85,9 +85,9 @@ stages:
 
   - stage: MkDocs
     dependsOn: WebApp
-    variables:
     ${{ if eq(variables.isMain, 'True') }}:
-      - template: azure-pipelines/variables/main.yml
+      variables:
+        - template: azure-pipelines/variables/main.yml
     ${{ if eq(variables.isStable, 'True') }}:
       variables:
         - template: azure-pipelines/variables/stable.yml
