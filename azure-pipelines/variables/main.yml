@@ -1,9 +1,13 @@
 variables:
   - name: environmentName
     value: 'staging'
+    readonly: true
   - name: mkdocsDeploy
-    value: True
+    value: true
+    readonly: true
   - name: mkdocsSiteDir
     value: 'site'
+    readonly: true
   - name: webAppName
     value: 'django-gh-devv72vvrgbr2qwa'
+    readonly: true
