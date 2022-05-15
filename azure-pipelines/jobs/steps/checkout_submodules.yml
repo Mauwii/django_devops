@@ -6,10 +6,9 @@ parameters:
   - name: checkoutSelf
     type: boolean
     default: true
-  # Submodule to update/init
+  # Submodule which should update/init
   - name: submodule
     type: string
-    default: ''
   # Update submodules recursive
   - name: recursive
     type: boolean
