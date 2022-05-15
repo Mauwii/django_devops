@@ -112,7 +112,7 @@ stages:
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
             parameters:
-              mkdocsDeploy: $[eq(variables['Build.SourceBranch'], 'refs/heads/stable')]
+              mkdocsDeploy: ${{ variables.isMain }}
               pythonVersion: $(pythonVersion)
               mkdocsSiteDir: $(mkdocsSiteDir)
           # - ${{ if eq(variables.isMain, 'True') }}:
