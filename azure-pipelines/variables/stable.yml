@@ -1,0 +1,7 @@
+variables:
+  - name: environmentName
+    value: 'production'
+  - name: mkdocs_deploy
+    value: 'False'
+  - name: mkdocs_site_dir
+    value: 'site'
