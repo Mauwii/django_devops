@@ -55,9 +55,9 @@ stages:
 
           - template: jobs/steps/build_webapp.yml
             parameters:
-              PYTHON_VERSION: $(pythonVersion)
+              pythonVersion: $(pythonVersion)
 
           - template: jobs/steps/python_django_test_experimental.yml
             parameters:
-              PYTHON_VERSIONS:
+              pythonVersions:
                 - $(pythonVersion)

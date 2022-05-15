@@ -2,7 +2,7 @@ trigger:
   batch: true
   branches:
     include:
-      - refs/heads/production
+      - refs/heads/stable
       - refs/heads/main
       - feature/*
       - issue/*
@@ -12,23 +12,23 @@ trigger:
 pr:
   branches:
     include:
-      - production
+      - stable
       - main
 
 variables:
   - group: django_gh
   - name: isMain
-    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/main') ]
     readonly: true
   - name: isStable
-    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/stable')]
+    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/stable') ]
     readonly: true
   - name: isPullRequest
-    value: $[eq(variables['Build.Reason'], 'PullRequest')]
+    value: $[ eq(variables['Build.Reason'], 'PullRequest') ]
     readonly: true
-  # - name: sourceBranchName
-  #   value: $[variables['Build.SourceBranchName']]
-  #   readonly: true
+  - name: sourceBranchName
+    value: $[ variables['Build.SourceBranchName'] ]
+    readonly: true
   - template: azure-pipelines/variables/default.yml
 
 pool:
@@ -37,12 +37,18 @@ pool:
 stages:
   - stage: Bicep
     dependsOn:
+    ${{ if eq(variables.isMain, 'True') }}:
+      variables:
+        - template: azure-pipelines/variables/main.yml
+    ${{ if eq(variables.isStable, 'True') }}:
+      variables:
+        - template: azure-pipelines/variables/stable.yml
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
-      - ${{ if eq(variables.isMain, 'True') }}:
+      - ${{ if or(eq(variables.isMain, 'True'), eq(variables.isStable, 'True')) }}:
           - deployment: DeployBicep
             displayName: Create Azure Resources
-            environment: $(environmentName)
+            environment: ${{ variables.environmentName }}
             strategy:
               runOnce:
                 deploy:
@@ -64,14 +70,21 @@ stages:
               submodule: 'src/webapp'
           - template: azure-pipelines/jobs/steps/python_django_test.yml
             parameters:
-              PYTHON_VERSIONS:
-                - $(pythonVersion)
+              pythonVersions:
+                - ${{ variables.pythonVersion }}
 
   - stage: WebApp
     dependsOn: Testing
-    condition: in(dependencies.Testing.result, 'Succeeded')
+    ${{ if eq(variables.isMain, 'True') }}:
+      variables:
+        - template: azure-pipelines/variables/main.yml
+    ${{ if eq(variables.isStable, 'True') }}:
+      variables:
+        - template: azure-pipelines/variables/stable.yml
     jobs:
       - template: azure-pipelines/jobs/build_webapp.yml
+        parameters:
+          pythonVersion: ${{ variables.pythonVersion }}
       - ${{ if eq(variables.isStable, 'True') }}:
           - deployment: DeployDjango
             dependsOn: BuildWebApp
@@ -85,13 +98,14 @@ stages:
 
   - stage: MkDocs
     dependsOn: WebApp
-    variables:
-      - ${{ if eq(variables.isMain, 'True') }}:
-          - template: azure-pipelines/variables/main.yml
-      - ${{ if eq(variables.isStable, 'True') }}:
-          - template: azure-pipelines/variables/stable.yml
+    ${{ if eq(variables.isMain, 'True') }}:
+      variables:
+        - template: azure-pipelines/variables/main.yml
+    ${{ if eq(variables.isStable, 'True') }}:
+      variables:
+        - template: azure-pipelines/variables/stable.yml
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
         parameters:
-          mkdocs_site_dir: ${{ variables.mkdocs_site_dir }}
-          mkdocs_deploy: ${{ variables.mkdocs_deploy }}
+          mkdocsSiteDir: ${{ variables.mkdocsSiteDir }}
+          mkdocsDeploy: ${{ variables.mkdocsDeploy }}

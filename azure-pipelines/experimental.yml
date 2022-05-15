@@ -73,7 +73,7 @@ stages:
 
           - template: jobs/steps/python_django_test_experimental.yml
             parameters:
-              PYTHON_VERSIONS:
+              pythonVersions:
                 - '3.10'
                 - '3.9'
                 - '3.8'

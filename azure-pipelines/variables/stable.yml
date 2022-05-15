@@ -1,7 +1,7 @@
 variables:
   - name: environmentName
-    value: 'staging'
+    value: 'production'
   - name: mkdocsDeploy
-    value: 'True'
+    value: 'False'
   - name: mkdocsSiteDir
     value: 'site'
