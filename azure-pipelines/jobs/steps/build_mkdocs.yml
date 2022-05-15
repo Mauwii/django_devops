@@ -17,10 +17,10 @@ steps:
     displayName: update tools
 
   - script: pip install -e src/mkdocs-material
-    displayName: install mkdocs-material
+    displayName: install MkDocs-Material
 
-  - script: pip install mkdocs-git-revision-date-plugin
+  - script: pip install -r src/requirements-mkdocs-material.txt
     displayName: install requirements
 
   - script: mkdocs build
-    displayName: build MkDocs-Material
+    displayName: build docs
