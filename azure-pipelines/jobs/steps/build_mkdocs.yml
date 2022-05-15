@@ -3,7 +3,7 @@
 parameters:
   - name: PYTHON_VERSION
     type: string
-    default: ${{ variables.pythonVersion }}
+    default: $(pythonVersion)
 
 steps:
   - task: UsePythonVersion@0
