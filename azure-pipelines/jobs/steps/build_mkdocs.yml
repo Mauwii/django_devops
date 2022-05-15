@@ -5,7 +5,7 @@ parameters:
   - name: mkdocsSiteDir
     type: string
   - name: mkdocsDeploy
-    type: boolean
+    type: string
 
 steps:
   - task: UsePythonVersion@0

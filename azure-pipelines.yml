@@ -112,7 +112,7 @@ stages:
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
             parameters:
-              mkdocsDeploy: eq(variables.isMain, 'True')
+              mkdocsDeploy: $(mkdocsSiteDir)
               pythonVersion: $(pythonVersion)
               mkdocsSiteDir: $(mkdocsSiteDir)
           # - ${{ if eq(variables.isMain, 'True') }}:
