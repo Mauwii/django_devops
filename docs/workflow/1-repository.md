@@ -42,27 +42,29 @@ graph LR
 
 ```mermaid
 graph LR
-  Code[/Write Code\] -- Commit<br>Changes ---> FeatureBranch[Feature Branch];
-  FeatureBranch -- Pull<br>Request --> MainBranch[Main Branch];
-  MainBranch -- Trigger<br>Build --> CheckFeature{Built<br>succesfull};
-  CheckFeature -- Yes --> CompletePR[/Complete PR/];
-  CheckFeature -- No --> TryFixBugsFeature{Try to<br>fix bugs};;
-  TryFixBugsFeature -- Yes --> Code;
-  TryFixBugsFeature -- No --> DeleteFeatureBranch[\Delete Feature Branch\];
-  CompletePR --> DeleteFeatureBranch
+  code[/Write Code\] -- Commit<br>Changes --> dev
+  dev --> code
+  dev -- Pull<br>Request --> main
+  main -. create branch .-> dev
+  main -- Trigger<br>Build --> CheckFeature{Built<br>succesfull}
+  CheckFeature -- Yes --> completePR[/Complete PR/]
+  CheckFeature -- No --> TryFixBugsFeature{Try to<br>fix bugs}
+  TryFixBugsFeature -- Yes --> code;
+  completePR --> Deletedev
+  TryFixBugsFeature -- No --> Deletedev[\Delete dev branch\]
 ```
 
 ##### From main to stable
 
-incomplete
-
 ``` mermaid
 graph LR
-  main -- Pull Request --> stable;
-  stable -- Trigger Build --> CheckPrstable{Built<br>succesfull};
-  CheckPrstable -- Yes --> CompleteMergestable[/Complete PR/];
-  CompleteMergestable --> Deploystable[/Deploy<br>to stable/];
-  CheckPrstable -- No --> TryFixBugsstable[Fix Bugs];
+  main -- Pull Request --> stable
+  stable -- Trigger Build --> CheckPrstable{Built<br>succesfull}
+  stable -. create branch .-> hotfix
+  CheckPrstable -- Yes --> CompleteMergestable[/Complete PR/]
+  CompleteMergestable --> Deploystable[/Deploy<br>to stable/]
+  CheckPrstable -- No --> hotfix
+  hotfix -- Pull Request--> main & stable
 ```
 
 #### Commit flow example
@@ -80,10 +82,9 @@ gitGraph
   merge main
   checkout main
   branch feature-2
+  branch feature-3
   checkout feature-2
   commit
-  checkout main
-  branch feature-3
   checkout feature-3
   commit
   checkout main
@@ -100,6 +101,11 @@ gitGraph
   commit
   checkout main
   merge feature-3
+  branch feature-4
+  checkout feature-4
+  commit
+  checkout main
+  merge feature-4
   checkout stable
   merge main
 ```
