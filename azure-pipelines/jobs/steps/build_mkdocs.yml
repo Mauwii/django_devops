@@ -8,7 +8,7 @@ parameters:
     default: site
   - name: deploy
     type: boolean
-    default: false
+    default: $(deploy_mkdocs)
 
 steps:
   - task: UsePythonVersion@0
@@ -27,9 +27,9 @@ steps:
   - script: pip install -r src/requirements-mkdocs-material.txt
     displayName: install requirements
 
-  - script: mkdocs build --site-dir ${{ parameters.site-dir }} --verbose
+  - script: mkdocs build --site-dir ${{ parameters.site_dir }} --verbose
     displayName: build docs
 
   - ${{ if eq(parameters.deploy, 'true') }}:
-      - script: mkdocs gh-deploy --force --site-dir ${{ parameters.site-dir }} --verbose
+      - script: mkdocs gh-deploy --force --site-dir ${{ parameters.site_dir }} --verbose
         displayName: deploy to GitHub-Pages
