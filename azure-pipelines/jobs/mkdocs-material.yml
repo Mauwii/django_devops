@@ -1,10 +1,8 @@
 parameters:
   - name: mkdocs_site_dir
     type: string
-    default: '$(mkdocs_site_dir)'
   - name: mkdocs_deploy
     type: boolean
-    default: '$(mkdocs_deploy)'
 
 jobs:
   - job:
