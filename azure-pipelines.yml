@@ -88,7 +88,7 @@ stages:
   - stage: WebApp
     dependsOn: Testing
     variables:
-      - group: dhango-dev
+      - group: django-dev
       - group: django-superuser
     jobs:
       - template: azure-pipelines/jobs/build_webapp.yml
