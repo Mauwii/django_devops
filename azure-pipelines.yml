@@ -88,6 +88,9 @@ stages:
       - job:
         displayName: MkDocs-Material
         steps:
+          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
+            parameters:
+              submodule: 'src/mkdocs-material'
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - ${{ if eq(variables.isMain, 'True') }}:
               - template: azure-pipelines/jobs/steps/publish_mkdocs.yml
