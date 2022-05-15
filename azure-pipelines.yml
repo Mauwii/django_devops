@@ -77,9 +77,9 @@ stages:
     jobs:
       - template: azure-pipelines/jobs/build_webapp.yml
         parameters:
-          pythonVersion: '${{ variables.pythonVersion }}'
-          resourceGroupName: '${{ variables.resourceGroupName }}'
-          azureSubscription: '${{ variables.azureSubscription }}'
+          pythonVersion: $(pythonVersion)
+          resourceGroupName: $(resourceGroupName)
+          azureSubscription: $(azureSubscription)
 
       - ${{ if eq(variables.isStable, 'True') }}:
           - deployment: deployWebApp
@@ -91,14 +91,14 @@ stages:
                   steps:
                     - template: azure-pipelines/jobs/steps/deploy_webapp.yml
                       parameters:
-                        resourceGroupName: '${{ variables.resourceGroupName }}'
-                        azureSubscription: '${{ variables.azureSubscription }}'
+                        resourceGroupName: $(resourceGroupName)
+                        azureSubscription: $(azureSubscription)
 
   - stage: MkDocs
     dependsOn: WebApp
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
         parameters:
-          pythonVersion: ${{ variables.pythonVersion }}
-          mkdocsSiteDir: ${{ variables.mkdocsSiteDir }}
-          mkdocsDeploy: ${{ variables.mkdocsDeploy }}
+          pythonVersion: $(pythonVersion)
+          mkdocsSiteDir: $(mkdocsSiteDir)
+          mkdocsDeploy: $(mkdocsDeploy)
