@@ -2,13 +2,13 @@
 parameters:
   - name: resourceGroupName
     type: string
-    default: $(resourceGroupName)
+    # default: $(resourceGroupName)
   - name: azureSubscription
     type: string
-    default: $(azureSubscription)
+    # default: $(azureSubscription)
 
 steps:
-  - script: 'env'
+  # - script: 'env'
   - task: AzurePowerShell@5
     displayName: 'Read Connection String'
     name: readAppInsights
