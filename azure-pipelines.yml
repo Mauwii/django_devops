@@ -2,7 +2,7 @@ trigger:
   batch: true
   branches:
     include:
-      - refs/heads/production
+      - refs/heads/stable
       - refs/heads/main
       - feature/*
       - issue/*
@@ -12,7 +12,7 @@ trigger:
 pr:
   branches:
     include:
-      - production
+      - stable
       - main
 
 variables:
