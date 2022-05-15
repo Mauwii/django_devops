@@ -99,6 +99,5 @@ stages:
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
         parameters:
-          pythonVersion: $(pythonVersion)
           mkdocsSiteDir: $(mkdocsSiteDir)
-          mkdocsDeploy: $(mkdocsDeploy)
+          mkdocsDeploy: ${{ variables.mkdocsDeploy }}
