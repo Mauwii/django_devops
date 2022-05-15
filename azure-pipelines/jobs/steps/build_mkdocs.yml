@@ -30,6 +30,6 @@ steps:
   - script: mkdocs build --site-dir ${{ parameters.mkdocs_site_dir }} --verbose
     displayName: build docs
 
-  - ${{ if eq(parameters.mkdocs_deploy, 'true') }}:
+  - ${{ if eq(parameters.mkdocs_deploy, 'True') }}:
       - script: mkdocs gh-deploy --force --site-dir ${{ parameters.mkdocs_site_dir }} --verbose
         displayName: deploy to GitHub-Pages
