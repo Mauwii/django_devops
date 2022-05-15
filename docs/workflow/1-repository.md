@@ -42,10 +42,9 @@ graph LR
 
 ```mermaid
 graph LR
-  code[/Write Code\] -- Commit<br>Changes --> dev
-  dev --> code
-  dev -- Pull<br>Request --> main
-  main -. create branch .-> dev
+  dev -- Pull Request --> main
+  main -. create<br>branch .-> dev
+  code[/Write Code\] -- Commit Changes --> dev
   main -- Trigger<br>Build --> CheckFeature{Built<br>succesfull}
   CheckFeature -- Yes --> completePR[/Complete PR/]
   CheckFeature -- No --> TryFixBugsFeature{Try to<br>fix bugs}
@@ -59,15 +58,15 @@ graph LR
 ``` mermaid
 graph LR
   main -- Pull Request --> stable
-  stable -- Trigger Build --> CheckPrstable{Built<br>succesfull}
+  stable -- Trigger<br>Build --> validateBuild{Built<br>succesfull}
   stable -. create branch .-> hotfix
-  CheckPrstable -- Yes --> CompleteMergestable[/Complete PR/]
-  CompleteMergestable --> Deploystable[/Deploy<br>to stable/]
-  CheckPrstable -- No --> hotfix
+  validateBuild -- Yes --> completePr[/Complete PR/]
+  completePr --> deployStable[/Deploy<br>to stable/]
+  validateBuild -- No --> hotfix
   hotfix -- Pull Request--> main & stable
 ```
 
-#### Commit flow example
+#### commit flow example
 
 ``` mermaid
 gitGraph
