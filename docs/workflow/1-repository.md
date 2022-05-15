@@ -1,7 +1,5 @@
 ---
 title: Repository
-icon:
-  logo: material/notebook-outline
 ---
 
 In this Section you will find Informations related to the Workflow of the Repository.
@@ -10,12 +8,12 @@ In this Section you will find Informations related to the Workflow of the Reposi
 
 ### Table
 
-| Branch name            |  instance  |  Create From   |            accept PR from            | Branch protection rules / other Info                                                                                       |
-| :--------------------- | :--------: | :------------: | :----------------------------------: | :------------------------------------------------------------------------------------------------------------------------- |
-| <br>main               |  <br>dev   |  <br>git init  | feature/\* <br>issue/\*<br>hotfix/\* | Require linear history<br>Require status checks to pass before merging<br>Require branches to be up to date before merging |
-| stable                 | Production |  Pull-Request  |          main<br>hotfix/\*           |                                                                                                                            |
-| feature/\*<br>issue/\* |            |  Head of main  |                  -                   | must be up to date with main for PR                                                                                        |
-| hotfix/*               |            | Head of stable |                  -                   |
+| Branch name            |  Create From   | deploy to  |            accept PR from            | Branch protection rules / other Info                                                                                       |
+| :--------------------- | :------------: | :--------: | :----------------------------------: | :------------------------------------------------------------------------------------------------------------------------- |
+| main                   |    git init    |    dev     | feature/\* <br>issue/\*<br>hotfix/\* | Require linear history<br>Require status checks to pass before merging<br>Require branches to be up to date before merging |
+| stable                 |  Pull-Request  |    prod    |          main<br>hotfix/\*           |                                                                                                                            |
+| feature/\*<br>issue/\* |  Head of main  | test local |                  -                   | must be up to date with main for PR                                                                                        |
+| hotfix/*               | Head of stable | test local |                  -                   |
 
 Main branch is used as the working branch. To develope new features, create branch from main branch called `feature/<jira-id>/<feature-name>` for new features, or `issue/<jira-id>/<issue-name>` when solving a issue. When development of the feature or issue is done, create a pull request to merge it into main branch.
 
@@ -29,41 +27,41 @@ For bigger problems, like f.E. a zero-day, create a branch from stable and name 
 
 ``` mermaid
 graph LR
-    dev --> main;
-    main -.-> dev;
-    main --> stable;
-    stable -.-> hotfix;
-    hotfix --> stable & main;
+  featureBranch[feature/*<br>issue/*] --> main;
+  main -.-> featureBranch;
+  main --> stable;
+  stable -.-> hotfix;
+  hotfix --> stable & main;
 ```
 
 #### Detailed
 
-##### From dev to main
+##### From feature/issue to main
 
-```mermaid
+``` mermaid
 graph LR
-  dev -- Pull Request --> main
-  main -. create<br>branch .-> dev
-  code[/Write Code\] -- Commit Changes --> dev
-  main -- Trigger<br>Build --> CheckFeature{Built<br>succesfull}
-  CheckFeature -- Yes --> completePR[/Complete PR/]
-  CheckFeature -- No --> TryFixBugsFeature{Try to<br>fix bugs}
+  featureBranch[feature/*<br>issue/*] -- Pull Request ---> main;
+  code[\update<br>Code/] -- Commit Changes --> featureBranch;
+  main -. create branch .-> featureBranch;
+  main -- Trigger Build --> CheckFeature{Built<br>succesfull};
+  CheckFeature -- Yes --> mergePR[/merge PR/];
+  CheckFeature -- No --> TryFixBugsFeature{Try to<br>fix bugs};
+  mergePR --> Deletefeature;
+  TryFixBugsFeature -- No --> Deletefeature[\Delete feature/issue branch\];
   TryFixBugsFeature -- Yes --> code;
-  completePR --> Deletedev
-  TryFixBugsFeature -- No --> Deletedev[\Delete dev branch\]
 ```
 
 ##### From main to stable
 
 ``` mermaid
 graph LR
-  main -- Pull Request --> stable
-  stable -- Trigger<br>Build --> validateBuild{Built<br>succesfull}
-  stable -. create branch .-> hotfix
-  validateBuild -- Yes --> completePr[/Complete PR/]
-  completePr --> deployStable[/Deploy<br>to stable/]
-  validateBuild -- No --> hotfix
-  hotfix -- Pull Request--> main & stable
+  main -- Pull Request ---> stable;
+  stable -- Trigger<br>Build --> validateBuild{Built<br>succesfull};
+  stable -. create branch .-> hotfix;
+  validateBuild -- Yes --> completePr[/merge PR/];
+  completePr --> deployStable[/Deploy to<br>production/];
+  validateBuild -- No --> hotfix;
+  hotfix -- Pull Request--> main & stable;
 ```
 
 #### commit flow example
@@ -88,6 +86,9 @@ gitGraph
   commit
   checkout main
   merge feature-2
+  branch feature-4
+  checkout feature-4
+  commit
   checkout stable
   branch hotfix-1
   checkout hotfix-1
@@ -100,7 +101,6 @@ gitGraph
   commit
   checkout main
   merge feature-3
-  branch feature-4
   checkout feature-4
   commit
   checkout main

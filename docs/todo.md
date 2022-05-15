@@ -12,15 +12,15 @@ title: ToDo
 ### :material-microsoft-azure-devops: Azure-Pipelines
 
 - [x] use variables for default parameters in pipeline-templates
-- [x] Create branch dependent Variable Templates (done for main)
-    - [ ] select correct template by destination branch
-- [ ] Use a naming Convention
-    - [ ] maybe even test if it is followed by RegEx
+- [x] create branch dependent variable templates (done for main)
+    - [x] select correct template by destination branch
+- [ ] use a naming convention
+    - [ ] maybe even test if it is applied by using kind of RegEx
 - [ ] update bicep template
     - [ ] add a KeyVault to store:
-        - [ ] Application Insights
-            - [ ] Secret
-            - [ ] Connection String
+        - [ ] application Insights
+            - [ ] secret
+            - [ ] connection string
 
 #### Maybe unnecessary
 
