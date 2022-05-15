@@ -1,34 +1,26 @@
 # Pipeline Template to build MkDocs
 
 parameters:
-  # Python Version to use for building mkdocs-material
   - name: PYTHON_VERSION
     type: string
-    default: $(pythonVersion)
+    default: ${{ variables.pythonVersion }}
 
 steps:
-  - template: checkout_submodules.yml
-    parameters:
-      submodule: 'src/mkdocs-material'
-
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
     inputs:
-      versionSpec: ${{ parameters.PYTHON_VERSION }}
+      versionSpec: '${{ parameters.PYTHON_VERSION }}'
       addToPath: true
-      architecture: 'x64'
+      architecture: x64
 
-  - task: Bash@3
-    displayName: 'Install mkdocs-material'
-    inputs:
-      targetType: 'inline'
-      script: |
-        pip install --upgrade pip wheel setuptools
-        pip install -e src/mkdocs-material
-        pip install mkdocs-git-revision-date-plugin
+  - script: pip install --upgrade pip wheel setuptools
+    displayName: update tools
 
-  - task: Bash@3
-    displayName: 'Build MkDocs'
-    inputs:
-      targetType: 'inline'
-      script: 'mkdocs build'
+  - script: pip install -e src/mkdocs-material
+    displayName: install mkdocs-material
+
+  - script: pip install mkdocs-git-revision-date-plugin
+    displayName: install requirements
+
+  - script: mkdocs build
+    displayName: build MkDocs-Material
