@@ -85,16 +85,9 @@ stages:
     dependsOn: WebApp
     # condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
-      - job: mkdocs-material
-        displayName: Build MkDocs-Material
-        dependsOn:
-        condition: eq(variables.isMain, 'False')
+      - job:
+        displayName: MkDocs-Material
         steps:
           - template: azure-pipelines/jobs/steps/build_mkdocs.yml
           - ${{ if eq(variables.isMain, 'True') }}:
-              # - job: deployMkDocs
-              #   displayName: Deploy MkDocs-Material
-              #   dependsOn:
-              #   steps:
-              #     - template: azure-pipelines/jobs/steps/build_mkdocs.yml
               - template: azure-pipelines/jobs/steps/publish_mkdocs.yml
