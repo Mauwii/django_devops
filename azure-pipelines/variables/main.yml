@@ -5,3 +5,5 @@ variables:
     value: True
   - name: mkdocsSiteDir
     value: 'site'
+  - name: webAppName
+    value: 'django-gh-devv72vvrgbr2qwa'

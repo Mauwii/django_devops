@@ -1,23 +1,25 @@
 parameters:
   - name: resourceGroupName
     type: string
+    default: 'django_gh'
   - name: azureSubscription
     type: string
+    default: 'django_gh'
 
 steps:
-  - task: AzurePowerShell@5
-    name: readWebAppName
-    displayName: Read WebApp Name
-    retryCountOnTaskFailure: 3
-    continueOnError: false
-    inputs:
-      azureSubscription: '${{ parameters.azureSubscription }}'
-      ScriptType: InlineScript
-      Inline: |
-        $webAppName = ( Get-AzWebApp -ResourceGroupName ${{ parameters.resourceGroupName }} ).Name
-        Write-Host "##vso[task.setvariable variable=webAppName]$webAppName"
-      azurePowerShellVersion: LatestVersion
-      pwsh: true
+  # - task: AzurePowerShell@5
+  #   name: readWebAppName
+  #   displayName: Read WebApp Name
+  #   retryCountOnTaskFailure: 3
+  #   continueOnError: false
+  #   inputs:
+  #     azureSubscription: '${{ parameters.azureSubscription }}'
+  #     ScriptType: InlineScript
+  #     Inline: |
+  #       $webAppName = ( Get-AzWebApp -ResourceGroupName ${{ parameters.resourceGroupName }} ).Name
+  #       Write-Host "##vso[task.setvariable variable=webAppName]$webAppName"
+  #     azurePowerShellVersion: LatestVersion
+  #     pwsh: true
 
   # Download an artifact named 'WebApp' to 'bin' in $(Build.SourcesDirectory)
   - task: DownloadPipelineArtifact@2
@@ -30,9 +32,9 @@ steps:
   - task: AzureWebApp@1
     displayName: Deploy Azure Web App
     inputs:
-      azureSubscription: '${{ parameters.azureSubscription}}'
-      appType: webAppLinux
-      appName: $(webAppName)
+      azureSubscription: '${{ parameters.azureSubscription }}'
+      appType: 'webAppLinux'
+      appName: '${{ variables.webAppName }}'
       package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/WebApp'
       runtimeStack: PYTHON|3.9
       startUpCommand: python3.9 manage.py migrate

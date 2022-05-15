@@ -55,7 +55,7 @@ stages:
                 name: DeployBicepFile
                 displayName: Deploy Bicep file
                 inputs:
-                  azureSubscription: $(azureSubscription)
+                  azureSubscription: 'django_gh'
                   scriptType: bash
                   scriptLocation: inlineScript
                   inlineScript: |
@@ -100,8 +100,8 @@ stages:
         steps:
           - template: azure-pipelines/jobs/steps/deploy_webapp.yml
             parameters:
-              resourceGroupName: $(resourceGroupName)
-              azureSubscription: $(azureSubscription)
+              resourceGroupName: 'django_gh'
+              azureSubscription: 'django_gh'
 
   - stage: MkDocs
     dependsOn: WebApp
@@ -110,4 +110,4 @@ stages:
         parameters:
           pythonVersion: $(pythonVersion)
           mkdocsSiteDir: $(mkdocsSiteDir)
-          mkdocsDeploy: ${{ variables.mkdocsDeploy }}
+          mkdocsDeploy: $(mkdocsDeploy)
