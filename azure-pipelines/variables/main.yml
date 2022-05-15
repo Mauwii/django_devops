@@ -1,0 +1,5 @@
+variables:
+  - name: mkdocs_deploy
+    value: 'true'
+  - name: mkdocs_site_dir
+    value: 'site'

@@ -1,0 +1,17 @@
+parameters:
+  - name: mkdocs_site_dir
+    type: string
+  - name: mkdocs_deploy
+    type: boolean
+
+jobs:
+  - job:
+    displayName: MkDocs-Material
+    steps:
+      - template: steps/checkout_submodules.yml
+        parameters:
+          submodule: 'src/mkdocs-material'
+      - template: steps/build_mkdocs.yml
+        parameters:
+          mkdocs_site_dir: '${{ parameters.mkdocs_site_dir }}'
+          mkdocs_deploy: '${{ parameters.mkdocs_deploy }}'

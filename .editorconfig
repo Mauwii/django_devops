@@ -11,12 +11,14 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# JSON-Files
+# JSON Files
 [*.{json,jsonc}]
 insert_final_newline = false
 
+# YAML Files
 [*.{yml,yaml}]
 insert_final_newline = false
+trim_trailing_whitespace = false
 
 # Python
 [*.py]
