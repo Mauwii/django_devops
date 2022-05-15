@@ -2,7 +2,7 @@ steps:
   - task: ArchiveFiles@2
     name: archiveFiles
     displayName: Create Build Artifact
-    condition: and(eq(variables.isProduction, 'true'), succeeded())
+    condition: and(eq(variables.isStable, 'True'), succeeded())
     inputs:
       rootFolderOrFile: $(projectRoot)
       includeRootFolder: false
@@ -13,7 +13,7 @@ steps:
   - task: PublishBuildArtifacts@1
     name: publishBuildArtifacts
     displayName: Publish Build Artifacts
-    condition: and(eq(variables.isProduction, 'true'), succeeded())
+    condition: and(eq(variables.isStable, 'True'), succeeded())
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       ArtifactName: drop

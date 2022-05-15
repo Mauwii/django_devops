@@ -20,8 +20,8 @@ variables:
   - name: isMain
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
     readonly: true
-  - name: isProduction
-    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/production')]
+  - name: isStable
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/stable')]
     readonly: true
   - name: isPullRequest
     value: $[eq(variables['Build.Reason'], 'PullRequest')]
@@ -72,7 +72,7 @@ stages:
     condition: in(dependencies.Testing.result, 'Succeeded')
     jobs:
       - template: azure-pipelines/jobs/build_webapp.yml
-      - ${{ if eq(variables.isProduction, 'True') }}:
+      - ${{ if eq(variables.isStable, 'True') }}:
           - deployment: DeployDjango
             dependsOn: BuildWebApp
             displayName: Deploy Django to WebApp
