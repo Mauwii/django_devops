@@ -17,7 +17,6 @@ jobs:
       - template: steps/checkout_submodules.yml
         parameters:
           submodule: 'src/webapp'
-          persistCredentials: true
       - task: UsePythonVersion@0
         displayName: 'Use Python version ${{ parameters.pythonVersion }}'
         inputs:
