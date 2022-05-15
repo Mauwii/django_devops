@@ -32,5 +32,7 @@ Maybe unnecessary
 
 Since the Human Brain not always works as well as cloud-storage, I will write down some Ideas here. This also has the Advantage that other's could directly correct or improve them, or maybe even take advantage from them as well :smile:
 
-- create a src older and move submodules of mkdocs-material and django_webapp into it
-    - search/replace old file path with the new one
+- [x] create a src older and move submodules of mkdocs-material and django_webapp into it
+    - [x] search/replace old file path with the new one
+- [ ] auto-complete pull requests
+    - [ ] maybe based on [tags](https://docs.microsoft.com/en-us/azure/devops/pipelines/repos/github?view=azure-devops&tabs=yaml#label-sources)
