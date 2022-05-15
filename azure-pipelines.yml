@@ -84,3 +84,6 @@ stages:
     dependsOn: WebApp
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
+        parameters:
+          mkdocs_site_dir: $(mkdocs_site_dir)
+          mkdocs_deploy: $(mkdocs_deploy)
