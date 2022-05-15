@@ -15,5 +15,5 @@ jobs:
           submodule: 'src/mkdocs-material'
       - template: steps/build_mkdocs.yml
         parameters:
-          site_dir: '${{ parameters.mkdocs_site_dir }}'
-          deploy: '${{ parameters.mkdocs_deploy }}'
+          mkdocs_site_dir: '${{ parameters.mkdocs_site_dir }}'
+          mkdocs_deploy: '${{ parameters.mkdocs_deploy }}'
