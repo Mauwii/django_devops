@@ -1,16 +1,13 @@
 parameters:
-  - name: PYTHON_VERSION
+  - name: pythonVersion
     type: string
-    default: $(pythonVersion)
-  - name: publishBuildArtifact
-    type: boolean
-    default: False
+    default: '3.9'
 
 steps:
   - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
+    displayName: 'Use Python ${{ parameters.pythonVersion }}'
     inputs:
-      versionSpec: ${{ parameters.PYTHON_VERSION }}
+      versionSpec: ${{ parameters.pythonVersion }}
       addToPath: true
       architecture: 'x64'
 
@@ -23,9 +20,8 @@ steps:
     workingDirectory: $(projectRoot)
     displayName: 'Install Requirements'
 
-  - task: PublishPipelineArtifact@1
-    condition: or(eq(variables.isProduction, 'True'), eq(${{ parameters.publishBuildArtifact }}, 'True'))
-    inputs:
-      targetPath: $(projectRoot)
-      # targetPath: $(System.DefaultWorkingDirectory)/bin/WebApp
-      artifactName: WebApp
+  - ${{ if or(eq(variables.isStable, 'True'), eq(variables.isMain, 'True')) }}:
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: $(projectRoot)
+          artifactName: WebApp

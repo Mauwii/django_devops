@@ -3,10 +3,10 @@ parameters:
   - name: pythonVersion
     type: string
     default: $(pythonVersion)
-  - name: mkdocs_site_dir
+  - name: mkdocsSiteDir
     type: string
     default: 'site'
-  - name: mkdocs_deploy
+  - name: mkdocsDeploy
     type: boolean
     default: false
 
@@ -27,9 +27,9 @@ steps:
   - script: pip install -r src/requirements-mkdocs-material.txt
     displayName: install requirements
 
-  - script: mkdocs build --site-dir ${{ parameters.mkdocs_site_dir }} --verbose
+  - script: mkdocs build --site-dir ${{ parameters.mkdocsSiteDir }} --verbose
     displayName: build docs
 
-  - ${{ if eq(parameters.mkdocs_deploy, 'true') }}:
-      - script: mkdocs gh-deploy --force --site-dir ${{ parameters.mkdocs_site_dir }} --verbose
+  - ${{ if eq(parameters.mkdocsDeploy, 'True') }}:
+      - script: mkdocs gh-deploy --force --site-dir ${{ parameters.mkdocsSiteDir }} --verbose
         displayName: deploy to GitHub-Pages
