@@ -1,6 +1,6 @@
 variables:
   - name: environmentName
-    value: 'staging'
+    value: 'develop'
     readonly: true
   - name: mkdocsDeploy
     value: true
