@@ -7,4 +7,5 @@ jobs:
           submodule: src/mkdocs-material
       - template: steps/build_mkdocs.yml
         parameters:
-          publish: $(publish_docs)
+          site_dir: 'site'
+          deploy: ${{ variables.deploy_mkdocs }}

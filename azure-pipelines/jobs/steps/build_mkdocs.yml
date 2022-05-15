@@ -5,10 +5,10 @@ parameters:
     default: $(pythonVersion)
   - name: site_dir
     type: string
-    default: site
+    default: 'site'
   - name: deploy
     type: boolean
-    default: $(deploy_mkdocs)
+    default: false
 
 steps:
   - task: UsePythonVersion@0
