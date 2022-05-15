@@ -7,7 +7,7 @@
   "editor.suggest.insertMode": "replace",
   "search.followSymlinks": false,
   "search.exclude": {
-    "**/material": true,
+    "src/mkdocs-material/material": true,
     "**/node_modules": true,
     "**/package-lock.json": true
   },
@@ -40,6 +40,6 @@
   "redhat.telemetry.enabled": false,
   "yaml.format.singleQuote": true,
   "yaml.schemas": {
-    "src/mkdocs-material/docs/schema.json": "**/mkdocs.yml"
+    "src/mkdocs-material/docs/schema.json": "/mkdocs.yml"
   },
 }
