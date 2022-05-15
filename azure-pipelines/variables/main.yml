@@ -14,3 +14,5 @@ variables:
   - name: vmImageName
     value: 'ubuntu-latest'
     readonly: true
+  - name: publish_docs
+    value: false

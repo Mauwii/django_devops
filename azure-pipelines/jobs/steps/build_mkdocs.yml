@@ -1,15 +1,20 @@
 # Pipeline Template to build MkDocs
-
 parameters:
-  - name: PYTHON_VERSION
+  - name: pythonVersion
     type: string
     default: $(pythonVersion)
+  - name: site_dir
+    type: string
+    default: site
+  - name: deploy
+    type: boolean
+    default: false
 
 steps:
   - task: UsePythonVersion@0
-    displayName: 'Use Python ${{ parameters.PYTHON_VERSION }}'
+    displayName: 'Use Python ${{ parameters.pythonVersion }}'
     inputs:
-      versionSpec: '${{ parameters.PYTHON_VERSION }}'
+      versionSpec: '${{ parameters.pythonVersion }}'
       addToPath: true
       architecture: x64
 
@@ -22,5 +27,9 @@ steps:
   - script: pip install -r src/requirements-mkdocs-material.txt
     displayName: install requirements
 
-  - script: mkdocs build
+  - script: mkdocs build --site-dir ${{ parameters.site-dir }} --verbose
     displayName: build docs
+
+  - ${{ if eq(parameters.deploy, 'true') }}:
+      - script: mkdocs gh-deploy --force --site-dir ${{ parameters.site-dir }} --verbose
+        displayName: deploy to GitHub-Pages

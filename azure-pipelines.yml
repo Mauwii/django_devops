@@ -81,16 +81,6 @@ stages:
                     - template: azure-pipelines/jobs/steps/deploy_webapp.yml
 
   - stage: MkDocs
-    displayName: MkDocs-Material
     dependsOn: WebApp
-    # condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
-      - job:
-        displayName: MkDocs-Material
-        steps:
-          - template: azure-pipelines/jobs/steps/checkout_submodules.yml
-            parameters:
-              submodule: 'src/mkdocs-material'
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-          - ${{ if eq(variables.isMain, 'True') }}:
-              - template: azure-pipelines/jobs/steps/publish_mkdocs.yml
+      - template: azure-pipelines/jobs/mkdocs-material.yml

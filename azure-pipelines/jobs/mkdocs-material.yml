@@ -1,0 +1,10 @@
+jobs:
+  - job:
+    displayName: MkDocs-Material
+    steps:
+      - template: steps/checkout_submodules.yml
+        parameters:
+          submodule: src/mkdocs-material
+      - template: steps/build_mkdocs.yml
+        parameters:
+          publish: $(publish_docs)
