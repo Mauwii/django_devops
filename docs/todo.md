@@ -1,8 +1,5 @@
 ---
 title: ToDo
-template: main.html
-icon:
-  logo: material/notebook-outline
 ---
 ### :material-notebook-outline: Documentation
 

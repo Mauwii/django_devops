@@ -1,6 +1,5 @@
 ---
 title: Home
-icon: material/information-outline
 ---
 
 ## Intro
