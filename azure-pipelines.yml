@@ -110,4 +110,4 @@ stages:
         parameters:
           pythonVersion: $(pythonVersion)
           mkdocsSiteDir: $(mkdocsSiteDir)
-          mkdocsDeploy: $(mkdocsDeploy)
+          mkdocsDeploy: true
