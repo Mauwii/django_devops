@@ -4,16 +4,16 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 parameters:
-  - name: PYTHON_VERSIONS
+  - name: pythonVersions
     type: object
     default:
       - '3.9'
 
 steps:
-  - ${{ each PYTHON_VERSION in parameters.PYTHON_VERSIONS }}:
+  - ${{ each pythonVersion in parameters.pythonVersions }}:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '${{ PYTHON_VERSION }}'
+          versionSpec: '${{ pythonVersion }}'
           architecture: 'x64'
 
       - task: PythonScript@0
@@ -54,5 +54,5 @@ steps:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: '**/TEST-*.xml'
-          testRunTitle: 'Python ${{ PYTHON_VERSION }}'
+          testRunTitle: 'Python ${{ pythonVersion }}'
         condition: succeededOrFailed()
