@@ -1,0 +1,6 @@
+steps:
+  - task: Bash@3
+    displayName: 'Deploy to GitHub-Pages'
+    inputs:
+      targetType: 'inline'
+      script: 'mkdocs gh-deploy --force --clean'
