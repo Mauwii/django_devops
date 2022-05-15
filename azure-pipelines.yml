@@ -85,5 +85,5 @@ stages:
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
         parameters:
-          mkdocs_site_dir: $(mkdocs_site_dir)
-          mkdocs_deploy: $(mkdocs_deploy)
+          mkdocs_site_dir: ${{ variables.mkdocs_site_dir }}
+          mkdocs_deploy: ${{ variables.mkdocs_deploy }}
