@@ -26,21 +26,10 @@ variables:
   - name: isPullRequest
     value: $[eq(variables['Build.Reason'], 'PullRequest')]
     readonly: true
-  - name: pythonVersion
-    value: '3.9'
-    readonly: true
-  - name: resourceGroupName
-    value: 'django_gh'
-    readonly: true
-  - name: location
-    value: 'westeurope'
-    readonly: true
-  - name: azureSubscription
-    value: 'django_gh'
-    readonly: true
-  - name: vmImageName
-    value: 'ubuntu-latest'
-    readonly: true
+  # - name: sourceBranchName
+  #   value: $[variables['Build.SourceBranchName']]
+  #   readonly: true
+  - template: azure-pipelines/variables/default.yml
 
 pool:
   vmImage: $(vmImageName)
@@ -95,24 +84,14 @@ stages:
                     - template: azure-pipelines/jobs/steps/deploy_webapp.yml
 
   - stage: MkDocs
-    displayName: MkDocs-Material
     dependsOn: WebApp
-    condition: in(dependencies.WebApp.result, 'Succeeded')
-    jobs:
-      - job: buildMkDocs
-        displayName: Build MkDocs-Material
-        dependsOn:
-        condition: eq(variables.isMain, 'False')
-        steps:
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
+    variables:
       - ${{ if eq(variables.isMain, 'True') }}:
-          - job: deployMkDocs
-            displayName: Deploy MkDocs-Material
-            dependsOn:
-            steps:
-              - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-              - task: Bash@3
-                displayName: Deploy to GitHub-Pages
-                inputs:
-                  targetType: 'inline'
-                  script: 'mkdocs gh-deploy --force --clean'
+          - template: azure-pipelines/variables/main.yml
+      - ${{ if eq(variables.isStable, 'True') }}:
+          - template: azure-pipelines/variables/stable.yml
+    jobs:
+      - template: azure-pipelines/jobs/mkdocs-material.yml
+        parameters:
+          mkdocs_site_dir: ${{ variables.mkdocs_site_dir }}
+          mkdocs_deploy: ${{ variables.mkdocs_deploy }}
