@@ -2,18 +2,11 @@ parameters:
   - name: pythonVersion
     type: string
     default: '3.9'
-  - name: printEnv
-    type: boolean
-    default: False
   - name: publishArtifact
     type: boolean
     default: False
 
 steps:
-  - script: env
-    enabled: ${{ parameters.printEnv }}
-    displayName: Print Env
-
   - task: UsePythonVersion@0
     displayName: 'Use Python ${{ parameters.pythonVersion }}'
     inputs:
