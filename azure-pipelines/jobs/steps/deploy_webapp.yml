@@ -19,8 +19,8 @@ steps:
     displayName: Deploy Azure Web App
     inputs:
       azureSubscription: '${{ parameters.azureSubscription }}'
-      appType: 'webAppLinux'
-      appName: '${{ variables.webAppName }}'
+      appType: webAppLinux
+      appName: $(webAppName)
       package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/WebApp'
       runtimeStack: PYTHON|3.9
       startUpCommand: python3.9 manage.py migrate
