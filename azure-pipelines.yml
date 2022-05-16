@@ -95,7 +95,6 @@ stages:
       - template: azure-pipelines/variables/main.yml
     dependsOn: WebApp
     condition: succeeded()
-    # condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
         parameters:
