@@ -24,7 +24,7 @@ steps:
     displayName: 'Install Requirements'
 
   - task: PublishPipelineArtifact@1
-    condition: eq(parameters.publishArtifact, 'True')
+    enabled: ${{ parameters.publishArtifact }}
     displayName: Publish Pipeline Artifact
     inputs:
       targetPath: $(projectRoot)
