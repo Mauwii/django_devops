@@ -5,6 +5,8 @@ parameters:
     type: string
   - name: azureSubscription
     type: string
+  - name: publishArtifact
+    type: boolean
 
 jobs:
   - job: buildWebApp
@@ -32,3 +34,4 @@ jobs:
       - template: steps/build_webapp.yml
         parameters:
           pythonVersion: '${{ parameters.pythonVersion }}'
+          publishArtifact: ${{ parameters.publishArtifact }}
