@@ -94,23 +94,11 @@ stages:
     variables:
       - template: azure-pipelines/variables/main.yml
     dependsOn: WebApp
-    condition: in(dependencies.WebApp.result, 'Succeeded')
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    # condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
-      - job: buildMkDocs
-        displayName: Build MkDocs-Material
-        variables:
-          - group: django-dev
-          - group: django-superuser
-        dependsOn:
-        steps:
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-            parameters:
-              mkdocsDeploy: $(mkdocsSiteDir)
-              pythonVersion: $(pythonVersion)
-              mkdocsSiteDir: $(mkdocsSiteDir)
-          # - ${{ if eq(variables.isMain, 'True') }}:
-          #     - task: Bash@3
-          #       displayName: Deploy to GitHub-Pages
-          #       inputs:
-          #         targetType: 'inline'
-          #         script: 'mkdocs gh-deploy --force --clean'
+      - template: azure-pipelines/jobs/mkdocs-material.yml
+        parameters:
+          pythonVersion: $(pythonVersion)
+          mkdocsSiteDir: $(mkdocsSiteDir)
+          mkdocsDeploy: eq(variables.isMain, 'True')
