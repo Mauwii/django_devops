@@ -16,6 +16,10 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: self
+              persistCredentials: true
+              submodules: false
+
             - template: steps/get_webapp_name.yml
               parameters:
                 resourceGroupName: ${{ parameters.resourceGroupName }}
