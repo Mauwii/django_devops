@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://Mauwii.github.io/django_devops/</loc>
-         <lastmod>2022-05-13</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Mauwii.github.io/django_devops/reference/</loc>
-         <lastmod>2022-05-13</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Mauwii.github.io/django_devops/reference/diagrams/</loc>
-         <lastmod>2022-05-13</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Mauwii.github.io/django_devops/reference/images/</loc>
-         <lastmod>2022-05-13</lastmod>
+         <lastmod>2022-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://Mauwii.github.io/django_devops/todo/</loc>
-         <lastmod>2022-05-13</lastmod>
+         <lastmod>2022-05-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Mauwii.github.io/django_devops/reference/</loc>
+         <lastmod>2022-05-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Mauwii.github.io/django_devops/reference/diagrams/</loc>
+         <lastmod>2022-05-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Mauwii.github.io/django_devops/reference/images/</loc>
+         <lastmod>2022-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://Mauwii.github.io/django_devops/workflow/1-repository/</loc>
-         <lastmod>2022-05-13</lastmod>
+         <lastmod>2022-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://Mauwii.github.io/django_devops/workflow/2-azure-pipelines/</loc>
-         <lastmod>2022-05-13</lastmod>
+         <lastmod>2022-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
