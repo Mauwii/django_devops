@@ -64,7 +64,7 @@ stages:
           - template: azure-pipelines/jobs/steps/python_django_test.yml
             parameters:
               pythonVersions:
-                - '${{ variables.pythonVersion }}'
+                - $(pythonVersion)
 
   - stage: WebApp
     dependsOn: Testing
@@ -80,12 +80,12 @@ stages:
           azureSubscription: $(azureSubscription)
           ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/stable') }}:
             publishArtifact: true
-
-      - template: azure-pipelines/jobs/deploy_webapp.yml
-        parameters:
-          environmentName: $(environmentName)
-          resourceGroupName: $(resourceGroupName)
-          azureSubscription: $(azureSubscription)
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/stable') }}:
+          - template: azure-pipelines/jobs/deploy_webapp.yml
+            parameters:
+              environmentName: $(environmentName)
+              resourceGroupName: $(resourceGroupName)
+              azureSubscription: $(azureSubscription)
 
   - stage: MkDocs
     displayName: MkDocs-Material
