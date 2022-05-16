@@ -1,10 +1,8 @@
 parameters:
   - name: resourceGroupName
     type: string
-    default: 'django_gh'
   - name: azureSubscription
     type: string
-    default: 'django_gh'
 
 steps:
   # Download an artifact named 'WebApp' to 'bin' in $(Build.SourcesDirectory)
