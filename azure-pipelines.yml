@@ -76,20 +76,19 @@ stages:
           pythonVersion: $(pythonVersion)
           resourceGroupName: $(resourceGroupName)
           azureSubscription: $(azureSubscription)
-      - ${{ if eq(variables.isMain, 'True') }}:
-          - deployment: DeployDjango
-            dependsOn: buildWebApp
-            condition: succeeded()
-            displayName: Deploy Django to WebApp
-            environment: $(environmentName)
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - template: azure-pipelines/jobs/steps/deploy_webapp.yml
-                      parameters:
-                        resourceGroupName: $(resourceGroupName)
-                        azureSubscription: $(azureSubscription)
+      - deployment: DeployDjango
+        dependsOn: buildWebApp
+        condition: and(succeeded(), eq(variables.isMain, 'True'))
+        displayName: Deploy Django to WebApp
+        environment: $(environmentName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: azure-pipelines/jobs/steps/deploy_webapp.yml
+                  parameters:
+                    resourceGroupName: $(resourceGroupName)
+                    azureSubscription: $(azureSubscription)
   - stage: MkDocs
     displayName: MkDocs-Material
     variables:
