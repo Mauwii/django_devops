@@ -10,24 +10,25 @@ jobs:
   - job: buildWebApp
     displayName: 'build WebApp'
     steps:
-      - checkout: self
-        submodules: false
-        persistCredentials: true
-        displayName:
       - template: steps/checkout_submodules.yml
         parameters:
           submodule: 'src/webapp'
+          checkoutSelf: true
+
       - task: UsePythonVersion@0
         displayName: 'Use Python version ${{ parameters.pythonVersion }}'
         inputs:
           addToPath: true
           versionSpec: '${{ parameters.pythonVersion }}'
           architecture: 'x64'
+
       - template: 'steps/python_django_export_projectroot.yml'
+
       - template: 'steps/get_appinsights_con_str.yml'
         parameters:
           resourceGroupName: '${{ parameters.resourceGroupName }}'
           azureSubscription: '${{ parameters.azureSubscription }}'
+
       - template: steps/build_webapp.yml
         parameters:
           pythonVersion: '${{ parameters.pythonVersion }}'
