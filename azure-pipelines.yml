@@ -45,7 +45,7 @@ stages:
       - group: django-dev
       - group: django-superuser
     jobs:
-      - template: azure-pipelines/jobs/validate_bicep.yml
+      - template: azure-pipelines/jobs/bicep.yml
 
   - stage: Testing
     dependsOn: Bicep
@@ -76,27 +76,25 @@ stages:
           pythonVersion: $(pythonVersion)
           resourceGroupName: $(resourceGroupName)
           azureSubscription: $(azureSubscription)
-      - ${{ if eq(variables.isMain, 'True') }}:
-          - deployment: DeployDjango
-            dependsOn: buildWebApp
-            condition: succeeded()
-            displayName: Deploy Django to WebApp
-            environment: $(environmentName)
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - template: azure-pipelines/jobs/steps/deploy_webapp.yml
-                      parameters:
-                        resourceGroupName: $(resourceGroupName)
-                        azureSubscription: $(azureSubscription)
+      - deployment: DeployDjango
+        dependsOn: buildWebApp
+        condition: and(succeeded(), eq(variables.isMain, 'True'))
+        displayName: Deploy Django to WebApp
+        environment: $(environmentName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: azure-pipelines/jobs/steps/deploy_webapp.yml
+                  parameters:
+                    resourceGroupName: $(resourceGroupName)
+                    azureSubscription: $(azureSubscription)
   - stage: MkDocs
     displayName: MkDocs-Material
     variables:
       - template: azure-pipelines/variables/main.yml
     dependsOn: WebApp
     condition: succeeded()
-    # condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
       - template: azure-pipelines/jobs/mkdocs-material.yml
         parameters:

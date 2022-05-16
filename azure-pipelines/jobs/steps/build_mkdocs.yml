@@ -4,8 +4,6 @@ parameters:
     type: string
   - name: mkdocsSiteDir
     type: string
-  - name: mkdocsDeploy
-    type: string
 
 steps:
   - task: UsePythonVersion@0
@@ -26,7 +24,3 @@ steps:
 
   - script: mkdocs build --site-dir ${{ parameters.mkdocsSiteDir }} --verbose
     displayName: build docs
-
-  - ${{ if eq(parameters.mkdocsDeploy, 'True') }}:
-      - script: mkdocs gh-deploy --force --site-dir ${{ parameters.mkdocsSiteDir }} --verbose
-        displayName: deploy to GitHub-Pages
