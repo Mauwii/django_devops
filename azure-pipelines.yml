@@ -46,19 +46,6 @@ stages:
       - group: django-superuser
     jobs:
       - template: azure-pipelines/jobs/validate_bicep.yml
-      - ${{ if eq(variables.isProduction, 'True') }}:
-          - deployment: DeployDjango
-            dependsOn: BuildWebApp
-            displayName: Deploy Django to WebApp
-            environment: $(environmentName)
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - template: azure-pipelines/jobs/steps/deploy_webapp.yml
-                      parameters:
-                        resourceGroupName: $(resourceGroupName)
-                        azureSubscription: $(azureSubscription)
 
   - stage: Testing
     dependsOn: Bicep
@@ -82,42 +69,37 @@ stages:
     variables:
       - group: django-dev
       - group: django-superuser
+      - template: azure-pipelines/variables/main.yml
     jobs:
       - template: azure-pipelines/jobs/build_webapp.yml
         parameters:
           pythonVersion: $(pythonVersion)
           resourceGroupName: $(resourceGroupName)
           azureSubscription: $(azureSubscription)
-      - job:
-        condition: eq(variables.sourceBranchName, 'main')
-        steps:
-          - template: azure-pipelines/jobs/steps/deploy_webapp.yml
-            parameters:
-              resourceGroupName: $(resourceGroupName)
-              azureSubscription: $(azureSubscription)
-
+      - ${{ if eq(variables.isMain, 'True') }}:
+          - deployment: DeployDjango
+            dependsOn: buildWebApp
+            condition: succeeded()
+            displayName: Deploy Django to WebApp
+            environment: $(environmentName)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - template: azure-pipelines/jobs/steps/deploy_webapp.yml
+                      parameters:
+                        resourceGroupName: $(resourceGroupName)
+                        azureSubscription: $(azureSubscription)
   - stage: MkDocs
     displayName: MkDocs-Material
     variables:
       - template: azure-pipelines/variables/main.yml
     dependsOn: WebApp
-    condition: in(dependencies.WebApp.result, 'Succeeded')
+    condition: succeeded()
+    # condition: in(dependencies.WebApp.result, 'Succeeded')
     jobs:
-      - job: buildMkDocs
-        displayName: Build MkDocs-Material
-        variables:
-          - group: django-dev
-          - group: django-superuser
-        dependsOn:
-        steps:
-          - template: azure-pipelines/jobs/steps/build_mkdocs.yml
-            parameters:
-              mkdocsDeploy: $(mkdocsSiteDir)
-              pythonVersion: $(pythonVersion)
-              mkdocsSiteDir: $(mkdocsSiteDir)
-          # - ${{ if eq(variables.isMain, 'True') }}:
-          #     - task: Bash@3
-          #       displayName: Deploy to GitHub-Pages
-          #       inputs:
-          #         targetType: 'inline'
-          #         script: 'mkdocs gh-deploy --force --clean'
+      - template: azure-pipelines/jobs/mkdocs-material.yml
+        parameters:
+          pythonVersion: $(pythonVersion)
+          mkdocsSiteDir: $(mkdocsSiteDir)
+          mkdocsDeploy: $(mkdocsDeploy)

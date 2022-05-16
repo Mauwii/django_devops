@@ -3,7 +3,7 @@ variables:
     value: 'develop'
     readonly: true
   - name: mkdocsDeploy
-    value: true
+    value: 'True'
     readonly: true
   - name: mkdocsSiteDir
     value: 'site'
