@@ -11,7 +11,7 @@ parameters:
 
 steps:
   - script: env
-    condition: ${{ eq(parameters.printEnv, 'True') }}
+    condition: eq(parameters.printEnv, 'True')
     displayName: Print Env
 
   - task: UsePythonVersion@0
