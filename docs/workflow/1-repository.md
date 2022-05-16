@@ -10,8 +10,8 @@ In this Section you will find Informations related to the Workflow of the Reposi
 
 | Branch name            |  Create From   | deploy to  |            accept PR from            | Branch protection rules / other Info                                                                                       |
 | :--------------------- | :------------: | :--------: | :----------------------------------: | :------------------------------------------------------------------------------------------------------------------------- |
-| main                   |    git init    |    dev     | feature/\* <br>issue/\*<br>hotfix/\* | Require linear history<br>Require status checks to pass before merging<br>Require branches to be up to date before merging |
-| stable                 |  Pull-Request  |    prod    |          main<br>hotfix/\*           |                                                                                                                            |
+| main                   |    git init    |  staging   | feature/\* <br>issue/\*<br>hotfix/\* | Require linear history<br>Require status checks to pass before merging<br>Require branches to be up to date before merging |
+| stable                 |  Pull-Request  | production |          main<br>hotfix/\*           |                                                                                                                            |
 | feature/\*<br>issue/\* |  Head of main  | test local |                  -                   | must be up to date with main for PR                                                                                        |
 | hotfix/*               | Head of stable | test local |                  -                   |
 

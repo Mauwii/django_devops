@@ -4,7 +4,8 @@ parameters:
   - name: mkdocsSiteDir
     type: string
   - name: mkdocsDeploy
-    type: boolean
+    type: string
+
 jobs:
   - job:
     displayName: MkDocs-Material
