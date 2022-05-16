@@ -45,7 +45,7 @@ stages:
       - group: django-dev
       - group: django-superuser
     jobs:
-      - template: azure-pipelines/jobs/validate_bicep.yml
+      - template: azure-pipelines/jobs/bicep.yml
 
   - stage: Testing
     dependsOn: Bicep
