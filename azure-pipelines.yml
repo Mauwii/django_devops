@@ -78,7 +78,7 @@ stages:
           pythonVersion: $(pythonVersion)
           resourceGroupName: $(resourceGroupName)
           azureSubscription: $(azureSubscription)
-          ${{ if eq(variables.publishArtifact, 'True') }}:
+          ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
             publishArtifact: true
 
       - template: azure-pipelines/jobs/deploy_webapp.yml
