@@ -101,4 +101,4 @@ stages:
         parameters:
           pythonVersion: $(pythonVersion)
           mkdocsSiteDir: $(mkdocsSiteDir)
-          mkdocsDeploy: eq(variables.isMain, 'True')
+          mkdocsDeploy: ${{ eq(variables.isMain, 'True') }}
