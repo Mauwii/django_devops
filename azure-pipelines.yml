@@ -96,4 +96,5 @@ stages:
         parameters:
           pythonVersion: $(pythonVersion)
           mkdocsSiteDir: $(mkdocsSiteDir)
-          mkdocsDeploy: $(mkdocsDeploy)
+          ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+            mkdocsDeploy: True
