@@ -1,6 +1,8 @@
 [submodule "mkdocs-material"]
 	path = src/mkdocs-material
 	url = https://github.com/Mauwii/mkdocs-material.git
+	branch = master
 [submodule "webapp"]
 	path = src/webapp
 	url = https://github.com/Mauwii/msdocs-python-django-webapp-quickstart.git
+	branch = main
