@@ -25,7 +25,7 @@ stages:
       - 'build'
     jobs:
       - job: run_tests
-        condition: eq(stageDependencies.build.build_job.outputs['build_job.setRunTests.runTests'], 'true')
+        condition: eq(stageDependencies.build.build_job.outputs['build_job.setRunTests.runTests'], 'True')
         steps:
           # https://docs.microsoft.com/en-us/azure/devops/azure-pipelines/process/conditions?view=azure-devops&tabs=yaml#use-the-pipeline-variable-created-from-a-step-in-a-condition-in-a-subsequent-step
           # This step creates a new pipeline variable: doThing. This variable will be available to subsequent steps.
