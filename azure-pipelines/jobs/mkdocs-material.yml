@@ -22,6 +22,6 @@ jobs:
           pythonVersion: '${{ parameters.pythonVersion }}'
           mkdocsSiteDir: '${{ parameters.mkdocsSiteDir }}'
 
-      - ${{ if eq(parameters.mkdocsDeploy, 'True') }}:
-          - script: mkdocs gh-deploy --force --site-dir ${{ parameters.mkdocsSiteDir }} --verbose
-            displayName: deploy to GitHub-Pages
+      - script: mkdocs gh-deploy --force --site-dir ${{ parameters.mkdocsSiteDir }} --verbose
+        condition: eq(variables.isMain, 'True')
+        displayName: deploy to GitHub-Pages
