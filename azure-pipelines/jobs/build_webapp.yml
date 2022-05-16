@@ -7,7 +7,7 @@ parameters:
     type: string
 
 jobs:
-  - job:
+  - job: buildWebApp
     displayName: 'build WebApp'
     steps:
       - checkout: self
