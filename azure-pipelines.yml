@@ -6,6 +6,7 @@ trigger:
       - refs/heads/main
       - feature/*
       - issue/*
+      - update/*
     exclude:
       - feature/experimental/*
 
