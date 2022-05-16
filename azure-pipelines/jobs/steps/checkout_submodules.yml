@@ -19,6 +19,11 @@ parameters:
     default: false
 
 steps:
+  - ${{ if eq(parameters.checkoutSelf, true) }}:
+      - checkout: self
+        persistCredentials: true
+        submodules: false
+
   - ${{ if eq(parameters.debug, true) }}:
       - script: ls -la ${{ parameters.submodule }}
         displayName: ls ${{ parameters.submodule }}
