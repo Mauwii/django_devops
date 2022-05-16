@@ -6,8 +6,8 @@ parameters:
     type: string
     default: 'site'
   - name: mkdocsDeploy
-    type: string
-    default: 'False'
+    type: boolean
+    default: False
 
 jobs:
   - job: mkdocs
@@ -23,6 +23,6 @@ jobs:
           pythonVersion: '${{ parameters.pythonVersion }}'
           mkdocsSiteDir: '${{ parameters.mkdocsSiteDir }}'
 
-      - script: mkdocs gh-deploy --force --site-dir '${{ parameters.mkdocsSiteDir }}' --verbose
-        condition: eq(parameters.mkdocsDeploy, 'True')
-        displayName: deploy to GitHub-Pages
+      - ${{ if eq(parameters.mkdocsDeploy, 'True') }}:
+          - script: mkdocs gh-deploy --force --site-dir '${{ parameters.mkdocsSiteDir }}' --verbose
+            displayName: deploy to GitHub-Pages
