@@ -8,6 +8,7 @@ parameters:
   - name: location
     displayName: Resourcegroup Location
     type: string
+    default: 'westeurope'
 
 steps:
   - task: AzureCLI@2
