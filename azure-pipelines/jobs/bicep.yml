@@ -7,7 +7,7 @@ jobs:
         displayName: Run Bicep Linter
         name: LintBicepCode
 
-  - template: create_resourceGroup.yml
+  - template: steps/create_rg.yml
     parameters:
       resourceGroupName: django_rg
       azureSubscription: $(azureSubscription)
