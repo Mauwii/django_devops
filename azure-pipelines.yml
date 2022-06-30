@@ -78,9 +78,9 @@ stages:
           pythonVersion: $(pythonVersion)
           resourceGroupName: $(resourceGroupName)
           azureSubscription: $(azureSubscription)
-          ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/stable') }}:
+          ${{ if in(variables['Build.SourceBranch'], 'refs/heads/main','refs/heads/stable') }}:
             publishArtifact: true
-      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/stable') }}:
+      - ${{ if in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/stable') }}:
           - template: azure-pipelines/jobs/deploy_webapp.yml
             parameters:
               environmentName: $(environmentName)
