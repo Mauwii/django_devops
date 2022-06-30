@@ -1,7 +1,7 @@
 parameters:
   - name: environmentName
     type: string
-  - name: resourceGroupName
+  - name: resourceGroup
     type: string
   - name: azureSubscription
     type: string
@@ -22,9 +22,9 @@ jobs:
 
             - template: steps/get_webapp_name.yml
               parameters:
-                resourceGroupName: ${{ parameters.resourceGroupName }}
+                resourceGroup: ${{ parameters.resourceGroup }}
                 azureSubscription: ${{ parameters.azureSubscription }}
             - template: steps/deploy_webapp.yml
               parameters:
-                resourceGroupName: ${{ parameters.resourceGroupName }}
+                resourceGroup: ${{ parameters.resourceGroup }}
                 azureSubscription: ${{ parameters.azureSubscription }}

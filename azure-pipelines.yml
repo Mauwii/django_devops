@@ -84,7 +84,7 @@ stages:
           - template: azure-pipelines/jobs/deploy_webapp.yml
             parameters:
               environmentName: $(environmentName)
-              resourceGroupName: $(resourceGroupName)
+              resourceGroup: $(resourceGroup)
               azureSubscription: $(azureSubscription)
 
   - stage: MkDocs
